@@ -1,0 +1,145 @@
+/* =========================================================
+   Design tokens — BMW CI2020-inspired
+   ========================================================= */
+
+:root {
+  /* ---- Brand / Context tokens ---- */
+  --site-context-theme-color: #ffffff;
+  --site-context-highlight-color: #1c69d4;
+  --site-context-focus-color: #0653b6;
+  --site-context-metainfo-color: #757575;
+
+  /* ---- Core palette ---- */
+  --bmw-white: #ffffff;
+  --bmw-black: #000000;
+  --bmw-near-black: #262626;
+  --bmw-meta-gray: #757575;
+  --bmw-silver: #bbbbbb;
+  --bmw-hairline: #e6e6e6;
+  --bmw-surface-dark: #0f0f0f;
+
+  --bmw-blue: #1c69d4;
+  --bmw-blue-focus: #0653b6;
+  --bmw-blue-deep: #004a9a;
+
+  --bmw-heritage-blue: #0066b1;
+
+  /* ---- Semantic foreground / background ---- */
+  --fg-1: #262626;
+  --fg-2: #757575;
+  --fg-3: #bbbbbb;
+  --fg-on-dark-1: #ffffff;
+  --fg-on-dark-2: #bbbbbb;
+
+  --bg-1: #ffffff;
+  --bg-2: #f2f2f2;
+  --bg-dark-1: #000000;
+  --bg-dark-2: #0f0f0f;
+
+  --accent: var(--bmw-blue);
+  --accent-pressed: var(--bmw-blue-focus);
+  --focus-ring: var(--bmw-blue-focus);
+
+  /* ---- Type families ----
+     BMWTypeNext was a proprietary BMW font in the prototype; we substitute
+     Pretendard for both display and body so Korean + Latin share one
+     consistent family with full weight range. */
+  --font-display: "Pretendard", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Pretendard", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+
+  /* ---- Type scale (CI2020) ---- */
+  --fs-display: 3.75rem;
+  --fs-h1:      2.50rem;
+  --fs-h2:      2.00rem;
+  --fs-h3:      1.50rem;
+  --fs-nav:     1.125rem;
+  --fs-body:    1rem;
+  --fs-meta:    0.875rem;
+  --fs-micro:   0.75rem;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-bold: 700;
+  --fw-black: 900;
+
+  --lh-tight: 1.15;
+  --lh-display: 1.30;
+  --lh-button: 1.20;
+
+  /* ---- Spacing scale (8px base) ---- */
+  --sp-1: 1px;  --sp-2: 5px;  --sp-3: 8px;  --sp-4: 10px; --sp-5: 12px;
+  --sp-6: 15px; --sp-7: 16px; --sp-8: 20px; --sp-9: 24px; --sp-10: 30px;
+  --sp-11: 32px; --sp-12: 40px; --sp-13: 45px; --sp-14: 56px; --sp-15: 60px;
+
+  --radius-0: 0;
+  --border-hairline: 1px solid var(--bmw-hairline);
+  --border-on-dark: 1px solid var(--bmw-white);
+
+  --shadow-none: none;
+  --shadow-focus: 0 0 0 2px var(--focus-ring);
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+}
+
+html, body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-tight);
+  color: var(--fg-1);
+  background: var(--bg-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, .h1-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-display);
+  text-transform: uppercase;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+h2, .h2 {
+  font-family: var(--font-body);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-display);
+  margin: 0;
+}
+
+h3, .h3 {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-display);
+  margin: 0;
+}
+
+.nav-link, nav a {
+  font-size: var(--fs-nav);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-display);
+  text-decoration: none;
+  color: inherit;
+}
+
+p, .body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-tight);
+}
+
+small, .meta {
+  font-size: var(--fs-meta);
+  color: var(--fg-2);
+  line-height: var(--lh-tight);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
