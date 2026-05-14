@@ -101,31 +101,30 @@
 <body>
   <div id="root"></div>
 
-  <!-- React (production builds — 개발용 대비 ~50% 작음) -->
-  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <!-- React (development builds — Babel standalone과 호환성 최적) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
 
   <!-- Components and pages (order matters: shared first, then pages, then app) -->
-  <script type="text/babel" data-presets="react" src="tweaks-panel.jsx"></script>
-  <script type="text/babel" data-presets="react" src="components.jsx"></script>
-  <script type="text/babel" data-presets="react" src="home.jsx"></script>
-  <script type="text/babel" data-presets="react" src="subpages.jsx"></script>
-  <script type="text/babel" data-presets="react" src="app.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="components.jsx"></script>
+  <script type="text/babel" src="home.jsx"></script>
+  <script type="text/babel" src="subpages.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
 
   <!-- admin.jsx는 #admin URL일 때만 동적 로드 (일반 방문 시 25KB 절약) -->
   <script>
-    if (location.hash === "#admin" || /[?&]admin(=|$)/.test(location.search)) {
+    function loadAdminJsx() {
+      if (document.querySelector('script[src="admin.jsx"]')) return;
       var s = document.createElement("script");
-      s.type = "text/babel"; s.setAttribute("data-presets", "react"); s.src = "admin.jsx";
+      s.type = "text/babel";
+      s.src = "admin.jsx";
       document.body.appendChild(s);
     }
+    if (location.hash === "#admin" || /[?&]admin(=|$)/.test(location.search)) loadAdminJsx();
     window.addEventListener("hashchange", function () {
-      if ((location.hash === "#admin") && !document.querySelector('script[src="admin.jsx"]')) {
-        var s = document.createElement("script");
-        s.type = "text/babel"; s.setAttribute("data-presets", "react"); s.src = "admin.jsx";
-        document.body.appendChild(s);
-      }
+      if (location.hash === "#admin") loadAdminJsx();
     });
   </script>
 
