@@ -32,6 +32,9 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "kern" 1, "ss01" 1;
+  /* 한글 텍스트의 끝글자 위젯 방지 — 어절 단위로 줄바꿈 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 img { display: block; max-width: 100%; }
@@ -186,6 +189,11 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
    인라인 grid-template-columns / minmax 패턴을 attribute selector로
    일괄 오버라이드해서 React 컴포넌트를 거의 건드리지 않고 반응형 처리.
    ========================================================= */
+
+/* ── 스택 레이아웃에선 sticky 해제 (스크롤 시 본문 위에 겹침 방지) ── */
+@media (max-width: 1024px) {
+  .intro-sticky { position: static !important; top: auto !important; }
+}
 
 /* ── Tablet ─────────────────────────────────────────────── */
 @media (max-width: 1024px) {

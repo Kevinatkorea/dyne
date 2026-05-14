@@ -201,7 +201,7 @@ function IntroSection() {
       <div className="container container--wide" style={{
         display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 120, alignItems: "start",
       }}>
-        <div style={{ position: "sticky", top: 120 }}>
+        <div className="intro-sticky" style={{ position: "sticky", top: 120 }}>
           <SectionHead
             eyebrow="TOTAL ONESTOP SERVICE"
             title="ONE TEAM,"
