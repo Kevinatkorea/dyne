@@ -214,6 +214,11 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
     gap: 48px !important;
   }
 
+  /* Contact 페이지 1fr 1.8fr — 태블릿에서 비율 조정 (좁히되 유지) */
+  [style*="grid-template-columns: 1fr 1.8fr"] {
+    gap: 48px !important;
+  }
+
   /* 푸터 4단 → 2단 */
   [style*="grid-template-columns: 1.4fr 1fr 1fr 1fr"] {
     grid-template-columns: 1.4fr 1fr !important;
@@ -254,10 +259,30 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
   [style*="grid-template-columns: 1.4fr 1fr"],
   [style*="grid-template-columns: 1fr 1.4fr"],
   [style*="grid-template-columns: 1.2fr 1fr"],
-  [style*="grid-template-columns: 1fr 1.2fr"] {
+  [style*="grid-template-columns: 1fr 1.2fr"],
+  [style*="grid-template-columns: 1fr 1.8fr"],
+  [style*="grid-template-columns: 1.8fr 1fr"] {
     grid-template-columns: 1fr !important;
     gap: 40px !important;
   }
+
+  /* 서비스 페이지 — 모바일에서 이미지를 항상 마지막에
+     (eyebrow → 영문제목 → 한글제목 → 본문 → d2 → deliverables → 이미지) */
+  .service-photo { order: 99 !important; }
+
+  /* 포트폴리오 — 모드 토글 + 필터 행을 스크롤 중에도 상단 고정 */
+  .portfolio-filters {
+    position: sticky;
+    top: 64px; /* 모바일 nav 높이 */
+    z-index: 20;
+    background: var(--paper-1);
+    padding: 12px 0 0;
+    margin: -12px -20px 0; /* 컨테이너 padding 보정 */
+    padding-left: 20px;
+    padding-right: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .portfolio-filters > div { margin-bottom: 16px !important; padding-bottom: 12px !important; }
 
   /* 푸터 단 → 모두 세로 스택 */
   [style*="grid-template-columns: 1.4fr 1fr 1fr 1fr"] {

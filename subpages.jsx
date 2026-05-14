@@ -21,7 +21,7 @@ function AboutPage() {
         <div className="container container--wide" style={{
           display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 120,
         }}>
-          <div style={{ position: "sticky", top: 120, alignSelf: "start" }}>
+          <div className="intro-sticky" style={{ position: "sticky", top: 120, alignSelf: "start" }}>
             <SectionHead
               eyebrow="OUR STORY"
               title="SINCE 2008,"
@@ -199,7 +199,7 @@ function ServicesPage({ setPage }) {
               gridTemplateColumns: i % 2 === 0 ? "minmax(0, 600px) 1fr" : "1fr minmax(0, 600px)",
               gap: 80, alignItems: "start",
             }}>
-              <div style={{ order: i % 2 === 0 ? 0 : 1,
+              <div className="service-photo" style={{ order: i % 2 === 0 ? 0 : 1,
                 display: "flex", flexDirection: "column", gap: 12, width: "100%" }}>
                 {s.key === "포스터" ? (
                   /* 포스터는 원본이 세로형이라 fixed 500px 회색 박스 안에 contain으로 표시 — 잘리지 않음 */
@@ -545,6 +545,7 @@ function PortfolioPage({ setPage }) {
 
       <section className="section" style={{ background: "var(--paper-1)" }}>
         <div className="container container--wide">
+        <div className="portfolio-filters">
           {/* Mode toggle: 카테고리별 / 연도별 */}
           <div style={{
             display: "flex", gap: 0, marginBottom: 32,
@@ -592,6 +593,7 @@ function PortfolioPage({ setPage }) {
               SHOWING <span style={{ color: "var(--accent)" }}>{String(view.length).padStart(3, "0")}</span> / {String(total).padStart(3, "0")}
             </div>
           </div>
+        </div>{/* /.portfolio-filters */}
 
           <div style={{
             display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "40px 16px",
@@ -680,7 +682,7 @@ function ContactPage() {
           display: "grid", gridTemplateColumns: "1fr 1.8fr", gap: 80, alignItems: "start",
         }}>
           {/* Left: contact info */}
-          <div style={{ position: "sticky", top: 120, display: "flex", flexDirection: "column", gap: 40 }}>
+          <div className="intro-sticky" style={{ position: "sticky", top: 120, display: "flex", flexDirection: "column", gap: 40 }}>
             <SectionHead
               eyebrow="DIRECT CHANNELS"
               title="REACH US."
