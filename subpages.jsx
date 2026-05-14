@@ -201,7 +201,7 @@ function ServicesPage({ setPage }) {
             }}>
               <div style={{ order: i % 2 === 0 ? 0 : 1,
                 display: "flex", flexDirection: "column", gap: 12, width: "100%" }}>
-                <Photo src={s.photo} label={s.label} ratio="16/10" />
+                <Photo src={s.photo} label={s.label} ratio={s.key === "포스터" ? "3/4" : "16/10"} />
                 {s.key !== "포스터" && s.samples && s.samples.length > 1 && (
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
                     {s.samples.slice(1, 4).map((src, j) => (
