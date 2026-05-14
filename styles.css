@@ -199,7 +199,7 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
       한 줄에 맞춰 약간 작게 (각 헤로 variant 모두 적용) ── */
 @media (max-width: 768px) {
   .hero-line:not(.hero-line-0) {
-    font-size: clamp(36px, 11vw, 52px) !important;
+    font-size: clamp(44px, 14vw, 64px) !important;
     white-space: nowrap;
   }
 }
