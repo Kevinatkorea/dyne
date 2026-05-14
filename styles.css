@@ -195,6 +195,15 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
   .intro-sticky { position: static !important; top: auto !important; }
 }
 
+/* ── 메인 히어로 — 모바일에서 "PRINT"는 그대로, "REIMAGINED." 등 후속 라인만
+      한 줄에 맞춰 약간 작게 (각 헤로 variant 모두 적용) ── */
+@media (max-width: 768px) {
+  .hero-line:not(.hero-line-0) {
+    font-size: clamp(36px, 11vw, 52px) !important;
+    white-space: nowrap;
+  }
+}
+
 /* ── Tablet ─────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .container, .container--wide { padding: 0 32px; }

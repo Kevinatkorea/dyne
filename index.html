@@ -101,18 +101,33 @@
 <body>
   <div id="root"></div>
 
-  <!-- React -->
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <!-- React (production builds — 개발용 대비 ~50% 작음) -->
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
 
   <!-- Components and pages (order matters: shared first, then pages, then app) -->
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
-  <script type="text/babel" src="components.jsx"></script>
-  <script type="text/babel" src="home.jsx"></script>
-  <script type="text/babel" src="subpages.jsx"></script>
-  <script type="text/babel" src="app.jsx"></script>
-  <script type="text/babel" src="admin.jsx"></script>
+  <script type="text/babel" data-presets="react" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" data-presets="react" src="components.jsx"></script>
+  <script type="text/babel" data-presets="react" src="home.jsx"></script>
+  <script type="text/babel" data-presets="react" src="subpages.jsx"></script>
+  <script type="text/babel" data-presets="react" src="app.jsx"></script>
+
+  <!-- admin.jsx는 #admin URL일 때만 동적 로드 (일반 방문 시 25KB 절약) -->
+  <script>
+    if (location.hash === "#admin" || /[?&]admin(=|$)/.test(location.search)) {
+      var s = document.createElement("script");
+      s.type = "text/babel"; s.setAttribute("data-presets", "react"); s.src = "admin.jsx";
+      document.body.appendChild(s);
+    }
+    window.addEventListener("hashchange", function () {
+      if ((location.hash === "#admin") && !document.querySelector('script[src="admin.jsx"]')) {
+        var s = document.createElement("script");
+        s.type = "text/babel"; s.setAttribute("data-presets", "react"); s.src = "admin.jsx";
+        document.body.appendChild(s);
+      }
+    });
+  </script>
 
   <!-- SEO fallback content for crawlers that don't execute JS.
        Naverbot 등 일부 봇이 JS 미실행 시에도 핵심 키워드를 인덱싱할 수 있도록 노출.

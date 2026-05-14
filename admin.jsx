@@ -26,6 +26,92 @@ const { useState: useSA, useEffect: useEA, useMemo: useMA, useRef: useRA } = Rea
 const DYNE_ADMIN_KEY = "dyne_admin_v1";
 const DEFAULT_PASSWORD = "admin1234";
 
+/* 관리자 화면 반응형 CSS 1회 주입 */
+if (typeof document !== "undefined" && !document.getElementById("admin-responsive")) {
+  const s = document.createElement("style");
+  s.id = "admin-responsive";
+  s.textContent = `
+    /* 태블릿 (≤1024px) */
+    @media (max-width: 1024px) {
+      #admin-root [style*="padding: 28px"] { padding: 20px !important; }
+      #admin-root [style*="padding: 40px"] { padding: 24px !important; }
+      #admin-root [style*="max-width: 1400"] { max-width: 100% !important; }
+
+      /* 모든 다중 칼럼 → 2칸 또는 1칸 */
+      #admin-root [style*="grid-template-columns: repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
+
+      /* 큰 폼 그리드 → 1칸 */
+      #admin-root [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+      /* 견적 카드 KV 4칸 → 2칸 */
+      #admin-root [style*="grid-template-columns: repeat(4, 1fr)"] { grid-template-columns: repeat(2, 1fr) !important; }
+
+      /* 통계 2칸 → 1칸 */
+      #admin-root [style*="grid-template-columns: 2fr 1fr"] { grid-template-columns: 1fr !important; }
+    }
+
+    /* 모바일 (≤768px) */
+    @media (max-width: 768px) {
+      #admin-root [style*="padding: 16px 28px"],
+      #admin-root [style*="padding: 20px"],
+      #admin-root [style*="padding: 24px"] { padding: 14px 16px !important; }
+      #admin-root [style*="padding: 16px 20px"] { padding: 14px !important; }
+      #admin-root [style*="padding: 20px 28px"] { padding: 14px 16px !important; }
+
+      #admin-root h1 { font-size: 22px !important; }
+      #admin-root h2 { font-size: 18px !important; }
+
+      /* 헤더 버튼 라벨 줄여서 한 줄 유지 */
+      #admin-root header strong,
+      #admin-root [style*="font-size: 18px"] { font-size: 14px !important; }
+
+      /* 헤더 버튼 압축 */
+      #admin-root header button { font-size: 11px !important; padding: 0 10px !important; height: 32px !important; }
+
+      /* 탭 — 가로 스크롤로 변경 */
+      #admin-root nav, #admin-root [style*="border-bottom: 1px solid #2a2a2a"] {
+        overflow-x: auto; white-space: nowrap;
+      }
+      #admin-root [role="tab"], #admin-root button[style*="padding: 16px 24px"] {
+        padding: 12px 14px !important; min-width: max-content;
+      }
+
+      /* 그리드 → 모두 1칸 */
+      #admin-root [style*="grid-template-columns: repeat(2"],
+      #admin-root [style*="grid-template-columns: repeat(3"],
+      #admin-root [style*="grid-template-columns: repeat(4"],
+      #admin-root [style*="grid-template-columns: 1fr 1fr"],
+      #admin-root [style*="grid-template-columns: 2fr 1fr"] { grid-template-columns: 1fr !important; gap: 10px !important; }
+
+      /* 견적·연혁·장비 카드 그리드(180/80/1fr 등 비정형) → 세로 스택 */
+      #admin-root [style*="grid-template-columns: 100px 1fr auto"],
+      #admin-root [style*="grid-template-columns: 80px 1fr 1fr"],
+      #admin-root [style*="grid-template-columns: 180px 1fr 1.5fr"],
+      #admin-root [style*="grid-template-columns: 1fr 1fr auto"],
+      #admin-root [style*="grid-template-columns: 80px 200px 1fr 1fr auto"] {
+        grid-template-columns: 1fr !important; gap: 10px !important;
+      }
+
+      /* 인풋 폭 100% 보장 */
+      #admin-root input, #admin-root textarea, #admin-root button { font-size: 14px !important; }
+
+      /* 포트폴리오 썸네일 그리드 — 모바일에서 3칸 */
+      #admin-root [style*="repeat(auto-fill, minmax(140px"] { grid-template-columns: repeat(3, 1fr) !important; }
+
+      /* 통계 차트 영역 — 적절히 축소 */
+      #admin-root [style*="height: 220"] { height: 160px !important; }
+    }
+
+    /* 소형 모바일 (≤480px) */
+    @media (max-width: 480px) {
+      #admin-root [style*="repeat(auto-fill, minmax(140px"] { grid-template-columns: repeat(2, 1fr) !important; }
+      #admin-root header strong { font-size: 13px !important; }
+      #admin-root [style*="width: 360px"] { width: calc(100% - 32px) !important; }
+    }
+  `;
+  document.head.appendChild(s);
+}
+
 const DEFAULT_ADMIN_DATA = {
   version: 1,
   password: DEFAULT_PASSWORD,

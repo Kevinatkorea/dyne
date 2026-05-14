@@ -63,11 +63,36 @@ function Hero({ variant = "press", lang = "en", setPage }) {
   };
   const v = variants[variant] || variants.press;
 
+  /* press variant — 3초 주기로 4장 롤링 (cross-fade) */
+  const PRESS_PHOTOS = ["resource/top6.jpg", "resource/top11.jpg", "resource/top7.jpg", "resource/top12.jpg"];
+  const [photoIdx, setPhotoIdx] = useState(0);
+  useEffect(() => {
+    if (variant !== "press") return;
+    const id = setInterval(() => {
+      setPhotoIdx((i) => (i + 1) % PRESS_PHOTOS.length);
+    }, 3000);
+    return () => clearInterval(id);
+  }, [variant]);
+
   return (
     <section style={{ position: "relative", minHeight: "100vh", background: "#000", color: "#fff" }}>
-      {/* Photo */}
+      {/* Photo(s) — press는 4장 cross-fade, 나머지는 단일 */}
       <div style={{ position: "absolute", inset: 0 }}>
-        <Photo src={v.photo} label={v.photoLabel} ratio="auto" style={{ width: "100%", height: "100%", aspectRatio: "auto" }} />
+        {variant === "press" ? (
+          PRESS_PHOTOS.map((src, i) => (
+            <div key={src} style={{
+              position: "absolute", inset: 0,
+              opacity: photoIdx === i ? 1 : 0,
+              transition: "opacity 1200ms ease-in-out",
+            }}>
+              <img src={src} alt="" loading={i === 0 ? "eager" : "lazy"}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+          ))
+        ) : (
+          <Photo src={v.photo} label={v.photoLabel} ratio="auto"
+            style={{ width: "100%", height: "100%", aspectRatio: "auto" }} />
+        )}
       </div>
       {/* Overlay gradient */}
       <div style={{
@@ -99,7 +124,7 @@ function Hero({ variant = "press", lang = "en", setPage }) {
             animationDelay: "120ms",
           }}>
             {(lang === "kr" ? v.headKr : v.headEn).map((line, i) => (
-              <span key={i} style={{ display: "block" }}>{line}</span>
+              <span key={i} className={`hero-line hero-line-${i}`} style={{ display: "block" }}>{line}</span>
             ))}
           </h1>
           <p className="kr-headline fade-in" style={{
