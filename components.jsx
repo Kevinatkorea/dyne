@@ -689,8 +689,8 @@ const excludeAt = (arr, indices) => {
 
 /* Skip files that won't decode (broken PNGs etc.). */
 const EXCLUDE = new Set([
-  "resource/2022_포트폴리오/015.png", // 33rd file in 연도별 전체 view — broken
-  "resource/2022_포트폴리오/010.png", // 28th file in 연도별 전체 view — broken
+  "resource/2022_포트폴리오/015.png", // 2022 33번 — broken
+  "resource/2021_포트폴리오/028.png", // 2021 28/63 — broken
 ]);
 const skip = (arr) => arr.filter((s) => !EXCLUDE.has(s));
 
