@@ -64,6 +64,36 @@ function App() {
   // Reset scroll on page change
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [page]);
 
+  // Update document title + meta description per page for browser tabs,
+  // bookmarking, and crawlers that re-fetch after JS executes.
+  useEffect(() => {
+    const PAGE_META = {
+      home:      { t: "다인스케치 DYNESKETCH | 편집디자인·인쇄 전문기업 (성수동, 18년)",
+                   d: "2008년 성수동에서 시작한 18년차 편집디자인·인쇄 전문기업. 기획·디자인·인쇄·후가공·납품을 한 팀이 책임집니다." },
+      about:    { t: "회사 소개 · About — 다인스케치 DYNESKETCH",
+                   d: "주식회사 다인스케치는 2008년 7월 성수동에서 4명의 디자이너로 시작했습니다. 18년·1,200건·320곳의 기업·기관과 함께 일했습니다." },
+      services: { t: "서비스 · Services — 다인스케치 DYNESKETCH",
+                   d: "표지디자인, 브로슈어·카탈로그, 리플릿, 포스터, 보고서·자료집, 현수막·배너, 기타 인쇄물까지 7가지 카테고리." },
+      facility: { t: "보유 장비 · Facility — 다인스케치 DYNESKETCH",
+                   d: "Heidelberg Speedmaster XL106, HP Indigo 12000, KOMORI Lithrone GL40 등 옵셋·디지털·후가공 핵심 장비 12종." },
+      portfolio:{ t: "포트폴리오 · Portfolio — 다인스케치 DYNESKETCH",
+                   d: "2008년부터 1,200건 이상의 작업. 카테고리별·연도별로 다인스케치의 실제 작업 사례를 확인하세요." },
+      contact:  { t: "견적 / 문의 · Contact — 다인스케치 DYNESKETCH",
+                   d: "다인스케치 견적 요청. TEL 02-514-2450 · design2@dynes.co.kr · 서울 성동구 성수이로18길 31 풍림테크원 401·407호." },
+    };
+    const m = PAGE_META[page] || PAGE_META.home;
+    document.title = m.t;
+    const setMeta = (sel, value) => {
+      const el = document.querySelector(sel);
+      if (el) el.setAttribute("content", value);
+    };
+    setMeta('meta[name="description"]', m.d);
+    setMeta('meta[property="og:title"]', m.t);
+    setMeta('meta[property="og:description"]', m.d);
+    setMeta('meta[name="twitter:title"]', m.t);
+    setMeta('meta[name="twitter:description"]', m.d);
+  }, [page]);
+
   const isDarkTheme = t.theme === "dark" || t.theme === "midnight";
 
   let pageEl;

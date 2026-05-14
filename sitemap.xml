@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- SPA — 단일 index.html 안에 6개 페이지가 라우팅됨.
+       검색엔진엔 진입점을 1개로 노출하고, 페이지별 내용은 index.html의
+       <noscript> 폴백 본문이 보강한다. -->
+  <url>
+    <loc>https://kevinatkorea.github.io/dyne/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

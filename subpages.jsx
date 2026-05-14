@@ -33,13 +33,13 @@ function AboutPage() {
               fontSize: 22, lineHeight: 1.55, color: "var(--ink-1)",
               fontWeight: 500, letterSpacing: "-0.02em", margin: 0, textWrap: "pretty",
             }}>
-              2008년 7월, 성수동 풍림테크원에서 4명의 디자이너가 시작했습니다.
+              2008년 7월, 성수동 풍림테크원에서 4명의 디자이너가 <Brand />를 시작했습니다.
               <strong style={{ fontWeight: 700 }}> "기획자, 디자이너, 인쇄 디렉터가 같은 공간에서 일하면
               결과물이 달라진다"</strong>는 단순한 가설이 출발점이었습니다.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--ink-2)", margin: 0, textWrap: "pretty" }}>
               지금은 14명의 인력이 한 사무실에서 일하며, 누적 1,200건 이상의 프로젝트를
-              마무리했습니다. 정부기관과 공공기관, 대기업, 출판사가 다인스케치를
+              마무리했습니다. 정부기관과 공공기관, 대기업, 출판사가 <Brand />를
               찾는 이유는 우리가 일하는 방식이 단순하기 때문입니다.
               담당자 한 명이 처음부터 끝까지 책임지고, 외주 없이 직접 디자인하고,
               우리 작업장에서 직접 감리하고, 약속한 날짜에 직접 납품합니다.
@@ -47,7 +47,7 @@ function AboutPage() {
             <p style={{ fontSize: 16, lineHeight: 1.8, color: "var(--ink-2)", margin: 0, textWrap: "pretty" }}>
               인쇄는 컴퓨터 모니터에서 끝나지 않습니다. 종이의 질감, 잉크의 농도,
               제본의 강도 같은 것들이 모니터를 떠나서야 비로소 결정됩니다.
-              그 마지막 한 단계까지 다인스케치가 함께합니다.
+              그 마지막 한 단계까지 <Brand />가 함께합니다.
             </p>
           </div>
         </div>
@@ -218,9 +218,9 @@ function ServicesPage({ setPage }) {
                   fontSize: "clamp(40px, 4vw, 64px)", fontWeight: 300, lineHeight: 1, letterSpacing: "-0.01em",
                 }}>{s.e}</h3>
                 <h4 className="kr-headline" style={{ fontSize: 28, fontWeight: 700 }}>{s.k}</h4>
-                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.7, color: "var(--ink-2)", maxWidth: 520 }}>{s.d}</p>
+                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.7, color: "var(--ink-2)", maxWidth: 520 }}><Branded text={s.d} /></p>
                 {s.d2 && (
-                  <p style={{ margin: 0, fontSize: 15, lineHeight: 1.7, color: "var(--ink-2)", maxWidth: 520 }}>{s.d2}</p>
+                  <p style={{ margin: 0, fontSize: 15, lineHeight: 1.7, color: "var(--ink-2)", maxWidth: 520 }}><Branded text={s.d2} /></p>
                 )}
                 <ul style={{
                   listStyle: "none", padding: 0, margin: 0,
@@ -297,7 +297,7 @@ function FacilityPage({ setPage }) {
             <p style={{
               fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", margin: 0,
             }}>
-              다인스케치는 옵셋·디지털·후가공 핵심 장비를 자체 보유하고 있으며,
+              <Brand dark />는 옵셋·디지털·후가공 핵심 장비를 자체 보유하고 있으며,
               대형 실사 출력 외 모든 공정을 작업장에서 직접 진행합니다.
             </p>
             <div style={{
@@ -843,7 +843,7 @@ function PageHero({ eyebrow, en, kr, photo, photoLabel, compact = false }) {
         <p className="kr-headline" style={{
           fontSize: 20, fontWeight: 500, color: "rgba(255,255,255,0.85)", maxWidth: 700,
           letterSpacing: "-0.02em", lineHeight: 1.55,
-        }}>{kr}</p>
+        }}><Branded text={kr} dark /></p>
       </div>
     </section>
   );

@@ -215,6 +215,31 @@ function Logo({ color = "#161616", size = "md" }) {
 /* ============================================================
    Eyebrow + Section Title block
    ============================================================ */
+/* Brand mark — renders the company name in accent blue + bold so it
+   visually leads any sentence it appears in. Use <Brand /> inline in
+   JSX, or pass arbitrary strings through <Branded text="..." /> to
+   highlight every occurrence automatically. */
+function Brand({ dark = false }) {
+  return (
+    <strong style={{
+      color: dark ? "#7fb1ff" : "var(--accent)",
+      fontWeight: 800,
+      letterSpacing: "-0.02em",
+    }}>다인스케치</strong>
+  );
+}
+
+function Branded({ text, dark = false }) {
+  if (text == null) return null;
+  const parts = String(text).split("다인스케치");
+  if (parts.length === 1) return text;
+  const out = [parts[0]];
+  for (let i = 1; i < parts.length; i++) {
+    out.push(<Brand key={i} dark={dark} />, parts[i]);
+  }
+  return out;
+}
+
 function SectionHead({ eyebrow, title, kr, sub, align = "left", dark = false }) {
   return (
     <div style={{
@@ -243,13 +268,13 @@ function SectionHead({ eyebrow, title, kr, sub, align = "left", dark = false }) 
           fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em",
           color: dark ? "rgba(255,255,255,0.9)" : "var(--ink-1)",
           maxWidth: 640,
-        }}>{kr}</p>
+        }}><Branded text={kr} dark={dark} /></p>
       )}
       {sub && (
         <p style={{
           fontSize: 16, lineHeight: 1.65, color: dark ? "rgba(255,255,255,0.65)" : "var(--ink-2)",
           maxWidth: 580, margin: 0,
-        }}>{sub}</p>
+        }}><Branded text={sub} dark={dark} /></p>
       )}
     </div>
   );
@@ -329,7 +354,7 @@ function Footer({ setPage }) {
             <p style={{
               marginTop: 32, fontSize: 14, lineHeight: 1.7, color: "rgba(255,255,255,0.6)", maxWidth: 360,
             }}>
-              2008년 설립, 14년+ 편집디자인·인쇄 전문기업.<br />
+              <Brand dark />는 2008년 설립된 14년+ 편집디자인·인쇄 전문기업.<br />
               컨설팅 · 기획 · 디자인 · 인쇄 · 납품을 하나의 팀이 책임집니다.
             </p>
             <div style={{ display: "flex", gap: 12, marginTop: 32 }}>
@@ -367,7 +392,7 @@ function Footer({ setPage }) {
           flexWrap: "wrap", gap: 16,
         }}>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", lineHeight: 1.8 }}>
-            주식회사 다인스케치 · 대표 전명호 · 사업자등록번호 220-87-73258 · 통신판매업 서울성동-20804<br />
+            주식회사 <Brand dark /> · 대표 전명호 · 사업자등록번호 220-87-73258 · 통신판매업 서울성동-20804<br />
             © 2026 DYNESKETCH Co., Ltd. All rights reserved.
           </div>
           <div style={{
@@ -631,12 +656,12 @@ const RESOURCE = {
 /* Service taxonomy — drives Services grid and Portfolio category filter. */
 const SERVICE_CATEGORIES = [
   { key: "표지디자인",        kr: "표지 디자인",       en: "Cover Design",        cat: "EDITORIAL",
-    d: "단행본·교과서·전집 표지의 컨셉, 타이포그래피, 후가공을 한 번에 설계합니다. 시리즈물의 일관된 시각 시스템을 강점으로 합니다.",
+    d: "단행본·교과서·전집 표지의 컨셉, 타이포그래피, 후가공을 다인스케치가 한 번에 설계합니다. 시리즈물의 일관된 시각 시스템을 강점으로 합니다.",
     d2: "수십 권 단위 시리즈 작업에서도 첫 권의 컨셉이 끝까지 흐트러지지 않도록 마스터 그리드와 타입 시스템을 함께 정리해 드립니다. 박·형압·에폭시·홀로그램 등 특수 후가공은 사전 목업으로 검증해 인쇄 사고 위험을 차단합니다.",
     short: "단행본·교과서·전집 표지의 컨셉과 타이포그래피를 설계합니다.",
     deliverables: ["컨셉 보드", "표지 시안 2–3안", "본문 제목 페이지", "박/형압/에폭시 후가공"] },
   { key: "브로슈어_카탈로그", kr: "브로슈어 / 카탈로그", en: "Brochure & Catalog",  cat: "CORPORATE",
-    d: "기업·기관용 브로슈어와 제품 카탈로그를 시스템화된 그리드로 설계합니다. 영문·다국어 동시 운영에 최적화되어 있습니다.",
+    d: "기업·기관용 브로슈어와 제품 카탈로그를 다인스케치가 시스템화된 그리드로 설계합니다. 영문·다국어 동시 운영에 최적화되어 있습니다.",
     d2: "한국어·영문·중문·일문 동시 발간에 익숙하며, 본문 텍스트량의 변동에도 그리드가 무너지지 않도록 마스터 페이지로 설계합니다. 분기·연간 단위로 반복 발간하는 카탈로그는 기존 인디자인 데이터를 재활용해 작업 기간을 30–50% 단축합니다.",
     short: "기업·기관용 브로슈어와 제품 카탈로그를 일관된 시스템으로 디자인합니다.",
     deliverables: ["콘텐츠 정리", "그리드 시스템", "다국어 버전", "옵셋 본인쇄"] },
@@ -651,12 +676,12 @@ const SERVICE_CATEGORIES = [
     short: "전시·문화행사·캠페인 포스터의 비주얼 시스템을 구축합니다.",
     deliverables: ["키 비주얼", "시리즈 변형", "대형 옵셋", "후가공 옵션"] },
   { key: "보고서_자료집",      kr: "보고서 / 자료집",    en: "Report & Whitepaper", cat: "RESEARCH",
-    d: "정부·연구기관 보고서의 데이터 시각화와 편집 그리드를 설계합니다. 200–500p 분량의 대형 보고서 경험이 풍부합니다.",
+    d: "정부·연구기관 보고서의 데이터 시각화와 편집 그리드를 설계합니다. 다인스케치는 200–500p 분량의 대형 보고서 경험이 풍부합니다.",
     d2: "복잡한 통계 데이터를 한눈에 읽히는 그래프와 표로 재구성해 정보 전달력을 높입니다. 500p 이상의 대형 보고서도 색인·각주·참고문헌 시스템을 정리해 본문 가독성과 학술적 신뢰성을 동시에 확보합니다.",
     short: "정부·연구기관 보고서의 데이터 시각화와 편집 그리드를 설계합니다.",
     deliverables: ["인포그래픽", "표·그래프 시스템", "무선 제본", "성동구 직접 납품"] },
   { key: "현수막_배너",        kr: "현수막 / 배너",      en: "Banner & Signage",    cat: "SIGNAGE",
-    d: "대형 실사 출력·X배너·롤업·시트지까지 동일 톤으로 제작합니다. 행사 당일 긴급 제작도 가능합니다.",
+    d: "대형 실사 출력·X배너·롤업·시트지까지 다인스케치가 동일 톤으로 제작합니다. 행사 당일 긴급 제작도 가능합니다.",
     d2: "행사 당일 추가 발주가 발생하는 경우, 디자인·출력·시공을 24시간 내에 처리할 수 있는 긴급 라인을 운영합니다. 옥외 대형 현수막은 봉바느질·아일렛·줄 설치까지 마감해 현장에서 바로 게시할 수 있도록 준비해 드립니다.",
     short: "대형 실사 출력·X배너·롤업까지 동일 톤으로 제작합니다.",
     deliverables: ["대형 실사 출력", "X배너 / 롤업", "시트지 / 부착물", "긴급 24h 제작"] },
@@ -679,6 +704,7 @@ function pickSample(catKey, idx = 0) {
 Object.assign(window, {
   Photo, PhotoPlaceholder, Nav, Logo, SectionHead, Stat, Marquee, Footer,
   ProcessSteps, ClientWall, EquipmentCard, PortfolioCard,
+  Brand, Branded,
   PHOTO, CLIENT_GROUPS,
   RESOURCE, SERVICE_CATEGORIES, pickSample,
 });

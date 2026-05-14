@@ -34,7 +34,7 @@ function Hero({ variant = "press", lang = "en", setPage }) {
       eyebrow: "PRINT · DESIGN · DELIVER",
       headEn: ["PRINT", "REIMAGINED."],
       headKr: ["인쇄, 다시 그리다."],
-      sub: "기획부터 디자인, 인쇄, 후가공, 납품까지\n각 분야 10년 이상의 전문가들이 한 팀으로 일합니다.",
+      sub: "기획부터 디자인, 인쇄, 후가공, 납품까지\n다인스케치는 각 분야 10년 이상의 전문가들이 한 팀으로 일합니다.",
     },
     portfolio: {
       photo: pickSample("표지디자인", 0),
@@ -50,7 +50,7 @@ function Hero({ variant = "press", lang = "en", setPage }) {
       eyebrow: "TOTAL ONESTOP SERVICE",
       headEn: ["EVERY", "PRESS RUN.", "PERFECTED."],
       headKr: ["모든 인쇄,", "완벽하게."],
-      sub: "컨설팅 · 기획 · 디자인 · 인쇄 · 후가공 · 납품. 한 팀이 끝까지 책임집니다.",
+      sub: "컨설팅 · 기획 · 디자인 · 인쇄 · 후가공 · 납품. 다인스케치 한 팀이 끝까지 책임집니다.",
     },
     stats: {
       photo: PHOTO.designStudio,
@@ -58,7 +58,7 @@ function Hero({ variant = "press", lang = "en", setPage }) {
       eyebrow: "EST. 2008 · SEONGSU, SEOUL",
       headEn: ["18 YEARS.", "1,200+ JOBS.", "ZERO COMPROMISE."],
       headKr: ["18년 · 1,200건 · 무타협"],
-      sub: "성수동에서 시작한 14년+ 편집디자인·인쇄 전문기업.",
+      sub: "다인스케치는 성수동에서 시작한 14년+ 편집디자인·인쇄 전문기업입니다.",
     },
   };
   const v = variants[variant] || variants.press;
@@ -107,7 +107,7 @@ function Hero({ variant = "press", lang = "en", setPage }) {
             letterSpacing: "-0.02em", lineHeight: 1.6, maxWidth: 540,
             whiteSpace: "pre-line",
             animationDelay: "240ms",
-          }}>{v.sub}</p>
+          }}><Branded text={v.sub} dark /></p>
 
           <div className="fade-in" style={{ display: "flex", gap: 14, marginTop: 24, animationDelay: "360ms" }}>
             <button onClick={() => setPage("contact")} style={{
@@ -214,7 +214,7 @@ function IntroSection() {
             fontWeight: 500, letterSpacing: "-0.02em", margin: 0,
             textWrap: "pretty",
           }}>
-            다인스케치는 2008년 성수동에서 출발해 18년째 같은 자리에서 일하고 있습니다.
+            <Brand />는 2008년 성수동에서 출발해 18년째 같은 자리에서 일하고 있습니다.
             기획자, 디자이너, 인쇄·후가공 디렉터가 한 사무실에서 만나기 때문에
             <strong style={{ color: "var(--ink-1)", fontWeight: 700 }}> 일정과 품질을 흔들지 않고 </strong>
             결과물을 만들어낼 수 있습니다.
