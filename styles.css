@@ -179,3 +179,143 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.32); }
+
+/* =========================================================
+   Responsive — Tablet (≤1024px) · Mobile (≤768px) · Small (≤480px)
+   ---------------------------------------------------------
+   인라인 grid-template-columns / minmax 패턴을 attribute selector로
+   일괄 오버라이드해서 React 컴포넌트를 거의 건드리지 않고 반응형 처리.
+   ========================================================= */
+
+/* ── Tablet ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .container, .container--wide { padding: 0 32px; }
+  .section { padding: 80px 0; }
+  .section--tight { padding: 56px 0; }
+
+  /* 5칸 그리드 → 3칸 (포트폴리오) */
+  [style*="grid-template-columns: repeat(5"] { grid-template-columns: repeat(3, 1fr) !important; }
+  /* 4칸 그리드 → 2칸 */
+  [style*="grid-template-columns: repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
+  /* 3칸 유지하되 갭 축소만 */
+
+  /* 서비스 페이지 좌우 분할 (600px 사진 + 텍스트) — 칼럼 비율 조정 */
+  [style*="minmax(0, 600px) 1fr"],
+  [style*="1fr minmax(0, 600px)"] {
+    grid-template-columns: minmax(0, 1fr) 1fr !important;
+    gap: 48px !important;
+  }
+
+  /* 푸터 4단 → 2단 */
+  [style*="grid-template-columns: 1.4fr 1fr 1fr 1fr"] {
+    grid-template-columns: 1.4fr 1fr !important;
+    row-gap: 40px !important;
+  }
+
+  /* 클라이언트 월 8칸 → 4칸 */
+  [style*="grid-template-columns: repeat(8"] { grid-template-columns: repeat(4, 1fr) !important; }
+}
+
+/* ── Mobile ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  html, body { font-size: 15px; }
+  .container, .container--wide { padding: 0 20px; }
+  .section { padding: 56px 0; }
+  .section--tight { padding: 36px 0; }
+
+  /* 모든 반복 그리드 → 1열 */
+  [style*="grid-template-columns: repeat(2"],
+  [style*="grid-template-columns: repeat(3"],
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns: repeat(6"] { grid-template-columns: 1fr !important; }
+
+  /* 포트폴리오·클라이언트 월·인덱스 그리드는 모바일에서도 2칸 유지 (썸네일 가독성) */
+  [style*="grid-template-columns: repeat(5"],
+  [style*="grid-template-columns: repeat(8"] { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* 서비스 페이지 좌우 분할 → 세로 스택 */
+  [style*="minmax(0, 600px) 1fr"],
+  [style*="1fr minmax(0, 600px)"] {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+
+  /* 메인 회사소개 1fr 2fr 같은 비대칭 그리드 → 세로 스택 */
+  [style*="grid-template-columns: 1fr 2fr"],
+  [style*="grid-template-columns: 2fr 1fr"],
+  [style*="grid-template-columns: 1.4fr 1fr"],
+  [style*="grid-template-columns: 1fr 1.4fr"],
+  [style*="grid-template-columns: 1.2fr 1fr"],
+  [style*="grid-template-columns: 1fr 1.2fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* 푸터 단 → 모두 세로 스택 */
+  [style*="grid-template-columns: 1.4fr 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    row-gap: 32px !important;
+  }
+
+  /* 사이드 패딩이 큰 절대 위치 텍스트들 — 좌우 여백 축소 */
+  [style*="padding: 48px"] { padding: 24px !important; }
+
+  /* Nav 로고와 햄버거 사이 큰 마진 제거 */
+  [style*="margin-right: 48"], [style*="marginRight: 48"] { margin-right: 0 !important; }
+
+  /* 서브 페이지 히어로 높이 축소 */
+  [style*="min-height: 640"], [style*="minHeight: 640"] { min-height: 420px !important; }
+  [style*="min-height: 460"], [style*="minHeight: 460"] { min-height: 360px !important; }
+  [style*="min-height: 500"], [style*="minHeight: 500"] { min-height: 360px !important; }
+
+  /* 포스터 큰 사진 박스 (500px 고정) 모바일에서 축소 */
+  [style*="height: 500px"] { height: 360px !important; }
+
+  /* 큰 padding 가진 섹션들 축소 */
+  [style*="padding: 32px"] { padding: 20px !important; }
+}
+
+/* ── Small mobile ───────────────────────────────────────── */
+@media (max-width: 480px) {
+  .container, .container--wide { padding: 0 16px; }
+  .section { padding: 40px 0; }
+  .section--tight { padding: 28px 0; }
+
+  /* 5칸 포트폴리오 → 모바일 소형에서도 2칸 유지하지만 갭 축소 */
+  /* 그 외 작은 화면 조정은 부모 요소가 알아서 처리 */
+}
+
+/* ─── 모바일 네비게이션 햄버거 메뉴 ─── */
+.mobile-menu-toggle { display: none; }
+@media (max-width: 1024px) {
+  .nav-desktop { display: none !important; }
+  .nav-tel-desktop { display: none !important; }
+  .nav-cta-desktop { display: none !important; }
+  .mobile-menu-toggle { display: inline-flex !important; }
+}
+
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(8,8,8,0.96);
+  backdrop-filter: blur(16px);
+  display: flex; flex-direction: column;
+  padding: 88px 32px 32px;
+  color: #fff;
+  overflow-y: auto;
+}
+.mobile-menu a {
+  display: block;
+  padding: 20px 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+}
+.mobile-menu a:hover { color: var(--accent); }
+.mobile-menu a.active { color: var(--accent); }
+.mobile-menu-cta {
+  margin-top: auto;
+  padding: 24px 0 0;
+}

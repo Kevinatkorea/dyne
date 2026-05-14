@@ -143,7 +143,7 @@ function Nav({ page, setPage, theme }) {
         }}>
           <Logo color={fg} />
         </a>
-        <nav style={{ display: "flex", gap: 0 }}>
+        <nav className="nav-desktop" style={{ display: "flex", gap: 0 }}>
           {items.map((it) => (
             <a key={it.id} href="#" onClick={(e) => { e.preventDefault(); setPage(it.id); window.scrollTo({ top: 0 }); }}
               style={{
@@ -165,13 +165,14 @@ function Nav({ page, setPage, theme }) {
           ))}
         </nav>
         <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 18 }}>
-          <span style={{
+          <span className="nav-tel-desktop" style={{
             fontFamily: "var(--font-display)",
             fontSize: 11, fontWeight: 700, letterSpacing: "0.18em",
             opacity: 0.7,
           }}>02-514-2450</span>
           <button
             onClick={() => setPage("contact")}
+            className="nav-cta-desktop"
             style={{
               height: 40, padding: "0 18px", border: 0, borderRadius: 0,
               background: "var(--accent)", color: "#fff",
@@ -181,8 +182,60 @@ function Nav({ page, setPage, theme }) {
           >
             견적 요청 →
           </button>
+          {/* 햄버거 토글 (태블릿·모바일) */}
+          <button
+            className="mobile-menu-toggle"
+            onClick={() => setOpen((o) => !o)}
+            aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
+            style={{
+              width: 44, height: 44, border: 0, background: "transparent",
+              color: fg, cursor: "pointer",
+              alignItems: "center", justifyContent: "center",
+            }}>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              {open ? <>
+                <path d="M4 4l14 14" /><path d="M18 4L4 18" />
+              </> : <>
+                <path d="M3 6h16" /><path d="M3 11h16" /><path d="M3 16h16" />
+              </>}
+            </svg>
+          </button>
         </div>
       </div>
+
+      {/* 모바일 메뉴 드로어 */}
+      {open && (
+        <div className="mobile-menu" onClick={() => setOpen(false)}>
+          {items.map((it) => (
+            <a key={it.id} href="#" className={page === it.id ? "active" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                setPage(it.id);
+                setOpen(false);
+                window.scrollTo({ top: 0 });
+              }}>
+              <span style={{ display: "block", fontSize: 11, fontWeight: 700,
+                letterSpacing: "0.22em", opacity: 0.5, marginBottom: 4 }}>
+                {it.label}
+              </span>
+              {it.kr}
+            </a>
+          ))}
+          <div className="mobile-menu-cta">
+            <a href="tel:02-514-2450"
+              style={{ display: "block", padding: "16px 0",
+                fontSize: 14, fontWeight: 700, letterSpacing: "0.04em", color: "rgba(255,255,255,0.8)" }}>
+              ☎ 02-514-2450
+            </a>
+            <button onClick={(e) => { e.stopPropagation(); setPage("contact"); setOpen(false); }}
+              style={{ width: "100%", height: 56, marginTop: 12, border: 0,
+                background: "var(--accent)", color: "#fff",
+                fontSize: 15, fontWeight: 700, letterSpacing: "0.04em", cursor: "pointer" }}>
+              견적 요청 →
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
