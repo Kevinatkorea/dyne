@@ -251,6 +251,10 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
   [style*="grid-template-columns: repeat(4"],
   [style*="grid-template-columns: repeat(6"] { grid-template-columns: 1fr !important; }
 
+  /* 명시적 1fr 1fr / 1fr 1fr 1fr 패턴 (Contact 폼 등) → 1열 */
+  [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+  [style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+
   /* 포트폴리오·클라이언트 월·인덱스 그리드는 모바일에서도 2칸 유지 (썸네일 가독성) */
   [style*="grid-template-columns: repeat(5"],
   [style*="grid-template-columns: repeat(8"] { grid-template-columns: repeat(2, 1fr) !important; }
@@ -301,6 +305,7 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
 
   /* 사이드 패딩이 큰 절대 위치 텍스트들 — 좌우 여백 축소 */
   [style*="padding: 48px"] { padding: 24px !important; }
+  [style*="padding: 64px"] { padding: 28px !important; }
 
   /* Nav 로고와 햄버거 사이 큰 마진 제거 */
   [style*="margin-right: 48"], [style*="marginRight: 48"] { margin-right: 0 !important; }
