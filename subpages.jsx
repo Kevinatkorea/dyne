@@ -201,7 +201,19 @@ function ServicesPage({ setPage }) {
             }}>
               <div style={{ order: i % 2 === 0 ? 0 : 1,
                 display: "flex", flexDirection: "column", gap: 12, width: "100%" }}>
-                <Photo src={s.photo} label={s.label} ratio={s.key === "포스터" ? "3/4" : "16/10"} />
+                {s.key === "포스터" ? (
+                  /* 포스터는 원본이 세로형이라 fixed 500px 회색 박스 안에 contain으로 표시 — 잘리지 않음 */
+                  <div style={{
+                    height: 500, width: "100%",
+                    background: "var(--paper-2)", border: "1px solid var(--hairline)",
+                    display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
+                  }}>
+                    <img src={s.photo} alt={s.label} loading="lazy" className="img-mono"
+                      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block" }} />
+                  </div>
+                ) : (
+                  <Photo src={s.photo} label={s.label} ratio="16/10" />
+                )}
                 {s.key !== "포스터" && s.samples && s.samples.length > 1 && (
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
                     {s.samples.slice(1, 4).map((src, j) => (
