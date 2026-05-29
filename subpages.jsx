@@ -194,7 +194,7 @@ function ServicesPage({ setPage }) {
       <section className="section" style={{ background: "var(--paper-1)" }}>
         <div className="container container--wide" style={{ display: "flex", flexDirection: "column", gap: 100 }}>
           {SERVICES_FULL.map((s, i) => (
-            <div key={i} style={{
+            <div key={i} className="service-row" style={{
               display: "grid",
               gridTemplateColumns: i % 2 === 0 ? "minmax(0, 600px) 1fr" : "1fr minmax(0, 600px)",
               gap: 80, alignItems: "start",
@@ -215,7 +215,7 @@ function ServicesPage({ setPage }) {
                   <Photo src={s.photo} label={s.label} ratio="16/10" />
                 )}
                 {s.key !== "포스터" && s.samples && s.samples.length > 1 && (
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+                  <div className="service-thumbs" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
                     {s.samples.slice(1, 4).map((src, j) => (
                       <Photo key={j} src={src} label={`${s.label} ${j + 2}`} ratio="1/1" />
                     ))}
