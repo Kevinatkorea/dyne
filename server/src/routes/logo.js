@@ -34,6 +34,10 @@ export function cleanDomain(v) {
   d = d.replace(/^https?:\/\//, "").replace(/^www\./, "");
   d = d.split("/")[0].split("?")[0].split("#")[0].split(":")[0];
   if (d.length > 253 || !DOMAIN_RE.test(d)) return null;
+  /* 숫자로만 이루어진 주소(IP)는 거른다 — 로고가 있을 수 없다 */
+  if (/^[0-9.]+$/.test(d)) return null;
+  /* TLD 는 두 글자 이상의 문자여야 한다 */
+  if (!/\.[a-z]{2,}$/.test(d)) return null;
   return d;
 }
 
@@ -82,10 +86,17 @@ router.get("/", wrap(async (req, res) => {
   const hit = cachePath(domain, ".png");
   const miss = cachePath(domain, ".miss");
 
-  /* 캐시 적중 */
+  /* 캐시 적중.
+     ⚠ res.sendFile 을 쓰면 안 된다 — 캐시 경로에 점 디렉터리(.logocache)가
+       있어서 Express 의 dotfiles:'ignore' 기본값에 걸려 404 가 된다.
+       파일이 몇 KB라 그냥 읽어 보낸다. */
   if (fs.existsSync(hit)) {
-    res.setHeader("Cache-Control", "public, max-age=604800");   // 7일
-    return res.sendFile(hit);
+    try {
+      const buf = fs.readFileSync(hit);
+      res.setHeader("Content-Type", "image/png");
+      res.setHeader("Cache-Control", "public, max-age=604800");   // 7일
+      return res.end(buf);
+    } catch { /* 읽기 실패하면 아래에서 다시 받아 온다 */ }
   }
   /* 최근에 못 찾은 도메인 — 다시 물어보지 않는다 */
   if (fs.existsSync(miss) && Date.now() - fs.statSync(miss).mtimeMs < NEG_TTL_MS) {
