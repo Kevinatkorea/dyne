@@ -41,19 +41,32 @@ export function cleanDomain(v) {
   return d;
 }
 
-/* 구글이 "로고 없음"일 때 주는 기본 아이콘의 해시.
-   구글이 아이콘을 바꿔도 따라가도록, 존재하지 않는 도메인으로 한 번 물어 학습한다. */
-let genericHashes = new Set(["b8a0bf372c76a5f0d0f0b6e5ea2f1e5f"]);  // 최초 관측값(대체용)
+/* 구글이 "로고 없음"일 때 주는 기본 아이콘(지구본)의 해시.
+   존재하지 않는 도메인으로 한 번 물어 학습한다 — 구글이 아이콘을 바꿔도 따라간다.
+
+   ⚠ 반드시 학습이 끝난 뒤에 판정해야 한다. 예전엔 학습을 기다리지 않아서
+     첫 페이지 로드의 동시 요청 일부가 지구본을 "진짜 로고"로 캐시해 버렸다.
+     그래서 아래는 공유 프라미스로 만들어 모든 요청이 같은 학습을 기다린다. */
+const GENERIC_HASHES = new Set();
+let genericPromise = null;
 let genericLearnedAt = 0;
 
-async function learnGeneric() {
-  if (Date.now() - genericLearnedAt < 6 * 60 * 60 * 1000) return;
-  genericLearnedAt = Date.now();
-  try {
-    const buf = await fetchIcon("no-such-domain-for-logo-probe-9f3a1.invalid");
-    if (buf) genericHashes.add(md5(buf));
-  } catch { /* 실패해도 기본 해시로 동작 */ }
+function learnGeneric() {
+  const fresh = Date.now() - genericLearnedAt < 6 * 60 * 60 * 1000;
+  if (genericPromise && fresh) return genericPromise;
+  genericPromise = (async () => {
+    try {
+      const buf = await fetchIcon("no-such-domain-for-logo-probe-9f3a1.invalid");
+      if (buf) {
+        GENERIC_HASHES.add(md5(buf));
+        genericLearnedAt = Date.now();
+      }
+    } catch { /* 학습 실패 시엔 걸러내지 못할 뿐, 동작은 계속된다 */ }
+  })();
+  return genericPromise;
 }
+
+const isGeneric = (buf) => GENERIC_HASHES.has(md5(buf));
 
 const md5 = (buf) => crypto.createHash("md5").update(buf).digest("hex");
 
@@ -93,6 +106,13 @@ router.get("/", wrap(async (req, res) => {
   if (fs.existsSync(hit)) {
     try {
       const buf = fs.readFileSync(hit);
+      /* 예전에 잘못 저장된 지구본이면 지우고 404 로 바로잡는다(자가 치유) */
+      await learnGeneric();
+      if (isGeneric(buf)) {
+        try { fs.unlinkSync(hit); fs.writeFileSync(miss, ""); } catch { /* noop */ }
+        res.setHeader("Cache-Control", "public, max-age=86400");
+        return res.status(404).end();
+      }
       res.setHeader("Content-Type", "image/png");
       res.setHeader("Cache-Control", "public, max-age=604800");   // 7일
       return res.end(buf);
@@ -114,7 +134,7 @@ router.get("/", wrap(async (req, res) => {
   }
 
   /* 못 찾았거나 기본 지구본이면 404 — 화면에서는 글자만 남는다 */
-  if (!buf || genericHashes.has(md5(buf))) {
+  if (!buf || isGeneric(buf)) {
     try { fs.writeFileSync(miss, ""); } catch { /* noop */ }
     res.setHeader("Cache-Control", "public, max-age=86400");
     return res.status(404).end();
