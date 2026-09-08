@@ -2,3 +2,27 @@
 Thumbs.db
 desktop.ini
 .design-canvas.state.json
+
+# 서버
+node_modules/
+server/.env
+.env
+dist/
+uploads/
+logs/
+*.log
+
+# 배포
+scripts/.deploy_secret
+deploy/_setup_db.filled.sql
+.dbpw
+scripts/.root_secret
+
+# 테스트 아티팩트 (브라우저 QA 산출물) — 레포 루트에 떨어지는 것만 무시.
+# resource/ 안의 실제 이미지 자산은 영향받지 않는다.
+.playwright-mcp/
+/home.png
+/admin-*.png
+/page-*.png
+/services-mobile-*.png
+/final-*.png

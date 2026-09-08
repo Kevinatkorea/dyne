@@ -13,7 +13,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="googlebot" content="index, follow" />
   <meta name="theme-color" content="#1c69d4" />
-  <link rel="canonical" href="https://kevinatkorea.github.io/dyne/" />
+  <link rel="canonical" href="https://dy.mostvisual.co.kr/" />
 
   <!-- Search engine verifications (replace placeholders with your tokens) -->
   <meta name="naver-site-verification" content="REPLACE_WITH_NAVER_VERIFICATION_TOKEN" />
@@ -24,8 +24,8 @@
   <meta property="og:site_name" content="다인스케치 DYNESKETCH" />
   <meta property="og:title" content="다인스케치 DYNESKETCH | 편집디자인·인쇄 전문기업" />
   <meta property="og:description" content="2008년 성수동에서 시작한 18년차 편집디자인·인쇄 전문기업. 표지·브로슈어·카탈로그·리플릿·포스터·보고서·현수막까지, 기획부터 납품까지 한 팀이 책임집니다." />
-  <meta property="og:url" content="https://kevinatkorea.github.io/dyne/" />
-  <meta property="og:image" content="https://kevinatkorea.github.io/dyne/resource/top6.jpg" />
+  <meta property="og:url" content="https://dy.mostvisual.co.kr/" />
+  <meta property="og:image" content="https://dy.mostvisual.co.kr/resource/top6.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="다인스케치 — 성수동 편집디자인·인쇄 전문기업" />
@@ -35,7 +35,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="다인스케치 DYNESKETCH | 편집디자인·인쇄 전문기업" />
   <meta name="twitter:description" content="2008년 성수동에서 시작한 18년차 편집디자인·인쇄 전문기업. 표지·브로슈어·리플릿·포스터·보고서·현수막까지 한 팀이 책임집니다." />
-  <meta name="twitter:image" content="https://kevinatkorea.github.io/dyne/resource/top6.jpg" />
+  <meta name="twitter:image" content="https://dy.mostvisual.co.kr/resource/top6.jpg" />
   <meta name="twitter:image:alt" content="다인스케치 — 성수동 편집디자인·인쇄 전문기업" />
 
   <!-- Structured data: Organization (LocalBusiness) -->
@@ -46,9 +46,9 @@
     "name": "다인스케치",
     "alternateName": ["DYNESKETCH", "주식회사 다인스케치"],
     "legalName": "주식회사 다인스케치",
-    "url": "https://kevinatkorea.github.io/dyne/",
-    "logo": "https://kevinatkorea.github.io/dyne/resource/top6.jpg",
-    "image": "https://kevinatkorea.github.io/dyne/resource/top6.jpg",
+    "url": "https://dy.mostvisual.co.kr/",
+    "logo": "https://dy.mostvisual.co.kr/resource/top6.jpg",
+    "image": "https://dy.mostvisual.co.kr/resource/top6.jpg",
     "description": "2008년 성수동에서 시작한 편집디자인·인쇄 전문기업. 표지·브로슈어·카탈로그·리플릿·포스터·보고서·현수막까지 기획·디자인·인쇄·후가공·납품을 한 팀이 책임집니다.",
     "foundingDate": "2008-07",
     "founder": {
@@ -83,6 +83,8 @@
   }
   </script>
 
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* Loading state */
@@ -107,24 +109,19 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
 
   <!-- Components and pages (order matters: shared first, then pages, then app) -->
+  <script type="text/babel" src="site-data.jsx"></script>
   <script type="text/babel" src="tweaks-panel.jsx"></script>
   <script type="text/babel" src="components.jsx"></script>
   <script type="text/babel" src="home.jsx"></script>
   <script type="text/babel" src="subpages.jsx"></script>
   <script type="text/babel" src="app.jsx"></script>
 
-  <!-- admin.jsx는 #admin URL일 때만 동적 로드 (일반 방문 시 25KB 절약) -->
   <script>
-    function loadAdminJsx() {
-      if (document.querySelector('script[src="admin.jsx"]')) return;
-      var s = document.createElement("script");
-      s.type = "text/babel";
-      s.src = "admin.jsx";
-      document.body.appendChild(s);
-    }
-    if (location.hash === "#admin" || /[?&]admin(=|$)/.test(location.search)) loadAdminJsx();
+    /* 관리자는 별도 페이지(/admin/)로 분리되었다. 예전 #admin 북마크를 넘겨 준다. */
+    function gotoAdmin() { location.replace("/admin/"); }
+    if (location.hash === "#admin" || /[?&]admin(=|$)/.test(location.search)) gotoAdmin();
     window.addEventListener("hashchange", function () {
-      if (location.hash === "#admin") loadAdminJsx();
+      if (location.hash === "#admin") gotoAdmin();
     });
   </script>
 

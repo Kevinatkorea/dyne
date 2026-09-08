@@ -548,8 +548,63 @@ const CLIENT_GROUPS = {
   ],
 };
 
+/* 고객사 로고 한 칸.
+   로고는 회색으로, 글자 위에, 칸의 절반 크기로 가운데 놓는다.
+   로고가 없거나(등록 안 됨) 불러오기에 실패하면 글자만 남는다. */
+function ClientCell({ name, logo, dark }) {
+  const [failed, setFailed] = useState(false);
+  const [hover, setHover] = useState(false);
+  const showLogo = !!logo && !failed;
+  const baseColor = dark ? "rgba(255,255,255,0.78)" : "var(--ink-1)";
+
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        aspectRatio: "1.6/1",
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center", gap: 8,
+        borderRight: `1px solid ${dark ? "rgba(255,255,255,0.15)" : "var(--hairline)"}`,
+        borderBottom: `1px solid ${dark ? "rgba(255,255,255,0.15)" : "var(--hairline)"}`,
+        padding: 12,
+        background: hover ? "var(--accent)" : "transparent",
+        transition: "background 200ms",
+      }}>
+      {showLogo ? (
+        <img
+          src={logo}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+          style={{
+            width: "50%", height: "50%", objectFit: "contain",
+            /* 회색 처리 — 어두운 배경/호버(액센트)에서는 밝기를 올려야 보인다 */
+            filter: (dark || hover)
+              ? "grayscale(1) brightness(1.9) contrast(0.85)"
+              : "grayscale(1) contrast(0.9)",
+            opacity: hover ? 0.95 : (dark ? 0.75 : 0.6),
+            transition: "opacity 200ms, filter 200ms",
+          }}
+        />
+      ) : null}
+      <span style={{
+        fontFamily: "var(--font-body)",
+        fontSize: 12, fontWeight: 600, letterSpacing: "-0.01em",
+        textAlign: "center", lineHeight: 1.35,
+        color: hover ? "#fff" : baseColor,
+        transition: "color 200ms",
+      }}>{name}</span>
+    </div>
+  );
+}
+
 function ClientWall({ dark = false }) {
-  const all = Object.values(CLIENT_GROUPS).flat();
+  /* 관리자에 등록된 고객사가 있으면 그것을, 없으면 아래 기본 목록을 쓴다. */
+  const all = window.siteClientList
+    ? window.siteClientList(CLIENT_GROUPS)
+    : Object.entries(CLIENT_GROUPS).flatMap(([g, ns]) => ns.map((n) => ({ name: n, group: g, logo: null })));
   return (
     <div style={{
       display: "grid",
@@ -557,22 +612,8 @@ function ClientWall({ dark = false }) {
       borderTop: `1px solid ${dark ? "rgba(255,255,255,0.15)" : "var(--hairline)"}`,
       borderLeft: `1px solid ${dark ? "rgba(255,255,255,0.15)" : "var(--hairline)"}`,
     }}>
-      {all.map((name, i) => (
-        <div key={i} style={{
-          aspectRatio: "1.6/1",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          borderRight: `1px solid ${dark ? "rgba(255,255,255,0.15)" : "var(--hairline)"}`,
-          borderBottom: `1px solid ${dark ? "rgba(255,255,255,0.15)" : "var(--hairline)"}`,
-          padding: 16,
-          color: dark ? "rgba(255,255,255,0.78)" : "var(--ink-1)",
-          fontFamily: "var(--font-body)",
-          fontSize: 13, fontWeight: 600, letterSpacing: "-0.01em",
-          textAlign: "center",
-          transition: "background 200ms, color 200ms",
-        }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = "var(--accent)"; e.currentTarget.style.color = "#fff"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = dark ? "rgba(255,255,255,0.78)" : "var(--ink-1)"; }}
-        >{name}</div>
+      {all.map((c, i) => (
+        <ClientCell key={i} name={c.name} logo={c.logo} dark={dark} />
       ))}
     </div>
   );
