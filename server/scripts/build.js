@@ -9,10 +9,14 @@
    ===================================================================== */
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import esbuild from "esbuild";
 import { REPO_ROOT } from "../src/config.js";
 
 const DIST = path.join(REPO_ROOT, "dist");
+
+/* 빌드마다 바뀌는 짧은 식별자 — 캐시 버스팅용 */
+const BUILD_ID = crypto.randomBytes(6).toString("hex");
 
 /* index.html 의 로드 순서와 동일해야 한다 */
 const ENTRIES = ["tweaks-panel", "components", "home", "subpages", "app", "site-data"];
@@ -80,10 +84,12 @@ function buildHtml(built) {
     .replace("react-dom@18.3.1/umd/react-dom.development.js", "react-dom@18.3.1/umd/react-dom.production.min.js")
     .replace(/^[ \t]*<script src="https:\/\/unpkg\.com\/@babel\/standalone[^>]*><\/script>[ \t]*\r?\n/m, "");
 
-  /* text/babel *.jsx → 컴파일된 클래식 스크립트 */
+  /* text/babel *.jsx → 컴파일된 클래식 스크립트.
+     ?v=<빌드해시> 를 붙여, 오래 캐시하면서도 배포 즉시 새 파일을 받게 한다. */
   html = html.replace(
     /<script type="text\/babel" src="([\w.-]+)\.jsx"><\/script>/g,
-    (m, name) => (built.includes(name) ? `<script src="/dist/${name}.js"></script>` : m)
+    (m, name) =>
+      built.includes(name) ? `<script src="/dist/${name}.js?v=${BUILD_ID}"></script>` : m
   );
 
   fs.writeFileSync(path.join(DIST, "index.html"), html, "utf8");
@@ -114,5 +120,9 @@ function buildAdmin() {
 const built = transformAll();
 buildHtml(built);
 const adminBuilt = buildAdmin();
-console.log(`[build] dist/ 생성 완료 — 사이트: ${built.join(", ")}`);
+
+/* 관리자 로더가 읽어서 ?v= 로 붙인다 */
+fs.writeFileSync(path.join(DIST, "admin", "build-id.txt"), BUILD_ID, "utf8");
+
+console.log(`[build] dist/ 생성 완료 (build ${BUILD_ID}) — 사이트: ${built.join(", ")}`);
 console.log(`[build] dist/admin/ 생성 완료 — ${adminBuilt.length}개 파일`);

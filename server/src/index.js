@@ -70,20 +70,26 @@ const ADMIN_DIR = path.join(REPO_ROOT, "admin");
 const hasDist = fs.existsSync(path.join(DIST, "index.html"));
 
 const YEAR = { maxAge: "365d", immutable: true };
-const HOUR = { maxAge: "1h" };
+
+/* HTML 은 캐시하지 않는다 — 이 안의 ?v= 가 나머지 캐시를 결정하므로
+   HTML 이 낡으면 배포가 반영되지 않는다. */
+const noStore = (res) => res.setHeader("Cache-Control", "no-cache, must-revalidate");
 
 app.use("/uploads", express.static(config.uploadDir, { maxAge: "30d", fallthrough: true }));
 app.use("/resource", express.static(path.join(REPO_ROOT, "resource"), YEAR));
-if (hasDist) app.use("/dist", express.static(DIST, HOUR));
-app.use("/admin", express.static(ADMIN_DIR, { maxAge: "5m", index: false }));
+/* /dist 는 URL 에 ?v=<빌드ID> 가 붙으므로 오래 캐시해도 안전하다 */
+if (hasDist) app.use("/dist", express.static(DIST, YEAR));
+app.use("/admin", express.static(ADMIN_DIR, { maxAge: 0, index: false }));
 
 /* 관리자 SPA — /admin, /admin/포트폴리오 등 모두 index.html */
 app.get(/^\/admin(\/.*)?$/, (_req, res) => {
+  noStore(res);
   res.sendFile(path.join(ADMIN_DIR, "index.html"));
 });
 
 /* 공개 사이트 — 빌드본(dist/index.html) 우선 */
 app.get("/", (_req, res) => {
+  noStore(res);
   res.sendFile(hasDist ? path.join(DIST, "index.html") : path.join(REPO_ROOT, "index.html"));
 });
 
@@ -102,6 +108,7 @@ app.use(express.static(REPO_ROOT, {
 app.get(/.*/, (req, res, next) => {
   if (req.path.startsWith("/api/")) return next();
   if (path.extname(req.path)) return next();
+  noStore(res);
   res.sendFile(hasDist ? path.join(DIST, "index.html") : path.join(REPO_ROOT, "index.html"));
 });
 
