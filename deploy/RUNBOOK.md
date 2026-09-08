@@ -12,6 +12,28 @@
 
 ---
 
+## 현재 상태 (2026-09-08)
+
+| 항목 | 상태 |
+|---|---|
+| 앱 소스 · `server/.env` · 업로드 디렉터리 | ✅ |
+| DB `dyne` / 계정 `dyne_app` (스키마 격리 확인) | ✅ |
+| 초기 데이터 시드 — 포트폴리오 179장 · 서비스 7 · 장비 9 · 연혁 9 · 고객사 32 · 수상 6 · 상단배경 9 | ✅ |
+| PM2 `dynesketch-web` (:3410) · `pm2 save` | ✅ |
+| Apache **:80** vhost (HTTP→HTTPS 301) | ✅ |
+| Apache **:443** vhost + 인증서 | ⛔ **DNS 대기** |
+| 이웃 서비스 무영향 | ✅ 매 배포 시 자동 검증 |
+| 기능 검증 (견적접수·로그인·권한·정렬·업로드·CSV·통계·백업) | ✅ |
+
+**남은 것은 DNS 하나입니다.** `dy.mostvisual.co.kr` A 레코드를 추가하면
+`python scripts/deploy.py --root-setup --ssl` 로 인증서까지 끝납니다.
+
+`dy.mostvisual.co.kr` 은 서버의 어떤 인증서 SAN 에도 없습니다
+(`mostvisual.co.kr`·`bizkit.kr` 인증서는 개별 도메인 나열식이며 와일드카드가 아님).
+따라서 DNS 없이는 HTTPS 를 붙일 수 없습니다.
+
+---
+
 ## 0. 사전 조건 — DNS
 
 ```
