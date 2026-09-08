@@ -14,7 +14,7 @@ import cookieParser from "cookie-parser";
 import { config, REPO_ROOT } from "./config.js";
 import { applySchema, pool } from "./db.js";
 import { attachUser } from "./lib/auth.js";
-import { HttpError } from "./lib/util.js";
+import { HttpError, wrap } from "./lib/util.js";
 import { ensureUploadDir } from "./lib/uploads.js";
 
 import publicRoutes, { invalidateSiteCache } from "./routes/public.js";
@@ -23,7 +23,7 @@ import inquiryRoutes from "./routes/inquiries.js";
 import portfolioRoutes from "./routes/portfolio.js";
 import mediaRoutes from "./routes/media.js";
 import contentRoutes from "./routes/content.js";
-import settingsRoutes from "./routes/settings.js";
+import settingsRoutes, { getSettings } from "./routes/settings.js";
 import statsRoutes from "./routes/stats.js";
 import userRoutes from "./routes/users.js";
 import miscRoutes from "./routes/admin-misc.js";
@@ -45,6 +45,30 @@ app.use((_req, res, next) => {
   res.setHeader("X-Frame-Options", "SAMEORIGIN");
   next();
 });
+
+/* 임시 도메인 색인 차단.
+   HTTP 헤더라 JS 를 실행하지 않는 크롤러에도 확실히 걸린다.
+   정식 도메인으로 옮긴 뒤 [사이트 설정 → SEO] 에서 끄면 된다. */
+app.use(wrap(async (req, res, next) => {
+  if (req.path.startsWith("/api/")) return next();
+  const s = await getSettings();
+  if (s.seo?.noindex) res.setHeader("X-Robots-Tag", "noindex, nofollow");
+  next();
+}));
+
+/* robots.txt 도 설정을 따른다 (정적 파일보다 먼저 잡는다) */
+app.get("/robots.txt", wrap(async (_req, res) => {
+  const s = await getSettings();
+  res.type("text/plain");
+  if (s.seo?.noindex) {
+    return res.send(
+      "# 임시 도메인 — 색인하지 않습니다.\n" +
+      "# 정식 도메인 전환 후 관리자 [사이트 설정 → SEO] 에서 해제하세요.\n" +
+      "User-agent: *\nDisallow: /\n"
+    );
+  }
+  res.sendFile(path.join(REPO_ROOT, "robots.txt"));
+}));
 
 /* ---- API -------------------------------------------------------- */
 app.use("/api", publicRoutes);

@@ -33,6 +33,10 @@ export const SETTING_DEFAULTS = {
     googleVerification: "",
     gaId: "",
     gtmId: "",
+    /* 임시 도메인(dy.mostvisual.co.kr) 운영 중에는 색인을 막는다.
+       정식 도메인(dynesketch.co.kr)으로 옮긴 뒤 이 값을 꺼야 검색에 노출된다.
+       켜져 있으면 X-Robots-Tag 헤더와 robots.txt 로 함께 차단한다. */
+    noindex: true,
   },
 
   footer: {

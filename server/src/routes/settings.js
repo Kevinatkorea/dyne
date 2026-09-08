@@ -10,6 +10,20 @@ import { SETTING_DEFAULTS } from "../lib/defaults.js";
 
 const router = express.Router();
 
+/* 요청마다 DB 를 때리지 않도록 짧게 캐시한다.
+   설정 저장 시 invalidateSettingsCache() 로 즉시 비운다. */
+let cache = { at: 0, value: null };
+const CACHE_MS = 15 * 1000;
+export const invalidateSettingsCache = () => { cache = { at: 0, value: null }; };
+
+/** 캐시된 설정 (헤더·robots.txt 처럼 매 요청 필요한 곳에서 사용) */
+export async function getSettings() {
+  if (cache.value && Date.now() - cache.at < CACHE_MS) return cache.value;
+  const value = await loadSettings();
+  cache = { at: Date.now(), value };
+  return value;
+}
+
 /** DB 값 + 기본값 병합 */
 export async function loadSettings() {
   const rows = await q("SELECT `key`, value FROM settings");
@@ -47,6 +61,7 @@ router.put("/", requireAuth, requireWrite, wrap(async (req, res) => {
       [key, JSON.stringify(body[key]), req.user.id]
     );
   }
+  invalidateSettingsCache();
   await audit(req, "update", "settings", null, { keys });
   res.json({ settings: await loadSettings() });
 }));
@@ -56,6 +71,7 @@ router.post("/reset", requireAuth, requireWrite, wrap(async (req, res) => {
   const key = String(req.body?.key || "");
   if (!Object.prototype.hasOwnProperty.call(SETTING_DEFAULTS, key)) throw bad("알 수 없는 설정 그룹입니다.");
   await exec("DELETE FROM settings WHERE `key` = ?", [key]);
+  invalidateSettingsCache();
   await audit(req, "reset", "settings", key);
   res.json({ settings: await loadSettings() });
 }));
