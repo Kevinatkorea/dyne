@@ -103,14 +103,16 @@ function ContentManager({ cfg, canWrite }) {
   const [loading, setLoading] = useState(true);
   const [edit, setEdit] = useState(null);   // {} = 새 항목
   const [sel, setSel] = useState([]);
+  const [error, setError] = useState("");
   const [confirm, confirmNode] = useConfirm();
   const [pageFilter, setPageFilter] = useState(cfg.pages ? cfg.pages[0].value : null);
 
   const load = useCallback(() => {
     setLoading(true);
+    setError("");
     API.admin.list(cfg.resource, cfg.pages ? { page: pageFilter } : {})
       .then((d) => setItems(d.items))
-      .catch(toast.err)
+      .catch((e) => { setItems([]); setError(e.message || "불러오지 못했습니다."); toast.err(e); })
       .finally(() => setLoading(false));
   }, [cfg.resource, cfg.pages, pageFilter]);
 
@@ -183,7 +185,12 @@ function ContentManager({ cfg, canWrite }) {
         ) : null}
 
         <div className="card__bd">
-          {loading ? <Loading /> : items.length === 0 ? <Empty /> : (
+          {loading ? <Loading /> : error ? (
+            <div className="empty">
+              <div style={{ color: "var(--a-danger)", marginBottom: 10 }}>{error}</div>
+              <button className="btn" onClick={load}>다시 불러오기</button>
+            </div>
+          ) : items.length === 0 ? <Empty /> : (
             <ul className="sortable">
               {items.map((it) => (
                 <li key={it.id}

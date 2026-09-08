@@ -198,6 +198,7 @@ function Inquiries({ params, canWrite }) {
   });
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [sel, setSel] = useState([]);
   const [openId, setOpenId] = useState(params?.open || null);
   const [users, setUsers] = useState([]);
@@ -205,9 +206,10 @@ function Inquiries({ params, canWrite }) {
 
   const load = useCallback(() => {
     setLoading(true);
+    setError("");
     API.admin.inquiries(filter)
-      .then(setData)
-      .catch(toast.err)
+      .then((d) => setData(d))
+      .catch((e) => { setData(null); setError(e.message || "불러오지 못했습니다."); toast.err(e); })
       .finally(() => setLoading(false));
   }, [filter]);
 
@@ -310,7 +312,12 @@ function Inquiries({ params, canWrite }) {
       {/* 표 */}
       <div className="card">
         <div className="card__bd card__bd--flush">
-          {loading ? <Loading /> : !data || data.items.length === 0 ? (
+          {loading ? <Loading /> : error ? (
+            <div className="empty">
+              <div style={{ color: "var(--a-danger)", marginBottom: 10 }}>{error}</div>
+              <button className="btn" onClick={load}>다시 불러오기</button>
+            </div>
+          ) : !data || data.items.length === 0 ? (
             <Empty label="조건에 맞는 견적요청이 없습니다." />
           ) : (
             <div className="tbl-wrap">

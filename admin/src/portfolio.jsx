@@ -102,6 +102,7 @@ function Portfolio({ canWrite }) {
   const [sel, setSel] = useState([]);
   const [edit, setEdit] = useState(null);
   const [uploading, setUploading] = useState(0);
+  const [error, setError] = useState("");
   const [confirm, confirmNode] = useConfirm();
 
   const params = useMemo(() => {
@@ -114,13 +115,20 @@ function Portfolio({ canWrite }) {
 
   const load = useCallback(() => {
     setLoading(true);
+    setError("");
     API.admin.portfolio(params)
       .then((d) => {
         setItems(d.items);
         setTotal(d.total);
         setGroups({ byCategory: d.byCategory, byYear: d.byYear });
       })
-      .catch(toast.err)
+      .catch((e) => {
+        /* 실패했는데 이전 목록을 그대로 두면 다른 분류의 작업물을
+           이 분류의 것인 양 보여 주게 된다. 비우고 오류를 알린다. */
+        setItems([]);
+        setError(e.message || "목록을 불러오지 못했습니다.");
+        toast.err(e);
+      })
       .finally(() => setLoading(false));
   }, [params]);
 
@@ -278,7 +286,12 @@ function Portfolio({ canWrite }) {
           ) : null}
 
           <div className="card__bd">
-            {loading ? <Loading /> : items.length === 0 ? (
+            {loading ? <Loading /> : error ? (
+              <div className="empty">
+                <div style={{ color: "var(--a-danger)", marginBottom: 10 }}>{error}</div>
+                <button className="btn" onClick={load}>다시 불러오기</button>
+              </div>
+            ) : items.length === 0 ? (
               <Empty label="이 분류에 등록된 작업물이 없습니다. 위에 이미지를 끌어다 놓아 등록하세요." />
             ) : (
               <div className="tiles">
