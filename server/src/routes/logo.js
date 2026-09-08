@@ -114,7 +114,9 @@ router.get("/", wrap(async (req, res) => {
         return res.status(404).end();
       }
       res.setHeader("Content-Type", "image/png");
-      res.setHeader("Cache-Control", "public, max-age=604800");   // 7일
+      /* 1일 — 로고를 바로잡았을 때 방문자 화면에 오래 남지 않게.
+         서버 디스크 캐시가 있어 재요청 비용은 거의 없다. */
+      res.setHeader("Cache-Control", "public, max-age=86400");
       return res.end(buf);
     } catch { /* 읽기 실패하면 아래에서 다시 받아 온다 */ }
   }
@@ -144,7 +146,7 @@ router.get("/", wrap(async (req, res) => {
     console.error("[logo] 캐시 저장 실패:", e.message);
   }
   res.setHeader("Content-Type", "image/png");
-  res.setHeader("Cache-Control", "public, max-age=604800");
+  res.setHeader("Cache-Control", "public, max-age=86400");
   res.end(buf);
 }));
 
