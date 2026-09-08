@@ -28,6 +28,7 @@ import statsRoutes from "./routes/stats.js";
 import userRoutes from "./routes/users.js";
 import miscRoutes from "./routes/admin-misc.js";
 import smsRoutes from "./routes/sms.js";
+import logoRoutes from "./routes/logo.js";
 
 const app = express();
 app.set("trust proxy", true);
@@ -72,6 +73,7 @@ app.get("/robots.txt", wrap(async (_req, res) => {
 }));
 
 /* ---- API -------------------------------------------------------- */
+app.use("/api/logo", logoRoutes);
 app.use("/api", publicRoutes);
 app.use("/api/auth", authRoutes);
 

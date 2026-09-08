@@ -70,6 +70,41 @@
     return rows.map(function (a) { return { y: a.year, t: a.title }; });
   };
 
+  /* 고객사 목록 — 로고까지 쓰려면 이쪽을 쓴다.
+     [{ name, group, logo }] 형태. logo 는 없으면 null. */
+  window.siteClientList = function (fallbackGroups) {
+    var rows = SITE && nonEmpty(SITE.clients);
+    if (!rows) {
+      /* 서버 데이터가 없으면 이름만 있는 기본 목록 */
+      var out = [];
+      Object.keys(fallbackGroups || {}).forEach(function (g) {
+        (fallbackGroups[g] || []).forEach(function (n) {
+          out.push({ name: n, group: g, logo: null });
+        });
+      });
+      return out;
+    }
+    return rows.map(function (c) {
+      return { name: c.name, group: c.group_name || "", logo: window.clientLogoUrl(c) };
+    });
+  };
+
+  /* 로고 주소 결정:
+       1) 관리자가 올린 파일이 있으면 그것
+       2) 없으면 홈페이지 주소로 서버 중계(/api/logo)에서 가져오기
+       3) 둘 다 없으면 null → 글자만 표시 */
+  window.clientLogoUrl = function (c) {
+    if (!c) return null;
+    if (c.logo_src) return c.logo_src.charAt(0) === "/" || /^https?:/.test(c.logo_src)
+      ? c.logo_src : "/" + c.logo_src;
+    if (c.url) {
+      var d = String(c.url).trim().toLowerCase()
+        .replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0].split("?")[0];
+      if (d) return "/api/logo?d=" + encodeURIComponent(d);
+    }
+    return null;
+  };
+
   window.siteClientGroups = function (fallback) {
     var rows = SITE && nonEmpty(SITE.clients);
     if (!rows) return fallback;

@@ -141,15 +141,34 @@ const AWARDS = [
   { year: "2019", title: "서울특별시 우수 중소기업 선정", org: "서울특별시" },
 ];
 
+/* 고객사 — 홈페이지 주소를 함께 넣는다.
+   공개 사이트가 이 주소로 /api/logo 에서 로고를 가져온다.
+   (관리자에서 로고 파일을 직접 올리면 그쪽이 우선한다) */
 const CLIENT_GROUPS = {
-  "정부 · 공공기관": ["서울특별시", "문화체육관광부", "과학기술정보통신부", "한국콘텐츠진흥원",
-    "한국관광공사", "한국전력공사", "국토교통부", "보건복지부"],
-  "대기업 · 금융": ["현대자동차", "삼성SDS", "LG화학", "SK하이닉스", "포스코",
-    "KB금융", "신한금융", "우리은행"],
-  "출판 · 미디어": ["민음사", "창비", "문학동네", "북이십일",
-    "한겨레", "조선일보", "JTBC", "EBS"],
-  "교육 · 연구": ["서울대학교", "KAIST", "포스텍", "고려대학교",
-    "이화여자대학교", "KDI", "STEPI", "산업연구원"],
+  "정부 · 공공기관": [
+    ["서울특별시", "seoul.go.kr"], ["문화체육관광부", "mcst.go.kr"],
+    ["과학기술정보통신부", "msit.go.kr"], ["한국콘텐츠진흥원", "kocca.kr"],
+    ["한국관광공사", "visitkorea.or.kr"], ["한국전력공사", "kepco.co.kr"],
+    ["국토교통부", "molit.go.kr"], ["보건복지부", "mohw.go.kr"],
+  ],
+  "대기업 · 금융": [
+    ["현대자동차", "hyundai.com"], ["삼성SDS", "samsungsds.com"],
+    ["LG화학", "lgchem.com"], ["SK하이닉스", "skhynix.com"],
+    ["포스코", "posco.co.kr"], ["KB금융", "kbfg.com"],
+    ["신한금융", "shinhangroup.com"], ["우리은행", "wooribank.com"],
+  ],
+  "출판 · 미디어": [
+    ["민음사", "minumsa.com"], ["창비", "changbi.com"],
+    ["문학동네", "munhak.com"], ["북이십일", "book21.com"],
+    ["한겨레", "hani.co.kr"], ["조선일보", "chosun.com"],
+    ["JTBC", "jtbc.co.kr"], ["EBS", "ebs.co.kr"],
+  ],
+  "교육 · 연구": [
+    ["서울대학교", "snu.ac.kr"], ["KAIST", "kaist.ac.kr"],
+    ["포스텍", "postech.ac.kr"], ["고려대학교", "korea.ac.kr"],
+    ["이화여자대학교", "ewha.ac.kr"], ["KDI", "kdi.re.kr"],
+    ["STEPI", "stepi.re.kr"], ["산업연구원", "kiet.re.kr"],
+  ],
 };
 
 /* 홈 히어로 press variant 가 쓰는 4장 + 페이지별 상단 배경 */
@@ -214,6 +233,23 @@ async function seedTable(table, rows, build) {
   log(`${table} — ${rows.length}건 생성`);
 }
 
+/* 이미 고객사가 들어 있는 설치에도 도메인을 채워 준다.
+   비어 있는 것만 건드리므로 관리자가 고쳐 둔 값은 보존된다. */
+async function backfillClientUrls() {
+  let n = 0;
+  for (const [, rows] of Object.entries(CLIENT_GROUPS)) {
+    for (const [name, url] of rows) {
+      const r = await exec(
+        "UPDATE clients SET url = ? WHERE name = ? AND (url IS NULL OR url = '')",
+        [url, name]
+      );
+      n += r.affectedRows;
+    }
+  }
+  if (n) log(`고객사 홈페이지 주소 — ${n}건 보정`);
+  return n;
+}
+
 async function seedAdmin() {
   if (!(await isEmpty("users"))) { log("users — 이미 계정 있음, 건너뜀"); return; }
   await exec(
@@ -247,9 +283,11 @@ async function main() {
   }));
   await seedTable(
     "clients",
-    Object.entries(CLIENT_GROUPS).flatMap(([g, names]) => names.map((n) => ({ name: n, group_name: g }))),
-    (r, i) => ({ name: r.name, group_name: r.group_name, sort_order: i, visible: 1 })
+    Object.entries(CLIENT_GROUPS).flatMap(([g, rows]) =>
+      rows.map(([n, url]) => ({ name: n, group_name: g, url }))),
+    (r, i) => ({ name: r.name, group_name: r.group_name, url: r.url, sort_order: i, visible: 1 })
   );
+  await backfillClientUrls();
   await seedTable("hero_slides", HERO.filter((h) => exists(h.src)), (r, i) => ({
     page: r.page, src: r.src, sort_order: i, visible: 1,
   }));
