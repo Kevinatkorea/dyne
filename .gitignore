@@ -2,3 +2,17 @@
 Thumbs.db
 desktop.ini
 .design-canvas.state.json
+
+# 서버
+node_modules/
+server/.env
+.env
+dist/
+uploads/
+logs/
+*.log
+
+# 배포
+scripts/.deploy_secret
+deploy/_setup_db.filled.sql
+.dbpw

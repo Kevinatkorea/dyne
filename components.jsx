@@ -549,7 +549,9 @@ const CLIENT_GROUPS = {
 };
 
 function ClientWall({ dark = false }) {
-  const all = Object.values(CLIENT_GROUPS).flat();
+  /* 관리자에 등록된 고객사가 있으면 그것을, 없으면 아래 기본 목록을 쓴다. */
+  const groups = window.siteClientGroups ? window.siteClientGroups(CLIENT_GROUPS) : CLIENT_GROUPS;
+  const all = Object.values(groups).flat();
   return (
     <div style={{
       display: "grid",

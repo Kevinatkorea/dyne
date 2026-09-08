@@ -49,6 +49,15 @@ function App() {
   const [page, setPage] = useState("home");
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
 
+  /* 서버(관리자)에서 내려온 사이트 데이터 — 도착하면 다시 그린다.
+     서버가 없으면 각 파일의 기본값으로 그대로 동작한다. */
+  const site = window.useSiteData ? window.useSiteData() : null;
+
+  /* 방문 기록 — 관리자 [방문 통계]의 원천 */
+  useEffect(() => {
+    if (window.trackVisit) window.trackVisit(page === "home" ? "/" : `/${page}`);
+  }, [page]);
+
   // Apply theme CSS vars to :root
   useEffect(() => {
     const theme = THEMES[t.theme] || THEMES.warm;
@@ -96,6 +105,12 @@ function App() {
 
   const isDarkTheme = t.theme === "dark" || t.theme === "midnight";
 
+  /* 튜닝 패널은 관리자 [사이트 설정 → 기능]에서 켤 수 있다.
+     서버 데이터가 아직 없으면(로컬 개발) 기존처럼 보여 준다. */
+  const showTweaks = site
+    ? !!(window.siteSetting && window.siteSetting("features", "tweaksPanel", false))
+    : true;
+
   let pageEl;
   switch (page) {
     case "about": pageEl = <AboutPage setPage={setPage} />; break;
@@ -112,6 +127,7 @@ function App() {
       {pageEl}
       <Footer setPage={setPage} />
 
+      {showTweaks ? (
       <TweaksPanel title="Tweaks · 다인스케치">
         <TweakSection label="Hero · 메인 히어로">
           <TweakSelect
@@ -179,6 +195,7 @@ function App() {
           <a href="다인스케치 변형.html" style={{ color: "#fff", textDecoration: "underline" }}>→ 섹션 베리에이션 캔버스 열기</a>
         </div>
       </TweaksPanel>
+      ) : null}
     </div>
   );
 }
