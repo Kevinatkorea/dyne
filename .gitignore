@@ -16,3 +16,4 @@ logs/
 scripts/.deploy_secret
 deploy/_setup_db.filled.sql
 .dbpw
+scripts/.root_secret

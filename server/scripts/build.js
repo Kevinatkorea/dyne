@@ -17,21 +17,52 @@ const DIST = path.join(REPO_ROOT, "dist");
 /* index.html 의 로드 순서와 동일해야 한다 */
 const ENTRIES = ["tweaks-panel", "components", "home", "subpages", "app", "site-data"];
 
+/* esbuild 공통 옵션.
+   minifyIdentifiers 는 끈다 — 파일 간 참조가 전역 이름에 의존하므로
+   최상위 이름이 바뀌면 안 된다. */
+const TRANSFORM = {
+  loader: "jsx",
+  target: "es2019",
+  minifyWhitespace: true,
+  minifySyntax: true,
+  minifyIdentifiers: false,
+  sourcemap: false,
+  legalComments: "none",
+};
+
+/* ── 왜 IIFE 로 감싸는가 ───────────────────────────────────────────
+   Babel standalone 은 각 스크립트를 eval 로 실행했다. eval 안의
+   let/const 는 그 eval 안에만 살아서, 파일마다 최상위에 있는
+   `const { useState } = React;` 가 서로 충돌하지 않았다.
+   사전 컴파일한 클래식 스크립트는 최상위 const 가 전부 같은 전역
+   렉시컬 스코프에 들어가 "Identifier 'useState' has already been
+   declared" 로 죽는다.
+
+   그래서 각 파일을 IIFE 로 감싼다. 다만 eval 에서는 `function Foo(){}`
+   선언이 전역 객체에 올라갔으므로, 그 동작을 유지하려고 최상위 함수
+   선언만 골라 window 에 다시 붙여 준다. (파일 간 참조가 이것에 의존한다)
+   ────────────────────────────────────────────────────────────── */
+function wrapIife(code, source) {
+  const names = Array.from(
+    new Set(
+      Array.from(source.matchAll(/^function\s+([A-Za-z_$][\w$]*)\s*\(/gm), (m) => m[1])
+    )
+  );
+  const exportLine = names.length
+    ? `try{Object.assign(window,{${names.join(",")}});}catch(e){}`
+    : "";
+  return `(function(){${code}\n${exportLine}})();`;
+}
+
 function transformAll() {
   fs.mkdirSync(DIST, { recursive: true });
   const built = [];
   for (const name of ENTRIES) {
     const src = path.join(REPO_ROOT, `${name}.jsx`);
     if (!fs.existsSync(src)) continue;
-    const out = esbuild.transformSync(fs.readFileSync(src, "utf8"), {
-      loader: "jsx",
-      target: "es2019",
-      format: undefined,          // 전역 스코프 유지 (IIFE/ESM 로 감싸지 않음)
-      minify: true,
-      sourcemap: false,
-      legalComments: "none",
-    });
-    fs.writeFileSync(path.join(DIST, `${name}.js`), out.code, "utf8");
+    const source = fs.readFileSync(src, "utf8");
+    const out = esbuild.transformSync(source, TRANSFORM);
+    fs.writeFileSync(path.join(DIST, `${name}.js`), wrapIife(out.code, source), "utf8");
     built.push(name);
   }
   return built;
@@ -72,13 +103,9 @@ function buildAdmin() {
   for (const name of ADMIN_ENTRIES) {
     const src = path.join(srcDir, `${name}.jsx`);
     if (!fs.existsSync(src)) continue;
-    const out = esbuild.transformSync(fs.readFileSync(src, "utf8"), {
-      loader: "jsx",
-      target: "es2019",
-      minify: true,
-      legalComments: "none",
-    });
-    fs.writeFileSync(path.join(outDir, `${name}.js`), out.code, "utf8");
+    const source = fs.readFileSync(src, "utf8");
+    const out = esbuild.transformSync(source, TRANSFORM);
+    fs.writeFileSync(path.join(outDir, `${name}.js`), wrapIife(out.code, source), "utf8");
     built.push(name);
   }
   return built;

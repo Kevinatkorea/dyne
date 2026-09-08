@@ -33,6 +33,7 @@ HOST = os.environ.get("DYNE_HOST", "49.247.41.172")
 USER = os.environ.get("DYNE_USER", "website")
 APP_DIR = "/home/website/dy.mostvisual.co.kr"
 REPO = os.environ.get("DYNE_REPO", "https://github.com/Kevinatkorea/dyne.git")
+BRANCH = os.environ.get("DYNE_BRANCH", "main")
 PORT = os.environ.get("DYNE_PORT", "3410")
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -124,9 +125,12 @@ def bootstrap(c: paramiko.SSHClient) -> None:
     run(c, f"mkdir -p {APP_DIR} {APP_DIR}/logs {APP_DIR}/uploads "
            f"{APP_DIR}/webroot/.well-known/acme-challenge {APP_DIR}/backups")
     run(c, f"if [ ! -d {APP_DIR}/.git ]; then "
-           f"  git clone {REPO} /tmp/dyne_clone && "
+           f"  rm -rf /tmp/dyne_clone && "
+           f"  git clone --branch {BRANCH} {REPO} /tmp/dyne_clone && "
            f"  cp -a /tmp/dyne_clone/. {APP_DIR}/ && rm -rf /tmp/dyne_clone; "
            f"else echo '  이미 클론됨'; fi")
+    run(c, f"cd {APP_DIR} && git fetch origin {BRANCH} && "
+           f"git checkout -B {BRANCH} origin/{BRANCH} && git log -1 --oneline")
 
     step(".env 생성 (이미 있으면 유지)")
     run(c, f"""

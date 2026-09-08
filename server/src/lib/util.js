@@ -65,10 +65,13 @@ export function toDbDate(v) {
   return d.toISOString().slice(0, 19).replace("T", " ");
 }
 
-/** CSV 셀 escape (엑셀 수식 주입 방지 포함) */
+/** CSV 셀 escape.
+ *  견적요청 내용은 외부인이 입력한 값이므로, 엑셀에서 수식으로 실행되지
+ *  않도록 위험한 선두 문자 앞에 작은따옴표를 붙인다.
+ *  = + - @ 외에 탭·CR 도 막는다 (엑셀이 앞 공백을 버리고 뒤를 수식으로 읽는다). */
 export function csvCell(v) {
   let t = v === null || v === undefined ? "" : String(v);
-  if (/^[=+\-@]/.test(t)) t = "'" + t;
+  if (/^[=+\-@\t\r]/.test(t)) t = "'" + t;
   return '"' + t.replace(/"/g, '""') + '"';
 }
 
