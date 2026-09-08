@@ -11,7 +11,7 @@
 ## 배포
 
 - **운영 서버**: 49.247.41.172 (`website` 계정, sudo 없음 — root 는 `su -l`)
-  - 임시 주소: https://dy.mostvisual.co.kr/ · 관리자 https://dy.mostvisual.co.kr/admin/
+  - **라이브**: https://dy.mostvisual.co.kr/ · 관리자 https://dy.mostvisual.co.kr/admin/ (HTTPS, 인증서 자동갱신)
   - 향후 정식 도메인: https://dynesketch.co.kr/
   - 앱 경로 `/home/website/dy.mostvisual.co.kr` · 포트 3410 · PM2 `dynesketch-web` · DB `dyne`
   - 배포: `git push` 후 `python scripts/deploy.py` — 자세한 절차는 `deploy/RUNBOOK.md`
@@ -79,8 +79,11 @@
 
 ## 알려진 제한 / 다음 할 일
 
-- **DNS**: `dy.mostvisual.co.kr` A 레코드가 필요하다. 없으면 HTTPS 인증서를 발급할 수 없다.
-- `dynesketch.co.kr` 은 현재 CloudFront(13.225.x)를 가리킨다. 전환 시 A 레코드 변경 필요.
+- **검색엔진 색인은 일부러 막아 두었다.** 임시 도메인이 색인되면 정식 도메인 전환 후
+  중복 콘텐츠가 되기 때문. `X-Robots-Tag` 헤더 + `robots.txt` 이중 차단이며,
+  관리자 [사이트 설정 → SEO → noindex] 해제로 즉시 풀린다.
+- `dynesketch.co.kr` 은 현재 CloudFront(13.225.x)를 가리킨다. 전환 절차는 `deploy/RUNBOOK.md`.
+- GitHub Pages 는 아직 살아 있다. 정식 도메인 전환 후 정리 여부를 결정한다.
 - 견적요청 접수 알림 메일은 아직 발송하지 않는다 (설정 필드만 있음 — SMTP 연동 필요).
 - 이미지 썸네일 생성 없음. 원본을 그대로 서빙한다 (네이티브 모듈 의존 회피).
 - 방문 통계는 자체 집계라 검색엔진 유입 상세는 알 수 없다. 필요하면 GA4/Naver Analytics 를

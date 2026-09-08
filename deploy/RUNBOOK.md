@@ -12,25 +12,39 @@
 
 ---
 
-## 현재 상태 (2026-09-08)
+## 현재 상태 — ✅ 라이브 (2026-09-08)
+
+**https://dy.mostvisual.co.kr/ 서비스 중** · 관리자 https://dy.mostvisual.co.kr/admin/
 
 | 항목 | 상태 |
 |---|---|
+| DNS `dy.mostvisual.co.kr → 49.247.41.172` | ✅ |
 | 앱 소스 · `server/.env` · 업로드 디렉터리 | ✅ |
 | DB `dyne` / 계정 `dyne_app` (스키마 격리 확인) | ✅ |
-| 초기 데이터 시드 — 포트폴리오 179장 · 서비스 7 · 장비 9 · 연혁 9 · 고객사 32 · 수상 6 · 상단배경 9 | ✅ |
+| 초기 데이터 — 포트폴리오 179장 · 서비스 7 · 장비 9 · 연혁 9 · 고객사 32 · 수상 6 · 상단배경 9 | ✅ |
 | PM2 `dynesketch-web` (:3410) · `pm2 save` | ✅ |
-| Apache **:80** vhost (HTTP→HTTPS 301) | ✅ |
-| Apache **:443** vhost + 인증서 | ⛔ **DNS 대기** |
+| Apache :80 (HTTP→HTTPS 301) · :443 vhost | ✅ |
+| Let's Encrypt 인증서 (만료 2026-12-07, 자동갱신 등록) | ✅ |
+| 백업 crontab (매일 04:50, 14일 보관) | ✅ |
 | 이웃 서비스 무영향 | ✅ 매 배포 시 자동 검증 |
-| 기능 검증 (견적접수·로그인·권한·정렬·업로드·CSV·통계·백업) | ✅ |
+| 검색엔진 색인 | ⛔ **의도적으로 차단 중** (아래 참고) |
 
-**남은 것은 DNS 하나입니다.** `dy.mostvisual.co.kr` A 레코드를 추가하면
-`python scripts/deploy.py --root-setup --ssl` 로 인증서까지 끝납니다.
+### 임시 도메인 색인 차단
 
-`dy.mostvisual.co.kr` 은 서버의 어떤 인증서 SAN 에도 없습니다
-(`mostvisual.co.kr`·`bizkit.kr` 인증서는 개별 도메인 나열식이며 와일드카드가 아님).
-따라서 DNS 없이는 HTTPS 를 붙일 수 없습니다.
+`dy.mostvisual.co.kr` 은 임시 주소이므로 기본적으로 색인을 막아 둡니다.
+정식 도메인으로 옮기기 전에 색인되면 나중에 중복 콘텐츠가 됩니다.
+
+- `X-Robots-Tag: noindex, nofollow` 헤더 + `robots.txt` 의 `Disallow: /` 로 이중 차단
+- 해제: 관리자 **[사이트 설정 → SEO → noindex]** 체크 해제 (재배포 불필요)
+
+### 정식 도메인(dynesketch.co.kr) 전환 시
+
+1. DNS `dynesketch.co.kr A 49.247.41.172` (현재는 CloudFront 13.225.x 를 가리킴)
+2. `deploy/dy.mostvisual.co.kr*.conf` 의 `ServerName` 을 새 도메인으로 (또는 `ServerAlias` 추가)
+3. `certbot certonly --webroot -w <APP>/webroot -d dynesketch.co.kr`
+4. `server/.env` 의 `SITE_URL`, 관리자 [사이트 설정 → SEO] 의 canonical
+5. 관리자에서 **noindex 해제**
+6. `python scripts/deploy.py`
 
 ---
 
