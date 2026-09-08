@@ -294,7 +294,10 @@ function Portfolio({ canWrite }) {
                     </span>
                     {it.featured ? <span className="tile__flag">대표</span> : null}
                     {!it.visible ? <span className="tile__flag" style={{ background: "rgba(180,40,40,.85)" }}>숨김</span> : null}
-                    <span className="tile__img" style={{ backgroundImage: `url("${imgUrl(it.src)}")` }} />
+                    {/* loading=lazy — 한 카테고리에 수십~수백 장이라 한꺼번에 받으면 무겁다.
+                        draggable=false 를 줘야 이미지 자체 드래그가 타일 정렬을 가로채지 않는다. */}
+                    <img className="tile__img" src={imgUrl(it.src)} alt=""
+                         loading="lazy" decoding="async" draggable={false} />
                     <div className="tile__bar">
                       <span className="t" title={it.title || it.src}>{it.title || it.src.split("/").pop()}</span>
                       <button className="btn btn--sm btn--icon" onClick={(e) => { e.stopPropagation(); setEdit(it); }}>편집</button>

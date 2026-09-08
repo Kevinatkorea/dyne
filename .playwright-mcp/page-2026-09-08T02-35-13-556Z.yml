@@ -1,0 +1,457 @@
+- generic [ref=f2e3]:
+  - banner [ref=f2e4]:
+    - generic [ref=f2e5]:
+      - link "DYNESKETCH SINCE 2008 · SEOUL" [ref=f2e6] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f2e7]:
+          - img [ref=f2e8]:
+            - generic [ref=f2e11]: D
+          - generic [ref=f2e12]:
+            - generic [ref=f2e13]: DYNESKETCH
+            - generic [ref=f2e14]: SINCE 2008 · SEOUL
+      - navigation [ref=f2e15]:
+        - link "HOME" [ref=f2e16] [cursor=pointer]:
+          - /url: "#"
+        - link "ABOUT" [ref=f2e18] [cursor=pointer]:
+          - /url: "#"
+        - link "SERVICES" [ref=f2e19] [cursor=pointer]:
+          - /url: "#"
+        - link "FACILITY" [ref=f2e20] [cursor=pointer]:
+          - /url: "#"
+        - link "PORTFOLIO" [ref=f2e21] [cursor=pointer]:
+          - /url: "#"
+        - link "CONTACT" [ref=f2e22] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=f2e23]:
+        - generic [ref=f2e24]: 02-514-2450
+        - button "견적 요청 →" [ref=f2e25] [cursor=pointer]
+  - main [ref=f2e26]:
+    - generic [ref=f2e35]:
+      - generic [ref=f2e36]:
+        - generic [ref=f2e37]: PRINT · DESIGN · DELIVER
+        - heading "PRINT REIMAGINED." [level=1] [ref=f2e38]:
+          - generic [ref=f2e39]: PRINT
+          - generic [ref=f2e40]: REIMAGINED.
+        - paragraph [ref=f2e41]:
+          - text: 기획부터 디자인, 인쇄, 후가공, 납품까지
+          - strong [ref=f2e42]: 다인스케치
+          - text: 는 각 분야 10년 이상의 전문가들이 한 팀으로 일합니다.
+        - generic [ref=f2e43]:
+          - button "견적 요청하기" [ref=f2e44] [cursor=pointer]
+          - button "포트폴리오 보기" [ref=f2e47] [cursor=pointer]
+      - generic [ref=f2e48]: SCROLL
+      - generic [ref=f2e51]: 다인스케치 메인 비주얼
+    - generic [ref=f2e54]:
+      - generic [ref=f2e55]:
+        - generic [ref=f2e56]: "18"
+        - generic [ref=f2e57]: YEARS
+        - generic [ref=f2e58]: 업력
+      - generic [ref=f2e59]:
+        - generic [ref=f2e60]: 1,200+
+        - generic [ref=f2e61]: PROJECTS
+        - generic [ref=f2e62]: 프로젝트
+      - generic [ref=f2e63]:
+        - generic [ref=f2e64]: 320+
+        - generic [ref=f2e65]: CLIENTS
+        - generic [ref=f2e66]: 거래처
+      - generic [ref=f2e67]:
+        - generic [ref=f2e68]: 99.4%
+        - generic [ref=f2e69]: ON-TIME
+        - generic [ref=f2e70]: 납기 준수율
+      - generic [ref=f2e71]:
+        - generic [ref=f2e72]: 10+
+        - generic [ref=f2e73]: YRS EXP.
+        - generic [ref=f2e74]: 디자이너 평균 경력
+    - generic [ref=f2e76]:
+      - generic [ref=f2e78]:
+        - generic [ref=f2e79]: TOTAL ONESTOP SERVICE
+        - heading "ONE TEAM," [level=2] [ref=f2e80]
+        - paragraph [ref=f2e81]: 컨설팅에서 납품까지, 한 팀이 책임집니다.
+      - generic [ref=f2e82]:
+        - paragraph [ref=f2e83]:
+          - strong [ref=f2e84]: 다인스케치
+          - text: 는 2008년 성수동에서 출발해 18년째 같은 자리에서 일하고 있습니다. 기획자, 디자이너, 인쇄·후가공 디렉터가 한 사무실에서 만나기 때문에
+          - strong [ref=f2e85]: 일정과 품질을 흔들지 않고
+          - text: 결과물을 만들어낼 수 있습니다.
+        - generic [ref=f2e86]:
+          - generic [ref=f2e87]:
+            - generic [ref=f2e88]: Excellence
+            - generic [ref=f2e89]: 최소 10년+ 실무 경력
+            - paragraph [ref=f2e90]: 10년 이상의 실무 경력을 가진 디자이너·디렉터가 직접 작업합니다.
+          - generic [ref=f2e91]:
+            - generic [ref=f2e92]: Accountability
+            - generic [ref=f2e93]: 단일 창구 책임제
+            - paragraph [ref=f2e94]: 한 명의 PM이 처음부터 끝까지 커뮤니케이션을 맡습니다.
+          - generic [ref=f2e95]:
+            - generic [ref=f2e96]: Onsite Press
+            - generic [ref=f2e97]: 감리·교정 인쇄 상시
+            - paragraph [ref=f2e98]: 성수동 작업장에서 색 교정과 본인쇄 감리를 직접 수행합니다.
+          - generic [ref=f2e99]:
+            - generic [ref=f2e100]: On-time
+            - generic [ref=f2e101]: 99.4% 납기 준수
+            - paragraph [ref=f2e102]: 지난 3년간 1,200건 작업 중 약속된 납기를 99.4% 준수했습니다.
+    - generic [ref=f2e104]:
+      - generic [ref=f2e105]:
+        - generic [ref=f2e106]:
+          - generic [ref=f2e107]: SERVICES — 01 / 06
+          - heading "WHAT WE MAKE." [level=2] [ref=f2e108]
+          - paragraph [ref=f2e109]: 우리가 만드는 것
+        - link "모든 서비스 보기 →" [ref=f2e110] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=f2e111]:
+        - link "표지 디자인 샘플 01 · Cover Design 표지 디자인 단행본·교과서·전집 표지의 컨셉과 타이포그래피를 설계합니다." [ref=f2e112] [cursor=pointer]:
+          - /url: "#"
+          - img "표지 디자인 샘플" [ref=f2e114]
+          - generic [ref=f2e115]:
+            - generic [ref=f2e116]: 01 · Cover Design
+            - heading "표지 디자인" [level=3] [ref=f2e117]
+            - paragraph [ref=f2e118]: 단행본·교과서·전집 표지의 컨셉과 타이포그래피를 설계합니다.
+        - link "브로슈어 / 카탈로그 샘플 02 · Brochure & Catalog 브로슈어 / 카탈로그 기업·기관용 브로슈어와 제품 카탈로그를 일관된 시스템으로 디자인합니다." [ref=f2e119] [cursor=pointer]:
+          - /url: "#"
+          - img "브로슈어 / 카탈로그 샘플" [ref=f2e121]
+          - generic [ref=f2e122]:
+            - generic [ref=f2e123]: 02 · Brochure & Catalog
+            - heading "브로슈어 / 카탈로그" [level=3] [ref=f2e124]
+            - paragraph [ref=f2e125]: 기업·기관용 브로슈어와 제품 카탈로그를 일관된 시스템으로 디자인합니다.
+        - link "리플릿 샘플 03 · Leaflet 리플릿 행사·캠페인·관광 리플릿을 접지·후가공까지 최적화합니다." [ref=f2e126] [cursor=pointer]:
+          - /url: "#"
+          - img "리플릿 샘플" [ref=f2e128]
+          - generic [ref=f2e129]:
+            - generic [ref=f2e130]: 03 · Leaflet
+            - heading "리플릿" [level=3] [ref=f2e131]
+            - paragraph [ref=f2e132]: 행사·캠페인·관광 리플릿을 접지·후가공까지 최적화합니다.
+        - link "포스터 샘플 04 · Poster 포스터 전시·문화행사·캠페인 포스터의 비주얼 시스템을 구축합니다." [ref=f2e133] [cursor=pointer]:
+          - /url: "#"
+          - img "포스터 샘플" [ref=f2e135]
+          - generic [ref=f2e136]:
+            - generic [ref=f2e137]: 04 · Poster
+            - heading "포스터" [level=3] [ref=f2e138]
+            - paragraph [ref=f2e139]: 전시·문화행사·캠페인 포스터의 비주얼 시스템을 구축합니다.
+        - link "보고서 / 자료집 샘플 05 · Report & Whitepaper 보고서 / 자료집 정부·연구기관 보고서의 데이터 시각화와 편집 그리드를 설계합니다." [ref=f2e140] [cursor=pointer]:
+          - /url: "#"
+          - img "보고서 / 자료집 샘플" [ref=f2e142]
+          - generic [ref=f2e143]:
+            - generic [ref=f2e144]: 05 · Report & Whitepaper
+            - heading "보고서 / 자료집" [level=3] [ref=f2e145]
+            - paragraph [ref=f2e146]: 정부·연구기관 보고서의 데이터 시각화와 편집 그리드를 설계합니다.
+        - link "현수막 / 배너 샘플 06 · Banner & Signage 현수막 / 배너 대형 실사 출력·X배너·롤업까지 동일 톤으로 제작합니다." [ref=f2e147] [cursor=pointer]:
+          - /url: "#"
+          - img "현수막 / 배너 샘플" [ref=f2e149]
+          - generic [ref=f2e150]:
+            - generic [ref=f2e151]: 06 · Banner & Signage
+            - heading "현수막 / 배너" [level=3] [ref=f2e152]
+            - paragraph [ref=f2e153]: 대형 실사 출력·X배너·롤업까지 동일 톤으로 제작합니다.
+    - generic [ref=f2e155]:
+      - generic [ref=f2e156]:
+        - generic [ref=f2e157]:
+          - generic [ref=f2e158]: FACILITY · 성수동 작업장
+          - heading "MACHINES THAT MATTER." [level=2] [ref=f2e159]
+          - paragraph [ref=f2e160]: 좋은 결과는 좋은 장비에서
+        - link "전체 장비 목록 →" [ref=f2e161] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=f2e162]:
+        - generic [ref=f2e163]:
+          - img "Speedmaster XL 106" [ref=f2e165]
+          - generic [ref=f2e166]:
+            - generic [ref=f2e167]: OFFSET PRESS
+            - generic [ref=f2e168]: Heidelberg Speedmaster XL 106
+            - generic [ref=f2e169]: 6color · max 750×1060mm · 18,000 sph
+        - generic [ref=f2e170]:
+          - img "Lithrone GL40" [ref=f2e172]
+          - generic [ref=f2e173]:
+            - generic [ref=f2e174]: OFFSET PRESS
+            - generic [ref=f2e175]: KOMORI Lithrone GL40
+            - generic [ref=f2e176]: 4color · max 720×1030mm · 16,500 sph
+        - generic [ref=f2e177]:
+          - img "Indigo 12000" [ref=f2e179]
+          - generic [ref=f2e180]:
+            - generic [ref=f2e181]: DIGITAL PRESS
+            - generic [ref=f2e182]: HP Indigo 12000
+            - generic [ref=f2e183]: B2 size · 4,600 sheets/hr · 7color CMYKOV+
+        - generic [ref=f2e184]:
+          - img "AccurioPress C14000" [ref=f2e186]
+          - generic [ref=f2e187]:
+            - generic [ref=f2e188]: DIGITAL PRESS
+            - generic [ref=f2e189]: Konica Minolta AccurioPress C14000
+            - generic [ref=f2e190]: 140 ppm · 최대 900mm 배너 인쇄
+        - generic [ref=f2e191]:
+          - img "Presto Saddle" [ref=f2e193]
+          - generic [ref=f2e194]:
+            - generic [ref=f2e195]: FINISHING
+            - generic [ref=f2e196]: Müller Martini Presto Saddle
+            - generic [ref=f2e197]: Saddle stitching · max 13,500 cycles/hr
+        - generic [ref=f2e198]:
+          - img "BQ-470" [ref=f2e200]
+          - generic [ref=f2e201]:
+            - generic [ref=f2e202]: FINISHING
+            - generic [ref=f2e203]: Horizon BQ-470
+            - generic [ref=f2e204]: 무선제본 · 1,350 cycles/hr
+        - generic [ref=f2e205]:
+          - img "137 XT" [ref=f2e207]
+          - generic [ref=f2e208]:
+            - generic [ref=f2e209]: FINISHING
+            - generic [ref=f2e210]: Polar 137 XT Cutter
+            - generic [ref=f2e211]: Hi-precision · 137cm cut · auto program
+        - generic [ref=f2e212]:
+          - img "Stahlfolder TH 56" [ref=f2e214]
+          - generic [ref=f2e215]:
+            - generic [ref=f2e216]: FINISHING
+            - generic [ref=f2e217]: Stahlfolder TH 56
+            - generic [ref=f2e218]: 접지기 · max 560mm
+        - generic [ref=f2e219]:
+          - img "TrueVIS LG-540" [ref=f2e221]
+          - generic [ref=f2e222]:
+            - generic [ref=f2e223]: LARGE FORMAT
+            - generic [ref=f2e224]: Roland TrueVIS LG-540
+            - generic [ref=f2e225]: Wide format · UV/eco-solv · 1.6m width
+    - generic [ref=f2e227]:
+      - generic [ref=f2e228]:
+        - generic [ref=f2e229]:
+          - generic [ref=f2e230]: SELECTED WORK · 2024–25
+          - heading "WORK," [level=2] [ref=f2e231]
+          - paragraph [ref=f2e232]: 최근 작업
+        - link "전체 포트폴리오 →" [ref=f2e233] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=f2e234]:
+        - link "보고서 표지·내지 보고서 / 자료집 보고서 · 자료집 정부·연구기관 시리즈 Recent" [ref=f2e235] [cursor=pointer]:
+          - /url: "#"
+          - img "보고서 표지·내지" [ref=f2e237]
+          - generic [ref=f2e238]:
+            - generic [ref=f2e239]:
+              - generic [ref=f2e240]: 보고서 / 자료집
+              - heading "보고서 · 자료집" [level=3] [ref=f2e241]
+              - generic [ref=f2e242]: 정부·연구기관 시리즈
+            - generic [ref=f2e243]: Recent
+        - link "브로슈어 펼침면 브로슈어 / 카탈로그 기업 브로슈어 코퍼레이트 시리즈 Recent" [ref=f2e244] [cursor=pointer]:
+          - /url: "#"
+          - img "브로슈어 펼침면" [ref=f2e246]
+          - generic [ref=f2e247]:
+            - generic [ref=f2e248]:
+              - generic [ref=f2e249]: 브로슈어 / 카탈로그
+              - heading "기업 브로슈어" [level=3] [ref=f2e250]
+              - generic [ref=f2e251]: 코퍼레이트 시리즈
+            - generic [ref=f2e252]: Recent
+        - link "표지 시리즈 표지 디자인 단행본 표지 출판 파트너 시리즈 Recent" [ref=f2e253] [cursor=pointer]:
+          - /url: "#"
+          - img "표지 시리즈" [ref=f2e255]
+          - generic [ref=f2e256]:
+            - generic [ref=f2e257]:
+              - generic [ref=f2e258]: 표지 디자인
+              - heading "단행본 표지" [level=3] [ref=f2e259]
+              - generic [ref=f2e260]: 출판 파트너 시리즈
+            - generic [ref=f2e261]: Recent
+        - link "포스터 시리즈 포스터 전시·캠페인 포스터 문화·미술 기획 Recent" [ref=f2e262] [cursor=pointer]:
+          - /url: "#"
+          - img "포스터 시리즈" [ref=f2e264]
+          - generic [ref=f2e265]:
+            - generic [ref=f2e266]:
+              - generic [ref=f2e267]: 포스터
+              - heading "전시·캠페인 포스터" [level=3] [ref=f2e268]
+              - generic [ref=f2e269]: 문화·미술 기획
+            - generic [ref=f2e270]: Recent
+        - link "리플릿 리플릿 관광·캠페인 리플릿 지자체 · 공공 Recent" [ref=f2e271] [cursor=pointer]:
+          - /url: "#"
+          - img "리플릿" [ref=f2e273]
+          - generic [ref=f2e274]:
+            - generic [ref=f2e275]:
+              - generic [ref=f2e276]: 리플릿
+              - heading "관광·캠페인 리플릿" [level=3] [ref=f2e277]
+              - generic [ref=f2e278]: 지자체 · 공공
+            - generic [ref=f2e279]: Recent
+        - link "대형 출력물 현수막 / 배너 행사 현수막·배너 기업 · 지자체 행사 Recent" [ref=f2e280] [cursor=pointer]:
+          - /url: "#"
+          - img "대형 출력물" [ref=f2e282]
+          - generic [ref=f2e283]:
+            - generic [ref=f2e284]:
+              - generic [ref=f2e285]: 현수막 / 배너
+              - heading "행사 현수막·배너" [level=3] [ref=f2e286]
+              - generic [ref=f2e287]: 기업 · 지자체 행사
+            - generic [ref=f2e288]: Recent
+    - generic [ref=f2e290]:
+      - generic [ref=f2e292]:
+        - generic [ref=f2e293]: HOW WE WORK · 06 STEPS
+        - heading "FROM BRIEF TO DELIVERY." [level=2] [ref=f2e294]
+        - paragraph [ref=f2e295]: 문의에서 납품까지, 6단계
+      - generic [ref=f2e296]:
+        - generic [ref=f2e297]:
+          - generic [ref=f2e298]: STEP 01
+          - generic [ref=f2e299]:
+            - generic [ref=f2e300]: Brief
+            - generic [ref=f2e301]: 기획/컨설팅
+          - paragraph [ref=f2e302]: 고객사 요구를 듣고 핵심 메시지·예산·납기를 정의합니다.
+        - generic [ref=f2e303]:
+          - generic [ref=f2e304]: STEP 02
+          - generic [ref=f2e305]:
+            - generic [ref=f2e306]: Plan
+            - generic [ref=f2e307]: 기획·구성안
+          - paragraph [ref=f2e308]: 콘텐츠 구성, 분량, 페이지·사이즈·후가공 사양을 설계합니다.
+        - generic [ref=f2e309]:
+          - generic [ref=f2e310]: STEP 03
+          - generic [ref=f2e311]:
+            - generic [ref=f2e312]: Design
+            - generic [ref=f2e313]: 디자인 시안
+          - paragraph [ref=f2e314]: 최소 10년 실무 경력의 디자이너가 2–3안의 시안을 제시합니다.
+        - generic [ref=f2e315]:
+          - generic [ref=f2e316]: STEP 04
+          - generic [ref=f2e317]:
+            - generic [ref=f2e318]: Proof
+            - generic [ref=f2e319]: 교정·감리
+          - paragraph [ref=f2e320]: 색 교정 인쇄와 감리를 통해 결과물의 색·재질을 사전 검증합니다.
+        - generic [ref=f2e321]:
+          - generic [ref=f2e322]: STEP 05
+          - generic [ref=f2e323]:
+            - generic [ref=f2e324]: Print
+            - generic [ref=f2e325]: 본인쇄
+          - paragraph [ref=f2e326]: 옵셋·디지털·실사 각 분야 전문 장비로 인쇄를 진행합니다.
+        - generic [ref=f2e327]:
+          - generic [ref=f2e328]: STEP 06
+          - generic [ref=f2e329]:
+            - generic [ref=f2e330]: Deliver
+            - generic [ref=f2e331]: 후가공 납품
+          - paragraph [ref=f2e332]: 재단·제본·코팅·박 후가공 후 약속한 납기에 납품합니다.
+    - generic [ref=f2e334]:
+      - generic [ref=f2e336]:
+        - generic [ref=f2e337]: CLIENTS · 320+ COMPANIES
+        - heading "TRUSTED BY." [level=2] [ref=f2e338]
+        - paragraph [ref=f2e339]: 정부, 대기업, 출판사 — 320곳 이상이 함께합니다
+      - generic [ref=f2e340]:
+        - generic [ref=f2e341]: 서울특별시
+        - generic [ref=f2e342]: 문화체육관광부
+        - generic [ref=f2e343]: 과학기술정보통신부
+        - generic [ref=f2e344]: 한국콘텐츠진흥원
+        - generic [ref=f2e345]: 한국관광공사
+        - generic [ref=f2e346]: 한국전력공사
+        - generic [ref=f2e347]: 국토교통부
+        - generic [ref=f2e348]: 보건복지부
+        - generic [ref=f2e349]: 현대자동차
+        - generic [ref=f2e350]: 삼성SDS
+        - generic [ref=f2e351]: LG화학
+        - generic [ref=f2e352]: SK하이닉스
+        - generic [ref=f2e353]: 포스코
+        - generic [ref=f2e354]: KB금융
+        - generic [ref=f2e355]: 신한금융
+        - generic [ref=f2e356]: 우리은행
+        - generic [ref=f2e357]: 민음사
+        - generic [ref=f2e358]: 창비
+        - generic [ref=f2e359]: 문학동네
+        - generic [ref=f2e360]: 북이십일
+        - generic [ref=f2e361]: 한겨레
+        - generic [ref=f2e362]: 조선일보
+        - generic [ref=f2e363]: JTBC
+        - generic [ref=f2e364]: EBS
+        - generic [ref=f2e365]: 서울대학교
+        - generic [ref=f2e366]: KAIST
+        - generic [ref=f2e367]: 포스텍
+        - generic [ref=f2e368]: 고려대학교
+        - generic [ref=f2e369]: 이화여자대학교
+        - generic [ref=f2e370]: KDI
+        - generic [ref=f2e371]: STEPI
+        - generic [ref=f2e372]: 산업연구원
+      - generic [ref=f2e373]:
+        - generic [ref=f2e374]:
+          - generic [ref=f2e375]: · 정부 · 공공기관
+          - generic [ref=f2e376]: · 대기업 · 금융
+          - generic [ref=f2e377]: · 출판 · 미디어
+          - generic [ref=f2e378]: · 교육 · 연구
+        - generic [ref=f2e379]: 로고 표기는 협의된 거래처에 한합니다.
+    - generic [ref=f2e382]:
+      - generic [ref=f2e383]:
+        - generic [ref=f2e384]: AWARDS & CERTIFICATIONS
+        - heading "RECOGNIZED." [level=2] [ref=f2e385]
+        - paragraph [ref=f2e386]: 수상·인증
+      - generic [ref=f2e387]:
+        - generic [ref=f2e388]:
+          - generic [ref=f2e389]: "2024"
+          - generic [ref=f2e390]: 대한민국 디자인전람회 / 편집부문 입선
+        - generic [ref=f2e391]:
+          - generic [ref=f2e392]: "2023"
+          - generic [ref=f2e393]: 한국출판문화상 / 본상 (북디자인)
+        - generic [ref=f2e394]:
+          - generic [ref=f2e395]: "2022"
+          - generic [ref=f2e396]: iF Design Award / Communication 부문
+        - generic [ref=f2e397]:
+          - generic [ref=f2e398]: "2021"
+          - generic [ref=f2e399]: 조달청 우수 인쇄업체 지정
+        - generic [ref=f2e400]:
+          - generic [ref=f2e401]: "2020"
+          - generic [ref=f2e402]: ISO 9001 품질경영시스템 인증
+        - generic [ref=f2e403]:
+          - generic [ref=f2e404]: "2019"
+          - generic [ref=f2e405]: 서울특별시 우수 중소기업 선정
+    - generic [ref=f2e406]:
+      - generic [ref=f2e408]:
+        - generic [ref=f2e409]:
+          - generic [ref=f2e410]: BROCHURE
+          - generic [ref=f2e412]: CATALOG
+          - generic [ref=f2e414]: REPORT
+          - generic [ref=f2e416]: POSTER
+          - generic [ref=f2e418]: BOOK COVER
+          - generic [ref=f2e420]: LEAFLET
+          - generic [ref=f2e422]: BANNER
+          - generic [ref=f2e424]: WHITEPAPER
+        - generic [ref=f2e426]:
+          - generic [ref=f2e427]: BROCHURE
+          - generic [ref=f2e429]: CATALOG
+          - generic [ref=f2e431]: REPORT
+          - generic [ref=f2e433]: POSTER
+          - generic [ref=f2e435]: BOOK COVER
+          - generic [ref=f2e437]: LEAFLET
+          - generic [ref=f2e439]: BANNER
+          - generic [ref=f2e441]: WHITEPAPER
+      - generic [ref=f2e444]:
+        - generic [ref=f2e445]: READY WHEN YOU ARE
+        - heading "START YOUR NEXT PRINT." [level=2] [ref=f2e446]: START YOURNEXT PRINT.
+        - paragraph [ref=f2e447]: 견적은 평균 1영업일 이내 회신.사양이 정해지지 않은 단계라도 부담 없이 문의해주세요.
+        - generic [ref=f2e448]:
+          - button "견적 요청 보내기" [ref=f2e449] [cursor=pointer]
+          - link "02-514-2450" [ref=f2e452] [cursor=pointer]:
+            - /url: tel:02-514-2450
+  - contentinfo [ref=f2e453]:
+    - generic [ref=f2e454]:
+      - generic [ref=f2e455]:
+        - generic [ref=f2e456]:
+          - generic [ref=f2e457]:
+            - img [ref=f2e458]:
+              - generic [ref=f2e461]: D
+            - generic [ref=f2e462]:
+              - generic [ref=f2e463]: DYNESKETCH
+              - generic [ref=f2e464]: SINCE 2008 · SEOUL
+          - paragraph [ref=f2e465]:
+            - strong [ref=f2e466]: 다인스케치
+            - text: 는 2008년 설립된 14년+ 편집디자인·인쇄 전문기업.컨설팅 · 기획 · 디자인 · 인쇄 · 납품을 하나의 팀이 책임집니다.
+          - generic [ref=f2e467]:
+            - button "견적 요청 →" [ref=f2e468] [cursor=pointer]
+            - link "02-514-2450" [ref=f2e469] [cursor=pointer]:
+              - /url: tel:02-514-2450
+        - generic [ref=f2e470]:
+          - heading "SERVICES" [level=4] [ref=f2e471]
+          - list [ref=f2e472]:
+            - listitem [ref=f2e473]: 표지디자인
+            - listitem [ref=f2e474]: 브로슈어/카탈로그
+            - listitem [ref=f2e475]: 리플릿
+            - listitem [ref=f2e476]: 포스터
+            - listitem [ref=f2e477]: 보고서/자료집
+            - listitem [ref=f2e478]: 현수막/배너
+            - listitem [ref=f2e479]: 기타 인쇄물
+        - generic [ref=f2e480]:
+          - heading "COMPANY" [level=4] [ref=f2e481]
+          - list [ref=f2e482]:
+            - listitem [ref=f2e483]: 회사 소개
+            - listitem [ref=f2e484]: 제작 프로세스
+            - listitem [ref=f2e485]: 보유 장비
+            - listitem [ref=f2e486]: 포트폴리오
+            - listitem [ref=f2e487]: 수상 및 인증
+        - generic [ref=f2e488]:
+          - heading "CONTACT" [level=4] [ref=f2e489]
+          - list [ref=f2e490]:
+            - listitem [ref=f2e491]: design2@dynes.co.kr
+            - listitem [ref=f2e492]: TEL 02-514-2450
+            - listitem [ref=f2e493]: FAX 02-465-2450
+            - listitem [ref=f2e494]: 서울 성동구 성수이로18길 31
+            - listitem [ref=f2e495]: 풍림테크원 401, 407호
+      - generic [ref=f2e496]:
+        - generic [ref=f2e497]:
+          - text: 주식회사
+          - strong [ref=f2e498]: 다인스케치
+          - text: · 대표 전명호 · 사업자등록번호 220-87-73258 · 통신판매업 서울성동-20804© 2026 DYNESKETCH Co., Ltd. All rights reserved.
+        - generic [ref=f2e499]: SEOUL · SEONGSU

@@ -216,7 +216,10 @@ select { appearance: none; background-image: linear-gradient(45deg, transparent 
 .tile.is-over { outline: 2px solid var(--a-accent); outline-offset: 1px; }
 .tile.is-sel { outline: 2px solid var(--a-accent); outline-offset: 1px; }
 .tile.is-hidden { opacity: .5; }
-.tile__img { aspect-ratio: 3/4; background: #f0f2f5 center/cover no-repeat; display: block; }
+.tile__img {
+  aspect-ratio: 3/4; width: 100%; display: block;
+  background: #f0f2f5; object-fit: cover;
+}
 .tile__bar {
   display: flex; align-items: center; gap: 6px; padding: 6px 8px;
   border-top: 1px solid var(--a-line-2); font-size: 11.5px; color: var(--a-ink-2);

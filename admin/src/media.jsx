@@ -86,7 +86,8 @@ function Media({ canWrite }) {
               {data.items.map((m) => (
                 <div className="tile" key={m.id} style={{ cursor: "default" }}>
                   {m.mime && m.mime.startsWith("image/")
-                    ? <span className="tile__img" style={{ backgroundImage: `url("${imgUrl(m.url)}")`, aspectRatio: "4/3" }} />
+                    ? <img className="tile__img" src={imgUrl(m.url)} alt={m.alt || ""}
+                           loading="lazy" decoding="async" style={{ aspectRatio: "4/3" }} />
                     : <span className="tile__img" style={{ aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>📄</span>}
                   <div className="tile__bar" style={{ flexDirection: "column", alignItems: "stretch", gap: 3 }}>
                     <span className="t" title={m.original}>{m.original || m.filename}</span>

@@ -32,7 +32,15 @@ function Stats() {
   const { loading, data } = useLoad(() => API.admin.visits(days), [days]);
   if (loading || !data) return <Loading />;
 
-  const max = Math.max(1, ...data.daily.map((d) => Number(d.pv)));
+  /* 기록 없는 날도 0으로 채워야 기간 길이가 그래프에 제대로 보인다 */
+  const byDay = Object.fromEntries(data.daily.map((r) => [r.d, r]));
+  const today = new Date();
+  const daily = Array.from({ length: days }, (_, i) => {
+    const dt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (days - 1 - i));
+    const d = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
+    return byDay[d] || { d, pv: 0, uv: 0 };
+  });
+  const max = Math.max(1, ...daily.map((d) => Number(d.pv)));
 
   return (
     <div style={{ display: "grid", gap: 14 }}>
@@ -54,15 +62,18 @@ function Stats() {
             <span className="badge badge--won">순방문자 {fmtNum(data.totals.uv)}</span>
           </div>
           <div className="bars" style={{ height: 160 }}>
-            {data.daily.map((d) => (
-              <div key={d.d} className="b" style={{ height: `${(Number(d.pv) / max) * 100}%` }}
+            {daily.map((d) => (
+              <div key={d.d} className="b"
+                   style={{ height: `${(Number(d.pv) / max) * 100}%`,
+                            opacity: Number(d.pv) ? 1 : 0.18 }}
                    title={`${d.d} · PV ${d.pv} / UV ${d.uv}`} />
             ))}
           </div>
-          {data.daily.length === 0 ? <Empty label="아직 방문 기록이 없습니다." /> : (
+          {data.totals.pv === 0 ? <Empty label="아직 방문 기록이 없습니다." /> : (
             <div className="row" style={{ justifyContent: "space-between", marginTop: 8 }}>
-              <span className="small muted">{data.daily[0].d}</span>
-              <span className="small muted">{data.daily[data.daily.length - 1].d}</span>
+              <span className="small muted">{daily[0].d}</span>
+              <span className="small muted">일 최대 {max} PV</span>
+              <span className="small muted">{daily[daily.length - 1].d}</span>
             </div>
           )}
         </div>

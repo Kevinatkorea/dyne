@@ -19,20 +19,38 @@ function Kpi({ k, v, d, alert }) {
   );
 }
 
-/* 14일 PV/UV 막대 */
-function MiniBars({ rows, aKey, bKey, aLabel, bLabel }) {
-  const max = Math.max(1, ...rows.map((r) => Number(r[aKey]) || 0));
+/* 최근 N일 막대.
+   서버는 기록이 있는 날만 돌려주므로, 빈 날을 0으로 채워 14칸을 만든다.
+   (안 그러면 하루치 데이터가 그래프 전체 폭을 차지해 오해를 부른다) */
+function fillDays(rows, days, keys) {
+  const byDay = Object.fromEntries(rows.map((r) => [r.d, r]));
+  const out = [];
+  const today = new Date();
+  for (let i = days - 1; i >= 0; i--) {
+    const dt = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
+    const d = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
+    out.push(byDay[d] || Object.fromEntries([["d", d], ...keys.map((k) => [k, 0])]));
+  }
+  return out;
+}
+
+function MiniBars({ rows, aKey, bKey, aLabel, bLabel, days = 14 }) {
+  const data = fillDays(rows, days, bKey ? [aKey, bKey] : [aKey]);
+  const max = Math.max(1, ...data.map((r) => Number(r[aKey]) || 0));
   return (
     <div>
       <div className="bars">
-        {rows.map((r) => (
-          <div key={r.d} className="b" style={{ height: `${((Number(r[aKey]) || 0) / max) * 100}%` }} title={`${r.d} · ${aLabel} ${r[aKey]}${bKey ? ` / ${bLabel} ${r[bKey]}` : ""}`} />
+        {data.map((r) => (
+          <div key={r.d} className="b"
+               style={{ height: `${((Number(r[aKey]) || 0) / max) * 100}%`,
+                        opacity: Number(r[aKey]) ? 1 : 0.18 }}
+               title={`${r.d} · ${aLabel} ${r[aKey]}${bKey ? ` / ${bLabel} ${r[bKey]}` : ""}`} />
         ))}
-        {rows.length === 0 ? <div className="muted small">데이터 없음</div> : null}
       </div>
       <div className="row" style={{ justifyContent: "space-between", marginTop: 6 }}>
-        <span className="small muted">{rows[0] ? rows[0].d.slice(5) : ""}</span>
-        <span className="small muted">{rows.length ? rows[rows.length - 1].d.slice(5) : ""}</span>
+        <span className="small muted">{data[0].d.slice(5)}</span>
+        <span className="small muted">최대 {max}</span>
+        <span className="small muted">{data[data.length - 1].d.slice(5)}</span>
       </div>
     </div>
   );
