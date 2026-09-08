@@ -27,6 +27,7 @@ import settingsRoutes, { getSettings } from "./routes/settings.js";
 import statsRoutes from "./routes/stats.js";
 import userRoutes from "./routes/users.js";
 import miscRoutes from "./routes/admin-misc.js";
+import smsRoutes from "./routes/sms.js";
 
 const app = express();
 app.set("trust proxy", true);
@@ -85,6 +86,7 @@ app.use("/api/admin/media", mediaRoutes);
 app.use("/api/admin/settings", settingsRoutes);
 app.use("/api/admin/stats", statsRoutes);
 app.use("/api/admin/users", userRoutes);
+app.use("/api/admin/sms", smsRoutes);
 app.use("/api/admin", contentRoutes);   // /services /equipment /history /clients /awards /hero-slides /notices
 app.use("/api/admin", miscRoutes);      // /audit /backup /restore /prune-visits
 

@@ -27,6 +27,7 @@ const LABEL = {
     canonical: "대표 주소(canonical)", ogImage: "공유 썸네일",
     naverVerification: "네이버 사이트 인증", googleVerification: "구글 사이트 인증",
     gaId: "Google Analytics ID", gtmId: "Google Tag Manager ID",
+    noindex: "검색엔진 색인 차단 (임시 도메인 운영 중에는 켜 둠)",
   },
   footer: { copyright: "저작권 문구", note: "부가 문구" },
   inquiryForm: {

@@ -65,6 +65,37 @@ export const SETTING_DEFAULTS = {
     enabled: true,
   },
 
+  /* 문자(SMS) 알림 — 알리고(smartsms.aligo.in)
+     ⚠ apiKey 는 비밀값이다. 공개 API(/api/site)로 절대 나가면 안 된다
+        (routes/public.js 의 PUBLIC_SETTING_KEYS 참고). */
+  sms: {
+    enabled: false,
+    apiKey: "",
+    userId: "",
+    sender: "",              // 알리고에 사전 등록된 발신번호
+    testMode: false,         // 켜면 실제 발송 없이 성공 응답만 (요금 미차감)
+
+    /* 1) 신청자에게 접수 확인 문자 */
+    notifyCustomer: true,
+    customerTitle: "다인스케치 견적요청 접수",
+    customerTemplate:
+      "[다인스케치] 견적요청이 접수되었습니다.\n" +
+      "접수번호 {code}\n" +
+      "영업일 기준 1일 이내에 담당자가 연락드리겠습니다.\n" +
+      "문의 02-514-2450",
+
+    /* 2) 담당자에게 알림 문자 */
+    notifyStaff: true,
+    staffReceivers: [],      // 알림 받을 번호 목록
+    staffTitle: "새 견적요청",
+    staffTemplate:
+      "[다인스케치] 새 견적요청\n" +
+      "{company} / {name}\n" +
+      "{phone}\n" +
+      "{service} {quantity}\n" +
+      "{message}",
+  },
+
   /* 기능 토글 */
   features: {
     tweaksPanel: false,     // 우측 하단 개발용 튜닝 패널 — 운영에서는 끈다

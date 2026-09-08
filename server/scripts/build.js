@@ -98,7 +98,7 @@ function buildHtml(built) {
 /* 관리자 SPA 도 같은 방식으로 사전 컴파일 → dist/admin/*.js
    admin/index.html 은 이 파일들이 있으면 Babel 없이 바로 쓴다. */
 const ADMIN_ENTRIES = ["api", "ui", "dashboard", "inquiries", "portfolio", "content",
-                       "media", "stats", "settings", "users", "audit", "app"];
+                       "media", "stats", "settings", "sms", "users", "audit", "app"];
 
 function buildAdmin() {
   const srcDir = path.join(REPO_ROOT, "admin", "src");

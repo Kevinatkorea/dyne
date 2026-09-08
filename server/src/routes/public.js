@@ -8,6 +8,7 @@ import express from "express";
 import { q, exec, q1 } from "../db.js";
 import { wrap, bad, s, clientIp, sha, deviceOf, inquiryCode } from "../lib/util.js";
 import { loadSettings } from "./settings.js";
+import { sendSms, renderTemplate, normalizePhone } from "../lib/sms.js";
 
 const router = express.Router();
 
@@ -15,6 +16,33 @@ const router = express.Router();
 let cache = { at: 0, body: null };
 const CACHE_MS = 20 * 1000;
 export const invalidateSiteCache = () => { cache = { at: 0, body: null }; };
+
+/* ⚠ 공개 사이트로 내보내도 되는 설정만 나열한다.
+   기본값을 통째로 내보내면 sms.apiKey 같은 비밀값이 그대로 유출된다.
+   설정 그룹을 새로 추가할 때 여기에 넣지 않으면 공개되지 않는다(안전한 기본값). */
+const PUBLIC_SETTING_KEYS = ["company", "seo", "footer", "stats", "inquiryForm", "features"];
+
+/* 그룹 안에서도 빼야 할 필드 */
+const REDACT = {
+  inquiryForm: ["notifyEmail"],
+  seo: ["naverVerification", "googleVerification"],
+};
+
+function publicSettings(all) {
+  const out = {};
+  for (const k of PUBLIC_SETTING_KEYS) {
+    if (!(k in all)) continue;
+    const v = all[k];
+    if (v && typeof v === "object" && !Array.isArray(v)) {
+      const copy = { ...v };
+      for (const f of REDACT[k] || []) delete copy[f];
+      out[k] = copy;
+    } else {
+      out[k] = v;
+    }
+  }
+  return out;
+}
 
 router.get("/site", wrap(async (_req, res) => {
   if (cache.body && Date.now() - cache.at < CACHE_MS) return res.json(cache.body);
@@ -53,7 +81,7 @@ router.get("/site", wrap(async (_req, res) => {
   }
 
   const body = {
-    settings,
+    settings: publicSettings(settings),
     portfolio, byCategory, byYear,
     services, equipment, history, clients, awards,
     hero, notices,
@@ -106,12 +134,63 @@ router.post("/inquiries", wrap(async (req, res) => {
     [r.insertId]
   );
 
+  /* 접수 응답을 먼저 보내고, 문자는 뒤에서 보낸다.
+     알리고가 느리거나 죽어도 접수 자체는 성공해야 한다. */
   res.json({
     ok: true,
     code,
     message: settings.inquiryForm?.thanksMessage || "견적 요청이 접수되었습니다.",
   });
+
+  notifyBySms(settings, {
+    id: r.insertId,
+    code,
+    company: s(b.company, 160),
+    name,
+    phone: s(b.phone, 60),
+    email: s(b.email, 190),
+    service: s(b.service, 80),
+    quantity: s(b.quantity, 80),
+    deadline: s(b.deadline, 80),
+    budget: s(b.budget, 80),
+    message,
+  });
 }));
+
+/* 견적요청 문자 알림 — 실패해도 접수에 영향을 주지 않는다(이력은 sms_logs 에 남는다). */
+async function notifyBySms(settings, inq) {
+  const sms = settings.sms || {};
+  if (!sms.enabled) return;
+
+  const vars = { ...inq };
+
+  try {
+    /* 1) 신청자에게 접수 확인 */
+    if (sms.notifyCustomer && normalizePhone(inq.phone)) {
+      await sendSms(settings, {
+        to: inq.phone,
+        title: sms.customerTitle,
+        text: renderTemplate(sms.customerTemplate, vars),
+        kind: "customer",
+        inquiryId: inq.id,
+      });
+    }
+
+    /* 2) 담당자에게 알림 */
+    const staff = Array.isArray(sms.staffReceivers) ? sms.staffReceivers : [];
+    if (sms.notifyStaff && staff.length) {
+      await sendSms(settings, {
+        to: staff,
+        title: sms.staffTitle,
+        text: renderTemplate(sms.staffTemplate, vars),
+        kind: "staff",
+        inquiryId: inq.id,
+      });
+    }
+  } catch (e) {
+    console.error("[sms] 견적요청 알림 실패:", e.message);
+  }
+}
 
 /* ---- 방문 기록 --------------------------------------------------- */
 router.post("/track", wrap(async (req, res) => {

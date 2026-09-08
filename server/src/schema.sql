@@ -229,6 +229,24 @@ CREATE TABLE IF NOT EXISTS visits (
   INDEX idx_visit_visitor (visitor)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 문자(SMS) 발송 이력 ------------------------------------------------
+CREATE TABLE IF NOT EXISTS sms_logs (
+  id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+  inquiry_id  INT          NULL,
+  kind        ENUM('customer','staff','test') NOT NULL DEFAULT 'staff',
+  receiver    VARCHAR(200) NOT NULL,
+  sender      VARCHAR(32)  NULL,
+  msg_type    VARCHAR(10)  NULL,
+  body        TEXT         NULL,
+  ok          TINYINT(1)   NOT NULL DEFAULT 0,
+  result_code VARCHAR(20)  NULL,
+  message     VARCHAR(400) NULL,
+  msg_id      VARCHAR(40)  NULL,
+  created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_sms_created (created_at),
+  INDEX idx_sms_inq (inquiry_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 감사 로그 ----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS audit_logs (
   id         BIGINT AUTO_INCREMENT PRIMARY KEY,

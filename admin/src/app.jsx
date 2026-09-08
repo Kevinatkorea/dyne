@@ -12,6 +12,7 @@ const MENU = [
   ]},
   { group: "영업", items: [
     { key: "inquiries", label: "견적요청", icon: "✉", badge: "inquiries" },
+    { key: "sms", label: "문자 알림", icon: "✆" },
   ]},
   { group: "콘텐츠", items: [
     { key: "portfolio", label: "포트폴리오", icon: "▣" },
@@ -122,6 +123,7 @@ function Shell({ me, onLogout }) {
   else if (view === "portfolio") screen = <window.Portfolio canWrite={canWrite} />;
   else if (view === "media") screen = <window.Media canWrite={canWrite} />;
   else if (view === "stats") screen = <window.Stats />;
+  else if (view === "sms") screen = <window.Sms canWrite={canWrite} />;
   else if (view === "settings") screen = <window.Settings canWrite={canWrite} />;
   else if (view === "users") screen = <window.Users me={me} />;
   else if (view === "audit") screen = <window.Audit me={me} />;

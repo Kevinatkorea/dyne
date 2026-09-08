@@ -41,8 +41,27 @@ export async function loadSettings() {
   return out;
 }
 
+/* 비밀값 — 읽을 때 내보내지 않는다. 저장 시 빈 값이면 기존 값을 유지한다. */
+const SECRET_FIELDS = { sms: ["apiKey"] };
+
+function maskSecrets(settings) {
+  const out = JSON.parse(JSON.stringify(settings));
+  const meta = {};
+  for (const [group, fields] of Object.entries(SECRET_FIELDS)) {
+    if (!out[group]) continue;
+    meta[group] = {};
+    for (const f of fields) {
+      const v = String(out[group][f] || "");
+      meta[group][f] = { set: !!v, hint: v ? `····${v.slice(-4)}` : "" };
+      out[group][f] = "";
+    }
+  }
+  return { settings: out, meta };
+}
+
 router.get("/", requireAuth, wrap(async (_req, res) => {
-  res.json({ settings: await loadSettings(), defaults: SETTING_DEFAULTS });
+  const { settings, meta } = maskSecrets(await loadSettings());
+  res.json({ settings, meta, defaults: SETTING_DEFAULTS });
 }));
 
 /* 그룹 단위 저장 — { company: {...}, seo: {...} } */
@@ -51,9 +70,18 @@ router.put("/", requireAuth, requireWrite, wrap(async (req, res) => {
   const keys = Object.keys(body);
   if (!keys.length) throw bad("저장할 설정이 없습니다.");
 
+  const current = await loadSettings();
+
   for (const key of keys) {
     if (!Object.prototype.hasOwnProperty.call(SETTING_DEFAULTS, key)) {
       throw bad(`알 수 없는 설정 그룹입니다: ${key}`);
+    }
+    /* 비밀값이 비어 있으면 지우려는 게 아니라 "그대로 두기"로 본다.
+       (화면에서 읽어오지 않으므로 빈 값으로 돌아오는 게 정상이다) */
+    for (const f of SECRET_FIELDS[key] || []) {
+      if (body[key] && typeof body[key] === "object" && !String(body[key][f] || "").trim()) {
+        body[key][f] = current[key]?.[f] || "";
+      }
     }
     await exec(
       "INSERT INTO settings (`key`, value, updated_by) VALUES (?, ?, ?) " +
@@ -63,7 +91,7 @@ router.put("/", requireAuth, requireWrite, wrap(async (req, res) => {
   }
   invalidateSettingsCache();
   await audit(req, "update", "settings", null, { keys });
-  res.json({ settings: await loadSettings() });
+  res.json(maskSecrets(await loadSettings()));
 }));
 
 /* 기본값으로 되돌리기 */
@@ -73,7 +101,7 @@ router.post("/reset", requireAuth, requireWrite, wrap(async (req, res) => {
   await exec("DELETE FROM settings WHERE `key` = ?", [key]);
   invalidateSettingsCache();
   await audit(req, "reset", "settings", key);
-  res.json({ settings: await loadSettings() });
+  res.json(maskSecrets(await loadSettings()));
 }));
 
 export default router;
