@@ -17,3 +17,8 @@ scripts/.deploy_secret
 deploy/_setup_db.filled.sql
 .dbpw
 scripts/.root_secret
+
+# 테스트 아티팩트
+.playwright-mcp/
+*.png
+!resource/**/*.png
