@@ -61,20 +61,28 @@ if (typeof document !== "undefined" && !document.getElementById("admin-responsiv
       #admin-root h1 { font-size: 22px !important; }
       #admin-root h2 { font-size: 18px !important; }
 
-      /* 헤더 버튼 라벨 줄여서 한 줄 유지 */
-      #admin-root header strong,
       #admin-root [style*="font-size: 18px"] { font-size: 14px !important; }
 
-      /* 헤더 버튼 압축 */
-      #admin-root header button { font-size: 11px !important; padding: 0 10px !important; height: 32px !important; }
+      /* 헤더·탭은 className 기반 — inline style의 #hex 색상은 브라우저가 rgb()로
+         재직렬화해서 [style*="...#2a2a2a"] 같은 attribute selector가 매치되지 않음 */
 
-      /* 탭 — 가로 스크롤로 변경 */
-      #admin-root nav, #admin-root [style*="border-bottom: 1px solid #2a2a2a"] {
-        overflow-x: auto; white-space: nowrap;
+      /* 헤더 — 1행: 라벨+타이틀, 2행: 버튼 3개 균등 분할 */
+      #admin-root .adm-header { flex-wrap: wrap; gap: 10px 8px !important; padding: 12px 16px !important; }
+      #admin-root .adm-title { font-size: 15px !important; white-space: nowrap; }
+      #admin-root .adm-spacer { display: none; }
+      #admin-root .adm-actions { width: 100%; }
+      #admin-root .adm-actions button {
+        flex: 1 1 0; min-width: 0; height: 34px !important; padding: 0 6px !important;
+        font-size: 12px !important; white-space: nowrap;
       }
-      #admin-root [role="tab"], #admin-root button[style*="padding: 16px 24px"] {
-        padding: 12px 14px !important; min-width: max-content;
-      }
+
+      /* 탭 — 줄바꿈 없이 가로 스크롤 */
+      #admin-root .adm-tabs { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      #admin-root .adm-tabs::-webkit-scrollbar { display: none; }
+      #admin-root .adm-tabs button { flex: 0 0 auto; padding: 12px 14px !important; }
+
+      /* 설정 폼 textarea(span 2) — 1열 그리드에서 암묵적 2번째 칼럼 생성 방지 */
+      #admin-root .adm-span2 { grid-column: auto !important; }
 
       /* 그리드 → 모두 1칸 */
       #admin-root [style*="grid-template-columns: repeat(2"],
@@ -105,7 +113,7 @@ if (typeof document !== "undefined" && !document.getElementById("admin-responsiv
     /* 소형 모바일 (≤480px) */
     @media (max-width: 480px) {
       #admin-root [style*="repeat(auto-fill, minmax(140px"] { grid-template-columns: repeat(2, 1fr) !important; }
-      #admin-root header strong { font-size: 13px !important; }
+      #admin-root .adm-title { font-size: 14px !important; }
       #admin-root [style*="width: 360px"] { width: calc(100% - 32px) !important; }
     }
   `;
@@ -289,18 +297,20 @@ function AdminGate({ pw, setPw, onSubmit, toast }) {
 function AdminHeader({ onClose, onExport, onImport }) {
   const fileRef = useRA(null);
   return (
-    <div style={{
-      display: "flex", alignItems: "center", padding: "16px 28px",
+    <div className="adm-header" style={{
+      display: "flex", alignItems: "center", padding: "16px 28px", flexShrink: 0,
       borderBottom: "1px solid #2a2a2a", background: "#0c0c0c", gap: 16,
     }}>
       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.22em", color: "#888" }}>ADMIN</div>
-      <strong style={{ fontSize: 18, color: "#fff" }}>다인스케치 관리자 모드</strong>
-      <div style={{ flex: 1 }} />
+      <strong className="adm-title" style={{ fontSize: 18, color: "#fff" }}>다인스케치 관리자 모드</strong>
+      <div className="adm-spacer" style={{ flex: 1 }} />
       <input ref={fileRef} type="file" accept="application/json" style={{ display: "none" }}
         onChange={(e) => importJson(e.target.files?.[0], onImport)} />
-      <button onClick={() => fileRef.current?.click()} style={adminBtnGhost}>JSON 가져오기</button>
-      <button onClick={onExport} style={adminBtnGhost}>JSON 내보내기</button>
-      <button onClick={onClose} style={{ ...adminBtnGhost, color: "#ff6b6b", borderColor: "#552222" }}>✕ 닫기</button>
+      <div className="adm-actions" style={{ display: "flex", gap: 8 }}>
+        <button onClick={() => fileRef.current?.click()} style={adminBtnGhost}>JSON 가져오기</button>
+        <button onClick={onExport} style={adminBtnGhost}>JSON 내보내기</button>
+        <button onClick={onClose} style={{ ...adminBtnGhost, color: "#ff6b6b", borderColor: "#552222" }}>✕ 닫기</button>
+      </div>
     </div>
   );
 }
@@ -314,10 +324,17 @@ function AdminTabs({ tab, setTab }) {
     { k: "stats",     label: "방문통계", en: "STATS" },
     { k: "settings",  label: "사이트설정", en: "SETTINGS" },
   ];
+  const barRef = useRA(null);
+  // 모바일 가로 스크롤 탭 — 선택한 탭이 화면 밖에 걸쳐 있으면 보이도록 스크롤
+  useEA(() => {
+    barRef.current?.querySelector('[aria-selected="true"]')
+      ?.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }, [tab]);
   return (
-    <div style={{ display: "flex", borderBottom: "1px solid #2a2a2a", background: "#0c0c0c" }}>
+    <div ref={barRef} className="adm-tabs" role="tablist"
+      style={{ display: "flex", flexShrink: 0, borderBottom: "1px solid #2a2a2a", background: "#0c0c0c" }}>
       {tabs.map((t) => (
-        <button key={t.k} onClick={() => setTab(t.k)} style={{
+        <button key={t.k} role="tab" aria-selected={tab === t.k} onClick={() => setTab(t.k)} style={{
           padding: "16px 24px", border: 0, background: "transparent", cursor: "pointer",
           color: tab === t.k ? "#fff" : "#888",
           borderBottom: tab === t.k ? "2px solid #1c69d4" : "2px solid transparent",
@@ -355,8 +372,8 @@ function QuotesPanel({ data, patch, show }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {filtered.map((q) => (
             <div key={q.id} style={panelCard}>
-              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
-                <div style={{ flex: 1 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+                <div style={{ flex: "1 1 200px", minWidth: 0 }}>
                   <strong style={{ fontSize: 16, color: "#fff" }}>{q.company || "(회사명 미입력)"} · {q.name}</strong>
                   <div style={{ fontSize: 11, color: "#888", marginTop: 4 }}>
                     {new Date(q.ts).toLocaleString("ko-KR")} · {q.service || "서비스 미지정"}
@@ -661,7 +678,8 @@ function SettingsPanel({ settings, password, patch, patchPw, show }) {
       <PanelHead title="사이트 설정" sub="푸터·연락처·저작권 등 회사 정보. 저장 즉시 사이트에 반영됩니다." />
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 32 }}>
         {FIELDS.map(([k, label, kind]) => (
-          <label key={k} style={{ display: "flex", flexDirection: "column", gap: 6,
+          <label key={k} className={kind === "textarea" ? "adm-span2" : undefined}
+            style={{ display: "flex", flexDirection: "column", gap: 6,
             gridColumn: kind === "textarea" ? "span 2" : "auto" }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em",
                            color: "#888", textTransform: "uppercase" }}>{label}</span>
