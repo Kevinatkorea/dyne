@@ -85,6 +85,7 @@ body {
 .top h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
 .top .sub { color: var(--a-ink-3); font-size: 12.5px; }
 .top .spacer { flex: 1; }
+.top .top__logout { display: none; } /* 데스크톱은 좌측 nav__foot 에 있음 — 모바일에서만 노출 */
 
 .body { padding: 20px 24px 56px; }
 
@@ -291,12 +292,34 @@ select { appearance: none; background-image: linear-gradient(45deg, transparent 
   .grid--sidebar { grid-template-columns: 1fr; }
 }
 @media (max-width: 860px) {
-  .shell { grid-template-columns: 1fr; }
-  .nav { position: static; height: auto; flex-direction: row; overflow-x: auto; align-items: center; }
+  /* rows 를 auto 1fr 로 고정 — 안 하면 내용이 짧은 화면에서 min-height:100vh 가
+     남는 높이를 메뉴 행에도 나눠 줘 메뉴 바가 수백 px 로 늘어난다 */
+  .shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  /* 좌측 네비 → 상단에 붙는 가로 스크롤 메뉴 한 줄.
+     그룹 div(.nav__sec)를 display: contents 로 풀어야 항목이 한 줄로 이어진다
+     — 안 풀면 그룹마다 세로로 쌓여 메뉴가 화면 절반 이상을 덮고 오른쪽이 잘린다. */
+  .nav {
+    position: sticky; top: 0; z-index: 30; height: auto;
+    flex-direction: row; align-items: center;
+    overflow-x: auto; overflow-y: hidden; padding: 0 6px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav__sec { display: contents; }
   .nav__brand, .nav__group, .nav__foot { display: none; }
-  .nav__item { margin: 6px 2px; white-space: nowrap; width: auto; }
+  .nav__item { flex: 0 0 auto; margin: 6px 2px; white-space: nowrap; width: auto; }
   .body { padding: 14px; }
-  .top { padding: 12px 14px; }
+  /* 메뉴가 상단에 붙으므로 제목 바는 따라다니지 않게 (겹침 방지) */
+  .top { position: static; padding: 12px 14px; flex-wrap: wrap; }
+  /* 숨겨진 nav__foot 대신 제목 바에 로그아웃 노출 */
+  .top .top__logout { display: inline-flex; }
+  /* 줄바꿈 안 되는 표 셀(.clip)이 그리드 칸을 min-content 로 밀어
+     대시보드 전체가 화면 밖(390px 화면에 603px)으로 넘치던 문제 —
+     그리드 자식은 줄어들 수 있게, 표는 카드 안에서 가로 스크롤 */
+  .body > *, .body > * > *, .grid > *, .card { min-width: 0; }
+  .card__bd--flush { overflow-x: auto; }
+  .tbl .clip { max-width: 180px; }
   .grid--3, .grid--2 { grid-template-columns: 1fr; }
   .modal-bg { padding: 12px; }
 }

@@ -85,6 +85,13 @@ function Shell({ me, onLogout }) {
 
   const canWrite = me.role !== "viewer";
 
+  /* 모바일 가로 메뉴 — 선택한 항목이 화면 밖에 걸쳐 있으면 보이도록 스크롤 */
+  const navRef = React.useRef(null);
+  useEffect(() => {
+    const on = navRef.current && navRef.current.querySelector(".nav__item.is-on");
+    if (on) on.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }, [view]);
+
   const go = useCallback((key, p = {}) => {
     setView(key);
     setParams(p);
@@ -133,13 +140,13 @@ function Shell({ me, onLogout }) {
 
   return (
     <div className="shell">
-      <nav className="nav">
+      <nav className="nav" ref={navRef}>
         <div className="nav__brand">
           <b>다인스케치</b>
           <span>DYNESKETCH ADMIN</span>
         </div>
         {MENU.map((g) => (
-          <div key={g.group}>
+          <div key={g.group} className="nav__sec">
             <div className="nav__group">{g.group}</div>
             {g.items.map((i) => (
               <button key={i.key}
@@ -170,6 +177,7 @@ function Shell({ me, onLogout }) {
           {!canWrite ? <span className="badge badge--muted">읽기 전용 계정</span> : null}
           <div className="spacer" />
           <a className="btn btn--sm" href="/" target="_blank" rel="noreferrer">사이트 보기 ↗</a>
+          <button className="btn btn--sm top__logout" onClick={logout}>로그아웃</button>
         </div>
         <div className="body">{screen}</div>
       </div>
