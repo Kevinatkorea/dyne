@@ -36,6 +36,9 @@ const MENU = [
 const TITLES = {};
 MENU.forEach((g) => g.items.forEach((i) => { TITLES[i.key] = i.label; }));
 
+/* 모바일 상단 바에 바로 보이는 메뉴 — 나머지는 햄버거(☰ 메뉴) 박스 안으로 */
+const PINNED = new Set(["dashboard", "inquiries"]);
+
 /* ---- 로그인 ------------------------------------------------------- */
 function Login({ onDone }) {
   const [email, setEmail] = useState("");
@@ -82,19 +85,23 @@ function Shell({ me, onLogout }) {
   const [view, setView] = useState(() => (location.hash || "#dashboard").slice(1).split("?")[0] || "dashboard");
   const [params, setParams] = useState({});
   const [unread, setUnread] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const canWrite = me.role !== "viewer";
 
-  /* 모바일 가로 메뉴 — 선택한 항목이 화면 밖에 걸쳐 있으면 보이도록 스크롤 */
-  const navRef = React.useRef(null);
+  /* 모바일 햄버거 메뉴 — 화면이 바뀌면(뒤로가기 포함) 닫고, Esc 로도 닫는다 */
+  useEffect(() => { setMenuOpen(false); }, [view]);
   useEffect(() => {
-    const on = navRef.current && navRef.current.querySelector(".nav__item.is-on");
-    if (on) on.scrollIntoView({ block: "nearest", inline: "nearest" });
-  }, [view]);
+    if (!menuOpen) return undefined;
+    const esc = (e) => { if (e.key === "Escape") setMenuOpen(false); };
+    document.addEventListener("keydown", esc);
+    return () => document.removeEventListener("keydown", esc);
+  }, [menuOpen]);
 
   const go = useCallback((key, p = {}) => {
     setView(key);
     setParams(p);
+    setMenuOpen(false);
     location.hash = key;
     window.scrollTo(0, 0);
   }, []);
@@ -124,6 +131,16 @@ function Shell({ me, onLogout }) {
     onLogout();
   };
 
+  const navItem = (i, extra = "") => (
+    <button key={i.key}
+            className={`nav__item${extra}${view === i.key ? " is-on" : ""}`}
+            onClick={() => go(i.key)}>
+      <span className="ic">{i.icon}</span>
+      <span>{i.label}</span>
+      {i.badge === "inquiries" && unread > 0 ? <span className="nav__badge">{unread}</span> : null}
+    </button>
+  );
+
   let screen = null;
   if (view === "dashboard") screen = <window.Dashboard go={go} />;
   else if (view === "inquiries") screen = <window.Inquiries params={params} canWrite={canWrite} />;
@@ -140,7 +157,7 @@ function Shell({ me, onLogout }) {
 
   return (
     <div className="shell">
-      <nav className="nav" ref={navRef}>
+      <nav className="nav">
         <div className="nav__brand">
           <b>다인스케치</b>
           <span>DYNESKETCH ADMIN</span>
@@ -148,15 +165,7 @@ function Shell({ me, onLogout }) {
         {MENU.map((g) => (
           <div key={g.group} className="nav__sec">
             <div className="nav__group">{g.group}</div>
-            {g.items.map((i) => (
-              <button key={i.key}
-                      className={`nav__item${view === i.key ? " is-on" : ""}`}
-                      onClick={() => go(i.key)}>
-                <span className="ic">{i.icon}</span>
-                <span>{i.label}</span>
-                {i.badge === "inquiries" && unread > 0 ? <span className="nav__badge">{unread}</span> : null}
-              </button>
-            ))}
+            {g.items.map((i) => navItem(i, PINNED.has(i.key) ? " is-pin" : ""))}
           </div>
         ))}
         <div className="nav__foot">
@@ -169,7 +178,29 @@ function Shell({ me, onLogout }) {
             <button className="btn btn--sm" onClick={logout}>로그아웃</button>
           </div>
         </div>
+
+        {/* 모바일 햄버거 버튼 + 박스 메뉴 (데스크톱에선 CSS 로 숨김) */}
+        <button className={`nav__item nav__burger${!PINNED.has(view) ? " is-on" : ""}`}
+                aria-expanded={menuOpen} aria-controls="nav-panel"
+                onClick={() => setMenuOpen((o) => !o)}>
+          <span className="ic">{menuOpen ? "✕" : "☰"}</span>
+          <span>메뉴</span>
+        </button>
+        {menuOpen ? (
+          <div className="nav__panel" id="nav-panel">
+            {MENU.map((g) => {
+              const items = g.items.filter((i) => !PINNED.has(i.key));
+              return items.length ? (
+                <div key={g.group}>
+                  <div className="nav__panel-group">{g.group}</div>
+                  <div className="nav__panel-grid">{items.map((i) => navItem(i))}</div>
+                </div>
+              ) : null;
+            })}
+          </div>
+        ) : null}
       </nav>
+      {menuOpen ? <div className="nav-backdrop" onClick={() => setMenuOpen(false)} /> : null}
 
       <div className="main">
         <div className="top">

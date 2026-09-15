@@ -73,6 +73,19 @@ body {
 .nav__foot .who { color: #fff; font-weight: 600; }
 .nav__foot .role { color: #6d7482; font-size: 11px; }
 
+/* 모바일 햄버거 메뉴 — 데스크톱에선 숨김, ≤860px 에서만 노출 */
+.nav__burger { display: none; }
+.nav__panel {
+  display: none; position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--a-nav); border-top: 1px solid rgba(255, 255, 255, .07);
+  padding: 2px 6px 14px; max-height: calc(100vh - 60px); overflow-y: auto;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .3);
+}
+.nav__panel-group { padding: 12px 8px 4px; font-size: 10px; letter-spacing: .16em; color: #5b6270; }
+.nav__panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.nav__panel .nav__item { margin: 0; width: auto; }
+.nav-backdrop { display: none; position: fixed; inset: 0; z-index: 29; background: rgba(15, 18, 25, .45); }
+
 .main { min-width: 0; display: flex; flex-direction: column; }
 
 .top {
@@ -295,20 +308,21 @@ select { appearance: none; background-image: linear-gradient(45deg, transparent 
   /* rows 를 auto 1fr 로 고정 — 안 하면 내용이 짧은 화면에서 min-height:100vh 가
      남는 높이를 메뉴 행에도 나눠 줘 메뉴 바가 수백 px 로 늘어난다 */
   .shell { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-  /* 좌측 네비 → 상단에 붙는 가로 스크롤 메뉴 한 줄.
-     그룹 div(.nav__sec)를 display: contents 로 풀어야 항목이 한 줄로 이어진다
-     — 안 풀면 그룹마다 세로로 쌓여 메뉴가 화면 절반 이상을 덮고 오른쪽이 잘린다. */
+  /* 좌측 네비 → 상단에 붙는 한 줄 바.
+     대시보드·견적요청(.is-pin)만 바로 보이고 나머지는 ☰ 메뉴 박스(.nav__panel) 안으로.
+     그룹 div(.nav__sec)는 display: contents 로 풀어 고정 항목이 한 줄로 이어지게 한다. */
   .nav {
     position: sticky; top: 0; z-index: 30; height: auto;
     flex-direction: row; align-items: center;
-    overflow-x: auto; overflow-y: hidden; padding: 0 6px;
-    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    overflow: visible; padding: 0 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
   }
-  .nav::-webkit-scrollbar { display: none; }
   .nav__sec { display: contents; }
   .nav__brand, .nav__group, .nav__foot { display: none; }
   .nav__item { flex: 0 0 auto; margin: 6px 2px; white-space: nowrap; width: auto; }
+  .nav__sec > .nav__item:not(.is-pin) { display: none; }
+  .nav__burger { display: flex; margin-left: auto; }
+  .nav__panel, .nav-backdrop { display: block; }
   .body { padding: 14px; }
   /* 메뉴가 상단에 붙으므로 제목 바는 따라다니지 않게 (겹침 방지) */
   .top { position: static; padding: 12px 14px; flex-wrap: wrap; }
