@@ -5,6 +5,21 @@ const { useState: useS_p } = React;
 /* ============================================================
    ABOUT
    ============================================================ */
+/* 연혁 — 관리자 [연혁]에 등록된 목록이 있으면 그것을 쓴다. */
+const HISTORY_FALLBACK = [
+  { y: "2026", t: "성수동 본사 확장 · 인쇄 작업장 통합" },
+  { y: "2024", t: "대한민국 디자인전람회 편집부문 입선" },
+  { y: "2023", t: "누적 프로젝트 1,000건 돌파 · 한국출판문화상 본상" },
+  { y: "2022", t: "iF Design Award Communication 부문 수상" },
+  { y: "2021", t: "조달청 우수 인쇄업체 지정" },
+  { y: "2020", t: "ISO 9001 품질경영시스템 인증" },
+  { y: "2018", t: "직원 10명 돌파 · 성수동 풍림테크원 본사 이전" },
+  { y: "2015", t: "정부·공공기관 연간 계약 본격화" },
+  { y: "2008", t: "주식회사 다인스케치 설립 (대표 전명호)" },
+];
+const historyList = () =>
+  (window.siteHistory ? window.siteHistory(HISTORY_FALLBACK) : HISTORY_FALLBACK);
+
 function AboutPage() {
   return (
     <main>
@@ -127,22 +142,12 @@ function AboutPage() {
               <Photo src="resource/building.jpg" label="성수동 다인스케치 본사" ratio="3/4" />
             </div>
             <div>
-              {[
-                { y: "2026", t: "성수동 본사 확장 · 인쇄 작업장 통합" },
-                { y: "2024", t: "대한민국 디자인전람회 편집부문 입선" },
-                { y: "2023", t: "누적 프로젝트 1,000건 돌파 · 한국출판문화상 본상" },
-                { y: "2022", t: "iF Design Award Communication 부문 수상" },
-                { y: "2021", t: "조달청 우수 인쇄업체 지정" },
-                { y: "2020", t: "ISO 9001 품질경영시스템 인증" },
-                { y: "2018", t: "직원 10명 돌파 · 성수동 풍림테크원 본사 이전" },
-                { y: "2015", t: "정부·공공기관 연간 계약 본격화" },
-                { y: "2008", t: "주식회사 다인스케치 설립 (대표 전명호)" },
-              ].map((e, i) => (
+              {historyList().map((e, i, arr) => (
                 <div key={i} style={{
                   display: "grid", gridTemplateColumns: "100px 1fr",
                   gap: 32, padding: "20px 0",
                   borderTop: "1px solid var(--hairline)",
-                  ...(i === 8 ? { borderBottom: "1px solid var(--hairline)" } : {}),
+                  ...(i === arr.length - 1 ? { borderBottom: "1px solid var(--hairline)" } : {}),
                 }}>
                   <span className="display" style={{
                     fontSize: 24, fontWeight: 300, color: "var(--accent)",
@@ -265,7 +270,7 @@ function ServicesPage({ setPage }) {
    FACILITY (장비 풀 페이지)
    ============================================================ */
 function FacilityPage({ setPage }) {
-  const EQ = [
+  const EQ_FALLBACK = [
     { tag: "OFFSET PRESS · 옵셋 인쇄", name: "Heidelberg Speedmaster XL 106", spec: "6color · max 750×1060mm · 18,000 sph · LE UV", photo: PHOTO.eqHeidelbergXL106, label: "Heidelberg XL106" },
     { tag: "OFFSET PRESS · 옵셋 인쇄", name: "KOMORI Lithrone GL40", spec: "4color · max 720×1030mm · 16,500 sph", photo: PHOTO.eqKomoriGL40, label: "KOMORI GL40" },
     { tag: "DIGITAL PRESS · 디지털 인쇄", name: "HP Indigo 12000", spec: "B2 size · 4,600 sheets/hr · 7color CMYKOV+", photo: PHOTO.eqHPIndigo12000, label: "HP Indigo 12000" },
@@ -276,6 +281,8 @@ function FacilityPage({ setPage }) {
     { tag: "FINISHING · 후가공", name: "Heidelberg Stahlfolder TH 56", spec: "Folding · max 56cm · combi-fold", photo: PHOTO.eqStahlfolderTH56, label: "Stahlfolder TH 56" },
     { tag: "LARGE FORMAT · 실사 출력", name: "Roland TrueVIS LG-540", spec: "UV/eco-solv · 1.6m width · 9 colors", photo: PHOTO.eqRolandLG540, label: "Roland LG-540" },
   ];
+  /* 관리자 [보유 장비] 등록분 우선 */
+  const EQ = window.siteEquipment ? window.siteEquipment(EQ_FALLBACK) : EQ_FALLBACK;
 
   return (
     <main>
@@ -657,6 +664,19 @@ function FilterRow({ label, items, active, onChange }) {
 /* ============================================================
    CONTACT — quote request form
    ============================================================ */
+/* 견적요청 폼 선택지 — 관리자 [사이트 설정 → 견적요청 폼]에서 편집 가능 */
+const SERVICE_OPTIONS_FALLBACK = [
+  "표지 디자인", "브로슈어/카탈로그", "리플릿", "포스터",
+  "보고서/자료집", "현수막/배너", "기타 인쇄물",
+];
+const BUDGET_OPTIONS_FALLBACK = [
+  "~ 300만원", "300 – 1,000만원", "1,000 – 3,000만원", "3,000만원 이상", "연간 계약 검토",
+];
+const serviceOptions = () =>
+  (window.siteSetting ? window.siteSetting("inquiryForm", "services", SERVICE_OPTIONS_FALLBACK) : SERVICE_OPTIONS_FALLBACK);
+const budgetOptions = () =>
+  (window.siteSetting ? window.siteSetting("inquiryForm", "budgets", BUDGET_OPTIONS_FALLBACK) : BUDGET_OPTIONS_FALLBACK);
+
 function ContactPage() {
   const [form, setForm] = useS_p({
     company: "", name: "", phone: "", email: "",
@@ -664,7 +684,28 @@ function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useS_p(false);
+  const [sending, setSending] = useS_p(false);
+  const [error, setError] = useS_p("");
+  const [receipt, setReceipt] = useS_p(null);
   const upd = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+
+  /* 서버로 접수한다. 접수된 건은 관리자 [견적요청]에 즉시 나타난다. */
+  const send = async (e) => {
+    e.preventDefault();
+    if (sending) return;
+    setSending(true);
+    setError("");
+    try {
+      if (!window.submitInquiry) throw new Error("접수 서버에 연결할 수 없습니다.");
+      const r = await window.submitInquiry(form);
+      setReceipt(r);
+      setSubmitted(true);
+    } catch (ex) {
+      setError(ex.message || "접수에 실패했습니다. 전화(02-514-2450)로 문의해 주세요.");
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <main>
@@ -719,14 +760,19 @@ function ContactPage() {
                 <span className="eyebrow" style={{ color: "var(--accent)" }}>SUBMITTED</span>
                 <h3 className="display" style={{ fontSize: 48, fontWeight: 300 }}>THANK YOU.</h3>
                 <p className="kr-headline" style={{ fontSize: 18, fontWeight: 500, color: "var(--ink-2)" }}>
-                  견적 요청이 접수되었습니다.<br />1영업일 이내에 회신드리겠습니다.
+                  {(receipt && receipt.message) || "견적 요청이 접수되었습니다. 1영업일 이내에 회신드리겠습니다."}
                 </p>
-                <button onClick={() => setSubmitted(false)} className="btn btn--secondary" style={{ marginTop: 24, alignSelf: "center" }}>
+                {receipt && receipt.code ? (
+                  <p style={{ fontSize: 13, color: "var(--ink-2)", letterSpacing: "0.08em" }}>
+                    접수번호 <b style={{ color: "var(--ink-1)" }}>{receipt.code}</b>
+                  </p>
+                ) : null}
+                <button onClick={() => { setSubmitted(false); setReceipt(null); setForm({ company: "", name: "", phone: "", email: "", service: "브로슈어/카탈로그", quantity: "", deadline: "", budget: "", message: "" }); }} className="btn btn--secondary" style={{ marginTop: 24, alignSelf: "center" }}>
                   새 견적 요청 보내기
                 </button>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+              <form onSubmit={send} style={{ display: "flex", flexDirection: "column", gap: 32 }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   <span className="eyebrow eyebrow-line" style={{ color: "var(--accent)" }}>QUOTE REQUEST FORM</span>
                   <h3 className="display" style={{ fontSize: 40, fontWeight: 300, lineHeight: 1.05 }}>
@@ -752,13 +798,7 @@ function ContactPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 24 }}>
                   <div className="field"><label>서비스 종류 *</label>
                     <select value={form.service} onChange={upd("service")}>
-                      <option>표지 디자인</option>
-                      <option>브로슈어/카탈로그</option>
-                      <option>리플릿</option>
-                      <option>포스터</option>
-                      <option>보고서/자료집</option>
-                      <option>현수막/배너</option>
-                      <option>기타 인쇄물</option>
+                      {serviceOptions().map((s) => <option key={s}>{s}</option>)}
                     </select>
                   </div>
                   <div className="field"><label>예상 수량</label>
@@ -772,11 +812,7 @@ function ContactPage() {
                 <div className="field"><label>예산 범위 (선택)</label>
                   <select value={form.budget} onChange={upd("budget")}>
                     <option value="">선택하지 않음</option>
-                    <option>~ 300만원</option>
-                    <option>300 – 1,000만원</option>
-                    <option>1,000 – 3,000만원</option>
-                    <option>3,000만원 이상</option>
-                    <option>연간 계약 검토</option>
+                    {budgetOptions().map((s) => <option key={s}>{s}</option>)}
                   </select>
                 </div>
 
@@ -792,9 +828,22 @@ function ContactPage() {
                   ※ 견적은 영업일 기준 24시간 이내에 회신드립니다. 입력하신 정보는 견적 회신 외 다른 목적으로 사용되지 않습니다.
                 </div>
 
+                {error ? (
+                  <div style={{
+                    padding: 14, fontSize: 13, color: "#b53232",
+                    background: "#fbe9e9", border: "1px solid #f0cccc",
+                  }}>{error}</div>
+                ) : null}
+
+                {/* 스팸봇 유인용 숨김 필드 — 사람은 채우지 않는다 */}
+                <input type="text" name="website" tabIndex={-1} autoComplete="off"
+                       value={form.website || ""} onChange={upd("website")}
+                       style={{ position: "absolute", left: -9999, width: 1, height: 1 }} />
+
                 <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                  <button type="submit" className="btn" style={{ height: 56, padding: "0 32px" }}>
-                    견적 요청 보내기 →
+                  <button type="submit" className="btn" disabled={sending}
+                          style={{ height: 56, padding: "0 32px", opacity: sending ? 0.6 : 1 }}>
+                    {sending ? "접수 중…" : "견적 요청 보내기 →"}
                   </button>
                   <span style={{ fontSize: 13, color: "var(--ink-2)" }}>
                     또는 <a href="mailto:design2@dynes.co.kr" style={{ color: "var(--accent)", textDecoration: "underline" }}>이메일로 직접</a>

@@ -338,7 +338,7 @@ function ServicesGrid({ setPage }) {
 }
 
 /* -- FACILITY TEASER ---------------------------------------- */
-const EQUIPMENT = [
+const EQUIPMENT_FALLBACK = [
   { tag: "OFFSET PRESS", name: "Heidelberg Speedmaster XL 106", spec: "6color · max 750×1060mm · 18,000 sph", photo: PHOTO.eqHeidelbergXL106, label: "Heidelberg XL106" },
   { tag: "OFFSET PRESS", name: "KOMORI Lithrone GL40", spec: "4color · max 720×1030mm · 16,500 sph", photo: PHOTO.eqKomoriGL40, label: "KOMORI GL40" },
   { tag: "DIGITAL PRESS", name: "HP Indigo 12000", spec: "B2 size · 4,600 sheets/hr · 7color CMYKOV+", photo: PHOTO.eqHPIndigo12000, label: "HP Indigo 12000" },
@@ -347,8 +347,13 @@ const EQUIPMENT = [
   { tag: "LARGE FORMAT", name: "Roland TrueVIS LG-540", spec: "Wide format · UV/eco-solv · 1.6m width", photo: PHOTO.eqRolandLG540, label: "Roland LG-540" },
 ];
 
+/* 관리자 [보유 장비]에 등록된 목록이 있으면 그것을 쓴다. */
+const equipmentList = () =>
+  (window.siteEquipment ? window.siteEquipment(EQUIPMENT_FALLBACK) : EQUIPMENT_FALLBACK);
+
 function FacilityTeaser({ setPage, layout = "grid" }) {
   const [idx, setIdx] = useState(0);
+  const EQUIPMENT = equipmentList();
 
   return (
     <section className="section section--dark">
@@ -385,6 +390,7 @@ function FacilityTeaser({ setPage, layout = "grid" }) {
 }
 
 function FacilityCarousel({ idx, setIdx }) {
+  const EQUIPMENT = equipmentList();
   const e = EQUIPMENT[idx];
   return (
     <div>
@@ -513,7 +519,7 @@ function ClientsSection() {
 
 /* -- AWARDS STRIP ------------------------------------------- */
 function AwardsStrip() {
-  const awards = [
+  const awardsFallback = [
     { y: "2024", t: "대한민국 디자인전람회 / 편집부문 입선" },
     { y: "2023", t: "한국출판문화상 / 본상 (북디자인)" },
     { y: "2022", t: "iF Design Award / Communication 부문" },
@@ -521,6 +527,8 @@ function AwardsStrip() {
     { y: "2020", t: "ISO 9001 품질경영시스템 인증" },
     { y: "2019", t: "서울특별시 우수 중소기업 선정" },
   ];
+  /* 관리자 [수상·인증] 등록분 우선 */
+  const awards = window.siteAwards ? window.siteAwards(awardsFallback) : awardsFallback;
   return (
     <section style={{ background: "#0a0a0a", color: "#fff", padding: "100px 0" }}>
       <div className="container container--wide">

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- components.jsx 의 Logo 마크와 같은 형태 (사각 테두리 + 대각선 + D) -->
+  <rect width="32" height="32" fill="#161616"/>
+  <rect x="3.5" y="3.5" width="25" height="25" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  <line x1="3.5" y1="3.5" x2="28.5" y2="28.5" stroke="#ffffff" stroke-width="1.5"/>
+  <text x="16" y="21" text-anchor="middle" font-family="Helvetica,Arial,sans-serif"
+        font-size="13" font-weight="900" fill="#ffffff">D</text>
+</svg>
