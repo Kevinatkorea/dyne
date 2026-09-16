@@ -386,8 +386,15 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
 }
 
 /* ─── 보고서 전문 서비스 섹션 ─────────────────────────────── */
-/* 사진 4장이 모바일에서 1열로 떨어지면 섹션이 지나치게 길어져 2×2 로 유지한다.
-   위쪽 repeat(4) → 1fr 규칙과 특이도가 같으므로 반드시 그 뒤(파일 끝)에 둔다. */
+/* 사진은 관리자에 등록한 개수만큼 열이 생긴다(인라인 repeat(n)).
+   좁은 화면에서는 개수와 상관없이 여기서 다시 묶는다 —
+   위쪽 repeat(n) 규칙들과 특이도가 같으므로 반드시 그 뒤(파일 끝)에 둔다. */
+@media (max-width: 1024px) {
+  .report-shots {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 32px 16px !important;
+  }
+}
 @media (max-width: 768px) {
   .report-shots {
     grid-template-columns: repeat(2, 1fr) !important;

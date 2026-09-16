@@ -70,6 +70,21 @@
     return rows.map(function (a) { return { y: a.year, t: a.title }; });
   };
 
+  /* 메인 [보고서 전문 서비스] 섹션 사진 — 관리자 [보고서 사진] 등록분.
+     등록된 개수만큼 그대로 돌려준다 (5건이면 5장, 6건이면 6장). */
+  window.siteReports = function (fallback) {
+    var rows = SITE && nonEmpty(SITE.reports);
+    if (!rows) return fallback;
+    return rows.map(function (r) {
+      return {
+        photo: r.src,
+        title: r.title || "",
+        meta: r.client || "",
+        label: r.title || "보고서",
+      };
+    });
+  };
+
   /* 고객사 목록 — 로고까지 쓰려면 이쪽을 쓴다.
      [{ name, group, logo }] 형태. logo 는 없으면 null. */
   window.siteClientList = function (fallbackGroups) {

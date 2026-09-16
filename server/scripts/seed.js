@@ -141,6 +141,16 @@ const AWARDS = [
   { year: "2019", title: "서울특별시 우수 중소기업 선정", org: "서울특별시" },
 ];
 
+/* 메인 [보고서 전문 서비스] 섹션 사진 — 실제 납품한 보고서.
+   안전보건공단 건은 아카이브 원본에 발주처 캡션이 박혀 있어
+   그 띠를 잘라낸 사본(resource/report/)을 쓴다. */
+const REPORTS = [
+  { src: "resource/보고서_자료집/007.png", title: "장애인거주시설 인권실태조사 결과보고서", client: "정부기관 연구보고서 · 2021" },
+  { src: "resource/report/kosha-final-report.png", title: "건설업 시스템비계 실태조사 최종보고서", client: "안전보건공단 연구용역" },
+  { src: "resource/보고서_자료집/006.png", title: "전문면담원 양성교육 매뉴얼", client: "서울특별시 · 2022" },
+  { src: "resource/보고서_자료집/008.png", title: "지식샘 성장프로그램 자료집", client: "교육 프로그램 자료집" },
+];
+
 /* 고객사 — 홈페이지 주소를 함께 넣는다.
    공개 사이트가 이 주소로 /api/logo 에서 로고를 가져온다.
    (관리자에서 로고 파일을 직접 올리면 그쪽이 우선한다) */
@@ -280,6 +290,9 @@ async function main() {
   }));
   await seedTable("awards", AWARDS, (r, i) => ({
     year: r.year, title: r.title, org: r.org, sort_order: i, visible: 1,
+  }));
+  await seedTable("reports", REPORTS.filter((r) => exists(r.src)), (r, i) => ({
+    src: r.src, title: r.title, client: r.client, sort_order: i, visible: 1,
   }));
   await seedTable(
     "clients",

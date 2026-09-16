@@ -42,6 +42,8 @@ export const SETTING_DEFAULTS = {
   footer: {
     copyright: "© 2026 주식회사 다인스케치. All rights reserved.",
     note: "기획 · 디자인 · 인쇄 · 후가공 · 납품을 한 팀이 책임집니다.",
+    /* 푸터 우측 네이버 블로그 아이콘 링크. 비우면 아이콘이 사라진다. */
+    blogUrl: "https://blog.naver.com/dyne_sketch",
     links: [],
   },
 

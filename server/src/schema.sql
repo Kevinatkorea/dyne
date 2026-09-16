@@ -206,6 +206,18 @@ CREATE TABLE IF NOT EXISTS notices (
   updated_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 보고서 전문 서비스 (메인 섹션 사진) --------------------------------
+CREATE TABLE IF NOT EXISTS reports (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  src         VARCHAR(500) NOT NULL,
+  title       VARCHAR(300) NULL,
+  client      VARCHAR(200) NULL,
+  sort_order  INT          NOT NULL DEFAULT 0,
+  visible     TINYINT(1)   NOT NULL DEFAULT 1,
+  created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- 사이트 설정 (key/value JSON) --------------------------------------
 CREATE TABLE IF NOT EXISTS settings (
   `key`      VARCHAR(120) NOT NULL PRIMARY KEY,

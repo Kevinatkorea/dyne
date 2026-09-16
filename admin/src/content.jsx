@@ -334,6 +334,18 @@ const CONTENT_CFG = {
       { key: "src", label: "증빙 이미지 (선택)", type: "image", folder: "awards" },
     ],
   },
+  reports: {
+    name: "보고서 사진 (메인 섹션)",
+    resource: "reports",
+    thumb: "src",
+    title: (it) => it.title || it.src,
+    sub: (it) => it.client,
+    schema: [
+      { key: "src", label: "사진", type: "image", folder: "report" },
+      { key: "title", label: "보고서명", placeholder: "예: 2021년 장애인거주시설 인권실태조사 결과보고서" },
+      { key: "client", label: "발주처 · 연도", placeholder: "예: 안전보건공단 연구용역" },
+    ],
+  },
   "hero-slides": {
     name: "상단 배경 이미지",
     resource: "hero-slides",

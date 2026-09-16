@@ -4,9 +4,7 @@ const { useState, useRef, useEffect, useMemo } = React;
 /* ============================================================
    Photo — Unsplash with rich studio-mood fallback
    ============================================================ */
-/* imgStyle — <img> 자체에 얹는 스타일. 원본에 발주처 캡션이 박혀 있는
-   아카이브 사진을 확대해 잘라낼 때처럼, 크롭을 조정할 때만 쓴다. */
-function Photo({ src, alt, label = "", className = "", style = {}, imgStyle = {}, mono = true, ratio = "16/9" }) {
+function Photo({ src, alt, label = "", className = "", style = {}, mono = true, ratio = "16/9" }) {
   const [failed, setFailed] = useState(false);
   return (
     <div
@@ -26,7 +24,7 @@ function Photo({ src, alt, label = "", className = "", style = {}, imgStyle = {}
           onError={() => setFailed(true)}
           loading="lazy"
           className={mono ? "img-mono" : ""}
-          style={{ width: "100%", height: "100%", objectFit: "cover", ...imgStyle }}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       )}
       {(failed || !src) && <PhotoPlaceholder label={label} />}
@@ -398,6 +396,11 @@ function Marquee({ items = [], dark = false, speed = 40 }) {
    Footer
    ============================================================ */
 function Footer({ setPage }) {
+  /* 네이버 블로그 — 관리자 [사이트 설정] footer.blogUrl 로 바꿀 수 있다. */
+  const blogUrl = window.siteSetting
+    ? window.siteSetting("footer", "blogUrl", "https://blog.naver.com/dyne_sketch")
+    : "https://blog.naver.com/dyne_sketch";
+
   return (
     <footer style={{ background: "#0a0a0a", color: "#fff", paddingTop: 100, paddingBottom: 48 }}>
       <div className="container container--wide">
@@ -450,10 +453,29 @@ function Footer({ setPage }) {
             주식회사 <Brand dark /> · 대표 전명호 · 사업자등록번호 220-87-73258 · 통신판매업 서울성동-20804<br />
             © 2026 DYNESKETCH Co., Ltd. All rights reserved.
           </div>
-          <div style={{
-            fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.32em",
-            color: "rgba(255,255,255,0.4)",
-          }}>SEOUL · SEONGSU</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            {blogUrl ? (
+              <a href={blogUrl} target="_blank" rel="noopener noreferrer"
+                 title="네이버 블로그 (새 창)" aria-label="다인스케치 네이버 블로그 — 새 창에서 열림"
+                 style={{
+                   display: "inline-flex", alignItems: "center", gap: 10,
+                   padding: "7px 14px 7px 7px", border: "1px solid rgba(255,255,255,0.2)",
+                 }}>
+                <span aria-hidden="true" style={{
+                  width: 26, height: 26, borderRadius: 7, background: "#03C75A", color: "#fff",
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  fontFamily: "var(--font-display)", fontSize: 13, fontWeight: 800, lineHeight: 1,
+                }}>b</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.75)" }}>
+                  네이버 블로그
+                </span>
+              </a>
+            ) : null}
+            <div style={{
+              fontFamily: "var(--font-display)", fontSize: 10, fontWeight: 700, letterSpacing: "0.32em",
+              color: "rgba(255,255,255,0.4)",
+            }}>SEOUL · SEONGSU</div>
+          </div>
         </div>
       </div>
     </footer>

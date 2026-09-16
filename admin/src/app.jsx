@@ -16,6 +16,7 @@ const MENU = [
   ]},
   { group: "콘텐츠", items: [
     { key: "portfolio", label: "포트폴리오", icon: "▣" },
+    { key: "reports", label: "보고서 사진", icon: "▧" },
     { key: "services", label: "사업영역", icon: "◈" },
     { key: "equipment", label: "보유 장비", icon: "⚙" },
     { key: "history", label: "연혁", icon: "⏱" },

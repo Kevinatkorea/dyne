@@ -282,19 +282,24 @@ function IntroSection() {
    별도 섹션으로 보여 준다. 사진 4장은 실제 납품한 보고서다 —
    앞 3장은 resource/보고서_자료집 원본, 마지막 1장(안전보건공단)은
    연도 아카이브에서 가져왔다(보고서 카테고리 폴더에는 3장뿐). */
-const REPORT_SHOTS = [
+const REPORT_FALLBACK = [
   { photo: "resource/보고서_자료집/007.png", title: "장애인거주시설 인권실태조사 결과보고서",
     meta: "정부기관 연구보고서 · 2021", label: "인권실태조사 결과보고서 표지" },
-  /* 아카이브 원본 왼쪽 아래에 "자료집 / 안전보건공단" 캡션이 박혀 있어
-     확대해서 그 띠를 잘라낸다. */
-  { photo: "resource/2023_포트폴리오/004.png", title: "건설업 시스템비계 실태조사 최종보고서",
-    meta: "안전보건공단 연구용역", label: "연구용역 최종보고서 표지",
-    imgStyle: { transform: "scale(1.3)", transformOrigin: "center 20%" } },
+  /* 아카이브 원본에는 왼쪽 아래에 "자료집 / 안전보건공단" 캡션이 박혀 있어
+     그 띠를 잘라낸 사본(resource/report/)을 쓴다. */
+  { photo: "resource/report/kosha-final-report.png", title: "건설업 시스템비계 실태조사 최종보고서",
+    meta: "안전보건공단 연구용역", label: "연구용역 최종보고서 표지" },
   { photo: "resource/보고서_자료집/006.png", title: "전문면담원 양성교육 매뉴얼",
     meta: "서울특별시 · 2022", label: "양성교육 매뉴얼 표지와 내지" },
   { photo: "resource/보고서_자료집/008.png", title: "지식샘 성장프로그램 자료집",
     meta: "교육 프로그램 자료집", label: "성장프로그램 자료집" },
 ];
+
+/* 관리자 [보고서 사진]에 등록된 목록이 있으면 그것을 쓴다.
+   등록 개수가 곧 열 개수다 — 5장이면 5열, 6장이면 6열
+   (좁은 화면에서는 styles.css 의 .report-shots 가 3열·2열로 다시 묶는다). */
+const reportList = () =>
+  (window.siteReports ? window.siteReports(REPORT_FALLBACK) : REPORT_FALLBACK);
 
 const REPORT_POINTS = [
   { k: "200–500p 대형 보고서", d: "분량이 큰 보고서도 색인·각주·참고문헌 체계를 정리해 본문 가독성을 지킵니다." },
@@ -304,6 +309,9 @@ const REPORT_POINTS = [
 ];
 
 function ReportSection({ setPage }) {
+  const shots = reportList();
+  if (!shots.length) return null;
+
   return (
     <section className="section section--dark">
       <div className="container container--wide">
@@ -328,11 +336,11 @@ function ReportSection({ setPage }) {
         </div>
 
         <div className="report-shots" style={{
-          display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24,
+          display: "grid", gridTemplateColumns: `repeat(${shots.length}, 1fr)`, gap: 24,
         }}>
-          {REPORT_SHOTS.map((r, i) => (
+          {shots.map((r, i) => (
             <div key={i} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <Photo src={r.photo} label={r.label} ratio="4/5" imgStyle={r.imgStyle} />
+              <Photo src={r.photo} label={r.label} ratio="4/5" />
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 <span className="eyebrow" style={{ color: "var(--accent)" }}>{`0${i + 1}`}</span>
                 <h3 style={{

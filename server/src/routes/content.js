@@ -95,4 +95,14 @@ router.use("/notices", crudRouter({
   },
 }));
 
+/* 보고서 사진 (메인 [보고서 전문 서비스] 섹션) ---------------------- */
+router.use("/reports", crudRouter({
+  table: "reports",
+  entity: "report",
+  fields: ["src", "title", "client", "visible"],
+  coerce: {
+    src: str(500), title: str(300), client: str(200), visible: (v) => bool01(v, 1),
+  },
+}));
+
 export default router;

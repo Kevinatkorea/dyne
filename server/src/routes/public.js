@@ -47,7 +47,7 @@ function publicSettings(all) {
 router.get("/site", wrap(async (_req, res) => {
   if (cache.body && Date.now() - cache.at < CACHE_MS) return res.json(cache.body);
 
-  const [settings, portfolio, services, equipment, history, clients, awards, hero, notices] =
+  const [settings, portfolio, services, equipment, history, clients, awards, hero, notices, reports] =
     await Promise.all([
       loadSettings(),
       q(`SELECT id, src, category, year, title, client, description, tags, featured
@@ -63,6 +63,7 @@ router.get("/site", wrap(async (_req, res) => {
             AND (start_at IS NULL OR start_at <= NOW())
             AND (end_at   IS NULL OR end_at   >= NOW())
           ORDER BY sort_order ASC, id ASC`),
+      q("SELECT * FROM reports WHERE visible = 1 ORDER BY sort_order ASC, id ASC"),
     ]);
 
   /* 서비스의 deliverables 는 JSON 문자열로 저장돼 있다 */
@@ -84,7 +85,7 @@ router.get("/site", wrap(async (_req, res) => {
     settings: publicSettings(settings),
     portfolio, byCategory, byYear,
     services, equipment, history, clients, awards,
-    hero, notices,
+    hero, notices, reports,
     generatedAt: new Date().toISOString(),
   };
   cache = { at: Date.now(), body };
