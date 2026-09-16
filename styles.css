@@ -384,3 +384,13 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
   margin-top: auto;
   padding: 24px 0 0;
 }
+
+/* ─── 보고서 전문 서비스 섹션 ─────────────────────────────── */
+/* 사진 4장이 모바일에서 1열로 떨어지면 섹션이 지나치게 길어져 2×2 로 유지한다.
+   위쪽 repeat(4) → 1fr 규칙과 특이도가 같으므로 반드시 그 뒤(파일 끝)에 둔다. */
+@media (max-width: 768px) {
+  .report-shots {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 28px 12px !important;
+  }
+}

@@ -14,6 +14,7 @@ function HomePage({ setPage, tweaks }) {
       <Hero variant={heroStyle} lang={lang} setPage={setPage} />
       <TrustBar />
       <IntroSection />
+      <ReportSection setPage={setPage} />
       <ServicesGrid setPage={setPage} />
       <FacilityTeaser setPage={setPage} layout={tweaks.facilityLayout || "grid"} />
       <PortfolioTeaser setPage={setPage} />
@@ -270,6 +271,90 @@ function IntroSection() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* -- REPORT — 주력 사업 -------------------------------------
+   보고서·자료집이 다인스케치의 주사업이라 SERVICES 그리드보다 먼저,
+   별도 섹션으로 보여 준다. 사진 4장은 실제 납품한 보고서다 —
+   앞 3장은 resource/보고서_자료집 원본, 마지막 1장(안전보건공단)은
+   연도 아카이브에서 가져왔다(보고서 카테고리 폴더에는 3장뿐). */
+const REPORT_SHOTS = [
+  { photo: "resource/보고서_자료집/007.png", title: "장애인거주시설 인권실태조사 결과보고서",
+    meta: "정부기관 연구보고서 · 2021", label: "인권실태조사 결과보고서 표지" },
+  /* 아카이브 원본 왼쪽 아래에 "자료집 / 안전보건공단" 캡션이 박혀 있어
+     확대해서 그 띠를 잘라낸다. */
+  { photo: "resource/2023_포트폴리오/004.png", title: "건설업 시스템비계 실태조사 최종보고서",
+    meta: "안전보건공단 연구용역", label: "연구용역 최종보고서 표지",
+    imgStyle: { transform: "scale(1.3)", transformOrigin: "center 20%" } },
+  { photo: "resource/보고서_자료집/006.png", title: "전문면담원 양성교육 매뉴얼",
+    meta: "서울특별시 · 2022", label: "양성교육 매뉴얼 표지와 내지" },
+  { photo: "resource/보고서_자료집/008.png", title: "지식샘 성장프로그램 자료집",
+    meta: "교육 프로그램 자료집", label: "성장프로그램 자료집" },
+];
+
+const REPORT_POINTS = [
+  { k: "200–500p 대형 보고서", d: "분량이 큰 보고서도 색인·각주·참고문헌 체계를 정리해 본문 가독성을 지킵니다." },
+  { k: "데이터 시각화", d: "통계 표와 원자료를 한눈에 읽히는 그래프·인포그래픽으로 재구성합니다." },
+  { k: "편집 그리드 설계", d: "장·절 구조에 맞는 마스터 그리드로 수백 페이지에서도 형식이 흔들리지 않습니다." },
+  { k: "제본부터 납품까지", d: "무선제본·중철 등 제본 방식을 정하고 기관 제출일에 맞춰 직접 납품합니다." },
+];
+
+function ReportSection({ setPage }) {
+  return (
+    <section className="section section--dark">
+      <div className="container container--wide">
+        <div style={{
+          display: "flex", justifyContent: "space-between", alignItems: "flex-end",
+          marginBottom: 56, gap: 32, flexWrap: "wrap",
+        }}>
+          <SectionHead
+            dark
+            eyebrow="MAIN BUSINESS · 보고서 · 자료집"
+            title="REPORTS FIRST."
+            kr="보고서 전문 서비스"
+            sub="정부·지자체·연구기관 보고서가 다인스케치 작업의 중심입니다. 목차 구조를 잡는 단계부터 데이터 시각화, 편집 그리드, 제본과 납품까지 한 팀이 맡습니다."
+          />
+          <a href="#" onClick={(e) => { e.preventDefault(); setPage("services"); }} style={{
+            display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 24px",
+            border: "1px solid rgba(255,255,255,0.3)", color: "#fff",
+            fontSize: 14, fontWeight: 700, letterSpacing: "-0.01em", whiteSpace: "nowrap",
+          }}>
+            보고서 서비스 자세히 보기 →
+          </a>
+        </div>
+
+        <div className="report-shots" style={{
+          display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24,
+        }}>
+          {REPORT_SHOTS.map((r, i) => (
+            <div key={i} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <Photo src={r.photo} label={r.label} ratio="4/5" imgStyle={r.imgStyle} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <span className="eyebrow" style={{ color: "var(--accent)" }}>{`0${i + 1}`}</span>
+                <h3 style={{
+                  margin: 0, fontSize: 16, fontWeight: 700, lineHeight: 1.35,
+                  letterSpacing: "-0.02em", color: "#fff",
+                }}>{r.title}</h3>
+                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.6)" }}>{r.meta}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{
+          display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0 32px",
+          marginTop: 72, borderTop: "1px solid rgba(255,255,255,0.15)",
+        }}>
+          {REPORT_POINTS.map((p, i) => (
+            <div key={i} style={{ padding: "28px 0 0" }}>
+              <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.02em", color: "#fff" }}>{p.k}</div>
+              <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.65, color: "rgba(255,255,255,0.65)" }}>{p.d}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

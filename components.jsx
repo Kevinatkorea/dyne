@@ -4,7 +4,9 @@ const { useState, useRef, useEffect, useMemo } = React;
 /* ============================================================
    Photo — Unsplash with rich studio-mood fallback
    ============================================================ */
-function Photo({ src, alt, label = "", className = "", style = {}, mono = true, ratio = "16/9" }) {
+/* imgStyle — <img> 자체에 얹는 스타일. 원본에 발주처 캡션이 박혀 있는
+   아카이브 사진을 확대해 잘라낼 때처럼, 크롭을 조정할 때만 쓴다. */
+function Photo({ src, alt, label = "", className = "", style = {}, imgStyle = {}, mono = true, ratio = "16/9" }) {
   const [failed, setFailed] = useState(false);
   return (
     <div
@@ -24,7 +26,7 @@ function Photo({ src, alt, label = "", className = "", style = {}, mono = true, 
           onError={() => setFailed(true)}
           loading="lazy"
           className={mono ? "img-mono" : ""}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", ...imgStyle }}
         />
       )}
       {(failed || !src) && <PhotoPlaceholder label={label} />}
