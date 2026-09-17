@@ -1,4 +1,4 @@
-/* global React */
+/* global React, ReactDOM */
 const { useState, useRef, useEffect, useMemo } = React;
 
 /* ============================================================
@@ -127,7 +127,7 @@ function Nav({ page, setPage, theme }) {
 
   return (
     <header style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: open ? 110 : 50,
       background: bg,
       color: fg,
       backdropFilter: "blur(14px)",
@@ -203,8 +203,9 @@ function Nav({ page, setPage, theme }) {
         </div>
       </div>
 
-      {/* 모바일 메뉴 드로어 */}
-      {open && (
+      {/* 모바일 메뉴 드로어 — header의 backdrop-filter가 fixed 자식의 기준 박스가 되어
+          메뉴가 헤더 높이로 잘리므로 body로 포털 렌더 */}
+      {open && ReactDOM.createPortal(
         <div className="mobile-menu" onClick={() => setOpen(false)}>
           {items.map((it) => (
             <a key={it.id} href="#" className={page === it.id ? "active" : ""}
@@ -234,7 +235,8 @@ function Nav({ page, setPage, theme }) {
               견적 요청 →
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );
