@@ -117,7 +117,7 @@ function Hero({ variant = "press", lang = "en", setPage }) {
           </span>
           {v.krHead ? (
           <h1 className="kr-headline hero-kr fade-in" style={{
-            fontSize: "clamp(36px, 6.4vw, 132px)",
+            fontSize: "clamp(32px, 5vw, 104px)",
             fontWeight: 700,
             lineHeight: 1.15,
             color: "#fff",
