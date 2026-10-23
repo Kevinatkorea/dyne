@@ -206,7 +206,7 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
 
 /* ── 메인 히어로 한글 헤드라인 — 모바일에선 줄바꿈 허용 ── */
 @media (max-width: 768px) {
-  .hero-kr { font-size: clamp(26px, 7.4vw, 36px) !important; }
+  .hero-kr { font-size: clamp(30px, 8.6vw, 44px) !important; }
   .hero-kr-line { white-space: normal !important; word-break: keep-all; }
 }
 

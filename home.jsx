@@ -33,8 +33,8 @@ function Hero({ variant = "press", lang = "en", setPage }) {
       photoLabel: "다인스케치 메인 비주얼",
       eyebrow: "PRINT · DESIGN · DELIVER",
       // 영문 헤드라인 대신 한글 카피를 헤드라인으로 크게 노출
-      krHead: ["기획부터 디자인, 인쇄, 후가공, 납품까지"],
-      sub: "다인스케치는 각 분야 10년 이상의 전문가들이 한 팀으로 일합니다.",
+      krHead: ["기획부터 디자인,", "인쇄, 후가공, 납품까지"],
+      sub: "다인스케치는 각 분야 10년 이상의 전문가들이 한 팀으로 일합니다.\n2008년 성수동에서 시작해 18년째, 약속한 품질과 납기를 지켜왔습니다.",
     },
     portfolio: {
       photo: pickSample("표지디자인", 0),
@@ -117,9 +117,9 @@ function Hero({ variant = "press", lang = "en", setPage }) {
           </span>
           {v.krHead ? (
           <h1 className="kr-headline hero-kr fade-in" style={{
-            fontSize: "clamp(32px, 4.8vw, 104px)",
+            fontSize: "clamp(36px, 6.4vw, 132px)",
             fontWeight: 700,
-            lineHeight: 1.3,
+            lineHeight: 1.15,
             color: "#fff",
             letterSpacing: "-0.03em",
             animationDelay: "120ms",
@@ -144,7 +144,7 @@ function Hero({ variant = "press", lang = "en", setPage }) {
           )}
           {v.sub && <p className="kr-headline fade-in" style={{
             fontSize: 18, fontWeight: 500, color: "rgba(255,255,255,0.82)",
-            letterSpacing: "-0.02em", lineHeight: 1.6, maxWidth: 540,
+            letterSpacing: "-0.02em", lineHeight: 1.6, maxWidth: 680, wordBreak: "keep-all",
             whiteSpace: "pre-line",
             animationDelay: "240ms",
           }}><Branded text={v.sub} dark /></p>}
