@@ -33,9 +33,8 @@ function Hero({ variant = "press", lang = "en", setPage }) {
       photo: "resource/top6.jpg",
       photoLabel: "다인스케치 메인 비주얼",
       eyebrow: "PRINT · DESIGN · DELIVER",
-      headEn: ["PRINT", "REIMAGINED."],
-      headKr: ["인쇄, 다시 그리다."],
-      sub: "기획부터 디자인, 인쇄, 후가공, 납품까지\n다인스케치는 각 분야 10년 이상의 전문가들이 한 팀으로 일합니다.",
+      // 영문 헤드라인 대신 한글 카피 두 줄을 헤드라인으로 크게 노출
+      krHead: ["기획부터 디자인, 인쇄, 후가공, 납품까지", "다인스케치는 각 분야 10년 이상의 전문가들이 한 팀으로 일합니다."],
     },
     portfolio: {
       photo: pickSample("표지디자인", 0),
@@ -112,10 +111,24 @@ function Hero({ variant = "press", lang = "en", setPage }) {
         display: "flex", flexDirection: "column", justifyContent: "flex-end",
         paddingTop: 140, paddingBottom: 80,
       }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: 1080 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 32, maxWidth: v.krHead ? "none" : 1080 }}>
           <span className="eyebrow eyebrow-line fade-in" style={{ color: "rgba(255,255,255,0.85)" }}>
             {v.eyebrow}
           </span>
+          {v.krHead ? (
+          <h1 className="kr-headline hero-kr fade-in" style={{
+            fontSize: "clamp(28px, 3.5vw, 80px)",
+            fontWeight: 700,
+            lineHeight: 1.3,
+            color: "#fff",
+            letterSpacing: "-0.03em",
+            animationDelay: "120ms",
+          }}>
+            {v.krHead.map((line, i) => (
+              <span key={i} className="hero-kr-line" style={{ display: "block", whiteSpace: "nowrap" }}><Branded text={line} dark /></span>
+            ))}
+          </h1>
+          ) : (
           <h1 className="display fade-in" style={{
             fontSize: "clamp(64px, 9vw, 168px)",
             fontWeight: 300,
@@ -128,12 +141,13 @@ function Hero({ variant = "press", lang = "en", setPage }) {
               <span key={i} className={`hero-line hero-line-${i}`} style={{ display: "block" }}>{line}</span>
             ))}
           </h1>
-          <p className="kr-headline fade-in" style={{
+          )}
+          {v.sub && <p className="kr-headline fade-in" style={{
             fontSize: 18, fontWeight: 500, color: "rgba(255,255,255,0.82)",
             letterSpacing: "-0.02em", lineHeight: 1.6, maxWidth: 540,
             whiteSpace: "pre-line",
             animationDelay: "240ms",
-          }}><Branded text={v.sub} dark /></p>
+          }}><Branded text={v.sub} dark /></p>}
 
           <div className="fade-in" style={{ display: "flex", gap: 14, marginTop: 24, animationDelay: "360ms" }}>
             <button onClick={() => setPage("contact")} style={{

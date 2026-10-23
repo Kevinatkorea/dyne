@@ -204,6 +204,12 @@ a:hover img { filter: contrast(1.06) saturate(1.1) brightness(1.02); }
   }
 }
 
+/* ── 메인 히어로 한글 헤드라인 — 모바일에선 줄바꿈 허용 ── */
+@media (max-width: 768px) {
+  .hero-kr { font-size: clamp(26px, 7.4vw, 36px) !important; }
+  .hero-kr-line { white-space: normal !important; word-break: keep-all; }
+}
+
 /* ── Tablet ─────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .container, .container--wide { padding: 0 32px; }
