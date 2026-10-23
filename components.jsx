@@ -310,7 +310,18 @@ function SectionHead({ eyebrow, title, kr, sub, align = "left", dark = false }) 
           {eyebrow}
         </span>
       )}
-      {title && (
+      {title && /[가-힣]/.test(title) && (
+        /* 한글 제목은 디스플레이(영문) 서체 대신 굵은 한글 헤드라인으로 */
+        <h2 className="kr-headline" style={{
+          fontSize: "clamp(30px, 3.4vw, 48px)",
+          fontWeight: 800,
+          lineHeight: 1.25,
+          color: dark ? "#fff" : "var(--ink-1)",
+          textWrap: "balance",
+          wordBreak: "keep-all",
+        }}><Branded text={title} dark={dark} /></h2>
+      )}
+      {title && !/[가-힣]/.test(title) && (
         <h2 className="display" style={{
           fontSize: "clamp(40px, 5vw, 64px)",
           fontWeight: 300,

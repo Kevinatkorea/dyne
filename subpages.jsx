@@ -25,7 +25,7 @@ function AboutPage() {
     <main>
       <PageHero
         eyebrow="ABOUT · 회사 소개"
-        en="WE ARE A PRINT HOUSE."
+        en="회사소개"
         kr="다인스케치는 18년째 같은 자리에서 인쇄를 만듭니다."
         photo="resource/top1.jpg"
         photoLabel="성수동 스튜디오 외관"
@@ -88,8 +88,7 @@ function AboutPage() {
           <div style={{ marginBottom: 64 }}>
             <SectionHead
               eyebrow="HOW WE WORK"
-              title="OUR PRINCIPLES."
-              kr="다인스케치가 일하는 4가지 원칙"
+              title="다인스케치가 일하는 4가지 원칙"
             />
           </div>
 
@@ -544,8 +543,8 @@ function PortfolioPage({ setPage }) {
     <main>
       <PageHero
         eyebrow="PORTFOLIO · 작업 사례"
-        en="SELECTED WORK."
-        kr="2008년부터 1,200건 이상 — 그중 일부를 소개합니다."
+        en="주요 작업 사례"
+        kr="2008년부터 쌓아온 다인스케치의 작업 기록."
         photo="resource/top4.jpg"
         photoLabel="포트폴리오 표지"
       />
@@ -711,8 +710,8 @@ function ContactPage() {
     <main>
       <PageHero
         eyebrow="CONTACT · 견적/문의"
-        en="LET'S START."
-        kr="견적은 평균 1영업일 이내 회신해드립니다."
+        en="견적·문의"
+        kr="인쇄 견적 및 제작 문의를 남겨주시면 신속하게 안내해 드립니다."
         photo="resource/top5.jpg"
         photoLabel="견적 요청"
         compact
@@ -726,8 +725,8 @@ function ContactPage() {
           <div className="intro-sticky" style={{ position: "sticky", top: 120, display: "flex", flexDirection: "column", gap: 40 }}>
             <SectionHead
               eyebrow="DIRECT CHANNELS"
-              title="REACH US."
-              kr="바로 연락하기"
+              title="다인스케치와 함께 시작하세요."
+              kr="제작 상담과 견적 문의를 기다립니다."
             />
 
             <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
@@ -899,10 +898,17 @@ function PageHero({ eyebrow, en, kr, photo, photoLabel, compact = false }) {
         gap: 24, minHeight: compact ? 320 : 500,
       }}>
         <span className="eyebrow eyebrow-line" style={{ color: "rgba(255,255,255,0.8)" }}>{eyebrow}</span>
-        <h1 className="display" style={{
-          fontSize: "clamp(34px, 5vw, 78px)", fontWeight: 300, lineHeight: 0.95, color: "#fff",
-          letterSpacing: "-0.02em",
-        }}>{en}</h1>
+        {/[가-힣]/.test(en) ? (
+          <h1 className="kr-headline" style={{
+            fontSize: "clamp(32px, 4.2vw, 64px)", fontWeight: 800, lineHeight: 1.15, color: "#fff",
+            letterSpacing: "-0.03em", wordBreak: "keep-all",
+          }}>{en}</h1>
+        ) : (
+          <h1 className="display" style={{
+            fontSize: "clamp(34px, 5vw, 78px)", fontWeight: 300, lineHeight: 0.95, color: "#fff",
+            letterSpacing: "-0.02em",
+          }}>{en}</h1>
+        )}
         <p className="kr-headline" style={{
           fontSize: 20, fontWeight: 500, color: "rgba(255,255,255,0.85)", maxWidth: 700,
           letterSpacing: "-0.02em", lineHeight: 1.55,
